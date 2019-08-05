@@ -32,7 +32,7 @@ export class ApiService {
     if (limited) {
       return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword, limit: 34});
     }
-    return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword});
+    return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword, limit : 102});
   }
 
   getForSale(keyword: string, limited?: boolean): Observable<SaleDomain[]> {

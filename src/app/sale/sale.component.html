@@ -374,12 +374,12 @@
                 <li *ngFor="let domain of saleDomains" >
                     <div class="domain_detail">
                         <div class="img">
-                            <a href="{{ domain.link }}">
+                            <a href="{{ domain.link }}" target="_blank">
                                 <img src="{{ domain.image }}" alt="">
                             </a>
                         </div>
                         <div class="detail">
-                            <h3><a href="{{ domain.link }}">{{ domain.keyword }}</a></h3>
+                            <h3><a href="{{ domain.link }}" target="_blank">{{ domain.keyword }}</a></h3>
                             <p>${{ domain.price }}</p>
                         </div>
                     </div>

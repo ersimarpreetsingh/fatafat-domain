@@ -117,4 +117,11 @@ export class ExtensionsComponent implements OnInit {
   filterTldList(cat: string) {
     return this.apiService.allTldList.filter(tld => tld.category.toLowerCase() === cat.toLowerCase());
   }
+
+  getLinkForDomain(tld: string): string {
+    if (this.domainData && this.domainData.length) {
+      return this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()).link;
+    }
+    return '';
+  }
 }

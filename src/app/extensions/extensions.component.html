@@ -73,7 +73,7 @@
                     <div class="ext-type">{{ cat }}</div>
                     <ul class="d-flex">
                         <li [ngClass]="{'avail': isAvail(tld.tld), 'not-avail': !isAvail(tld.tld)}" *ngFor="let tld of filterTldList(cat)" >
-                          <a href="#">{{ tld.tld }}
+                          <a href="{{getLinkForDomain(tld.tld)}}" target="_blank">{{ tld.tld }}
                             <span *ngIf="isAvail(tld.tld)" class="tag">BUY</span>
                             <span *ngIf="!isAvail(tld.tld)" class="tag">WHOIS</span>
                           </a>

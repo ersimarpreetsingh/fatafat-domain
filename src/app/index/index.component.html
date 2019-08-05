@@ -43,7 +43,7 @@
         <div *ngIf="favDomains.length > 0" class="list" [ngClass]="{ show: showFavMenu }">
           <ul>
             <li *ngFor="let favDom of favDomains">
-              <a href="{{ favDom.link }}" class="domain-name">
+              <a href="{{ favDom.link }}" target="_blank" class="domain-name">
                 {{ favDom.keyword }}
               </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
@@ -80,12 +80,14 @@
       *ngIf="!comDomain?.avialability"
       class="status_btn"
       href="{{ comDomain?.link }}"
+      target="_blank"
       >Buy</a
     >
     <a
       *ngIf="comDomain?.avialability"
       class="status_btn"
       href="{{ comDomain?.link }}"
+      target="_blank"
       >Whois</a
     >
     <div class="menu_btn drop">
@@ -170,7 +172,7 @@
                 ><i class="fa fa-star" aria-hidden="true"></i
               ></span>
               <div class="detail">
-                <a href="{{ getLinkForDomain(tld.tld) }}" class="domain-name">
+                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank"  class="domain-name">
                   <span style="color: lightgray;">{{ keyword }}</span
                   ><span class="ext" style="text-transform: lowercase">{{
                     tld.tld
@@ -178,6 +180,7 @@
                 </a>
                 <a
                   href="{{ getLinkForDomain(tld.tld) }}"
+                  target="_blank"
                   *ngIf="isAvail(tld.tld)"
                   class="tag"
                   style="visibility: hidden;"
@@ -185,6 +188,7 @@
                 >
                 <a
                   href="{{ getLinkForDomain(tld.tld) }}"
+                  target="_blank"
                   *ngIf="!isAvail(tld.tld)"
                   class="tag"
                   style="visibility: hidden;"
