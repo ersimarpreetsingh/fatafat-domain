@@ -1,0 +1,178 @@
+<div
+  class="search_bar home"
+  [ngClass]="{ search_bar: true, home: keyword?.length === 0 }"
+>
+  <div class="container">
+    <h1 *ngIf="keyword?.length < 1" class="title">
+      Instant Domain Name Search
+    </h1>
+    <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6>
+    <form action="">
+      <div class="inner">
+        <input
+          type="text"
+          id="search"
+          name="search"
+          placeholder="Just start typing..."
+          [(ngModel)]="keyword"
+          [appNocharacter]="keyword"
+          (keyup)="getDomainData()"
+          appInputAutofocus
+        />
+        <span class="btns">
+          <button *ngIf="keyword?.length < 1" type="button" class="search_btn">
+            <img src="assets/images/search-icon.png" alt="" />
+          </button>
+          <button
+            *ngIf="keyword?.length > 0"
+            type="button"
+            class="cross"
+            (click)="clearKeyword()"
+          >
+            <img src="assets/images/cross.png" alt="" />
+          </button>
+        </span>
+      </div>
+      <div *ngIf="keyword?.length > 0" class="shortlisted drop">
+        <button class="shotlist" (click)="toggleFavMenu()">
+          <i class="fa fa-star" aria-hidden="true"></i
+          ><span class="count" *ngIf="favDomains.length > 0">{{
+            favDomains.length
+          }}</span>
+        </button>
+        <div *ngIf="favDomains.length > 0" class="list" [ngClass]="{ show: showFavMenu }">
+          <ul>
+            <li *ngFor="let favDom of favDomains">
+              <div class="domain-name">
+                {{ favDom.keyword }}
+              </div>
+              <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
+                <img src="assets/images/cross.png" alt="" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+    <div class="search_selector">
+      <ul class="d-flex">
+        <li><a routerLink="/">All</a></li>
+        <li><a routerLink="/extensions">Extensions</a></li>
+        <li><a class="active" routerLink="/generator">Generator</a></li>
+        <li><a routerLink="/sale">For Sale</a></li>
+        <!-- <li><a href="expired.html">Expired</a></li> -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="filters" *ngIf="keyword?.length > 0">
+        <div class="container">
+            <div class="inner">
+                <h5>Select an industry for more accurate results</h5>
+                <ul>
+                    <li><button class="dropdown industry_filter" (click)="toggleFilter('industry')">Industry Filter</button></li>
+                    <li><button class="dropdown extension_filter" (click)="toggleFilter('extension')">Extension</button></li>
+                    <li><button class="dropdown character_filter" (click)="toggleFilter('character')">Character</button></li>
+                </ul>
+            </div>
+            <div class="dropdowns">
+                <div class="industry_drop cstm_drop" [ngClass]="{'show': industryFilterOpen}" >
+                    <ul>
+                        <li *ngFor="let industry of apiService.industries" >
+                            <input [(ngModel)]="industry.checked" type="checkbox">
+                            <label>{{ industry.industry }}
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="btns">
+                        <button class="reset" type="button">Reset</button>
+                        <button class="apply" type="button" (click)="filterByIndustry()" >Apply</button>
+                    </div>
+                </div>
+                <div class="extension_drop cstm_drop" [ngClass]="{'show': extensionFilterOpen}">
+                    <ul>
+                        <li *ngFor="let tld of tldFilterOpts" >
+                            <input data-index="" type="checkbox" [(ngModel)]="tld.checked" (change)="filterByTld(tld.item.id)" >
+                            <label>{{ tld.item.tld }}
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="character_drop cstm_drop" [ngClass]="{'show': characterFilterOpen}">
+                    <h6>Character Count</h6>
+                    <div id="slider-range-max"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="domain-list result-page" *ngIf="keyword?.length > 0" >
+        <div class="container">
+            <ul class="d-flex row">
+                <li class="col">
+                    <div class="main-col">
+                        <h4 class="sub-title">Generator</h4>
+                    </div>
+                    <ul>
+                        <li *ngFor="let domain of generatedDomains"  [ngClass]="{'avail': !domain.avialability, 'not-avail': domain.avialability}">
+                            <div class="inner">
+                                <span class="shotlist"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <div class="detail">
+                                    <div class="domain-name">
+                                        {{ domain.keyword }}<span class="ext">{{ domain.after }}</span>{{ domain.tld}}
+                                    </div>
+                                    <a href="{{ domain.link }}" targe="_blank" class="tag" *ngIf="!domain.avialability">Buy</a>
+                                    <a href="{{ domain.link }}" targe="_blank" class="tag" *ngIf="domain.avialability">WHOIS</a>
+                                </div>
+                            </div>
+                        </li>
+                        
+
+                        <li class="more_btn">
+                            <a href="#">View More</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+<div *ngIf="keyword?.length < 1" class="domains">
+  <div class="container">
+    <h2>Premium Names</h2>
+    <p>
+      Serious about your business name? Get a premium business name from
+      Domainify <br />branding experts. Logo, domain and transfer within 24
+      hours included.
+    </p>
+    <ul class="d-flex" *ngIf="initSaleDomains.length > 0">
+      <li *ngFor="let domain of initSaleDomains">
+        <div class="domain_detail">
+          <div class="img">
+            <a href="{{ domain.link }}" target="_blank">
+              <img src="{{ domain.image }}" alt="" />
+            </a>
+          </div>
+          <div class="detail">
+            <h3>
+              <a href="{{ domain.link }}" target="_blank">{{
+                domain.keyword
+              }}</a>
+            </h3>
+            <p>${{ domain.price }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="more_btn">
+      <a href="#">View More</a>
+    </div>
+  </div>
+</div>

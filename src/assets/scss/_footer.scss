@@ -1,0 +1,47 @@
+footer {
+    text-align: center;
+
+    @media (max-width:767px) {
+        border-top: 1px solid #e7e7e7;
+    }
+
+    .container {
+        @media (max-width:992px) {
+            padding: 0;
+        }
+
+        @media (max-width:767px) {
+            padding: 0 15px;
+        }
+    }
+
+    .copyright {
+        padding: 25px 0;
+        font-size: 13px;
+        font-family: $sofialight;
+        color: #36434d;
+        padding: 20px 0;
+
+        @media (min-width:768px) {
+            font-size: 14px;
+            padding: 25px 0;
+            border-top: 1px solid #e7e7e7;
+        }
+
+        @media (min-width:992px) {
+            padding: 25px 0;
+        }
+
+        a {
+            &:hover {
+                color: #438ffa;
+            }
+        }
+
+        span.copy {
+            @media (max-width:568px) {
+                display: block;
+            }
+        }
+    }
+}

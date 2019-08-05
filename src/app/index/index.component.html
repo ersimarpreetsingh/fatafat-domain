@@ -1,0 +1,364 @@
+<div
+  class="search_bar home"
+  [ngClass]="{ search_bar: true, home: keyword?.length === 0 }"
+>
+  <div class="container">
+    <h1 *ngIf="keyword?.length < 1" class="title">
+      Instant Domain Name Search
+    </h1>
+    <!-- <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6> -->
+    <form action="">
+      <div class="inner">
+        <input
+          type="text"
+          id="search"
+          name="search"
+          placeholder="Just start typing..."
+          [(ngModel)]="keyword"
+          [appNocharacter]="keyword"
+          appInputAutofocus
+          (keyup)="getDomainData()"
+        />
+        <span class="btns">
+          <button *ngIf="keyword?.length < 1" type="button" class="search_btn">
+            <img src="assets/images/search-icon.png" alt="" />
+          </button>
+          <button
+            *ngIf="keyword?.length > 0"
+            type="button"
+            class="cross"
+            (click)="clearKeyword()"
+          >
+            <img src="assets/images/cross.png" alt="" />
+          </button>
+        </span>
+      </div>
+      <div *ngIf="keyword?.length > 0" class="shortlisted drop">
+        <button class="shotlist" (click)="toggleFavMenu()">
+          <i class="fa fa-star" aria-hidden="true"></i
+          ><span class="count" *ngIf="favDomains.length > 0">{{
+            favDomains.length
+          }}</span>
+        </button>
+        <div *ngIf="favDomains.length > 0" class="list" [ngClass]="{ show: showFavMenu }">
+          <ul>
+            <li *ngFor="let favDom of favDomains">
+              <a href="{{ favDom.link }}" class="domain-name">
+                {{ favDom.keyword }}
+              </a>
+              <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
+                <img src="assets/images/cross.png" alt="" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+    <div class="search_selector">
+      <ul class="d-flex">
+        <li><a class="active" routerLink="/">All</a></li>
+        <li><a routerLink="/extensions">Extensions</a></li>
+        <li><a routerLink="/generator">Generator</a></li>
+        <li><a routerLink="/sale">For Sale</a></li>
+        <!-- <li><a href="expired.html">Expired</a></li> -->
+      </ul>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="keyword?.length > 0"
+  class="searched-domain"
+  [ngClass]="{
+    avail: !comDomain?.avialability,
+    'not-avail': comDomain?.avialability
+  }"
+>
+  <a class="link" href="{{ comDomain?.link }}" target="_blank"></a>
+  <div class="name">{{ keyword }}{{ comDomain?.tld }}</div>
+  <div class="btns">
+    <a
+      *ngIf="!comDomain?.avialability"
+      class="status_btn"
+      href="{{ comDomain?.link }}"
+      >Buy</a
+    >
+    <a
+      *ngIf="comDomain?.avialability"
+      class="status_btn"
+      href="{{ comDomain?.link }}"
+      >Whois</a
+    >
+    <div class="menu_btn drop">
+      <button type="button" class="btn" (click)="toggleDomainMenu()">
+        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+      </button>
+      <div
+        class="list"
+        [ngClass]="{ show: showDomainMenu }"
+        *ngIf="!comLoading && comDomain"
+      >
+        <ul>
+          <li>
+            <a
+              href="{{ 'https://' + comDomain?.keyword + comDomain?.tld }}"
+              target="_blank"
+              >Visit site</a
+            >
+          </li>
+          <li>
+            <a
+              href="{{
+                'http://www.anrdoezrs.net/links/9133603/type/dlg/https://godaddy.com/domain-value-appraisal/appraisal/?isc=cjc99com&checkAvail=1&tmskey=&domainToCheck=' +
+                  comDomain?.keyword +
+                  comDomain?.tld
+              }}"
+              target="_blank"
+              >Appraise</a
+            >
+          </li>
+          <li>
+            <a
+              href="{{
+                'http://www.google.com/search?q=' +
+                  comDomain?.keyword +
+                  comDomain?.tld
+              }}"
+              target="_blank"
+              >Google Search</a
+            >
+          </li>
+          <li>
+            <a
+              href="{{
+                'https://web.archive.org/web/*/' +
+                  comDomain?.keyword +
+                  comDomain?.tld
+              }}"
+              target="_blank"
+              >Wayback machine</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="keyword?.length > 0" class="domain-list">
+  <div class="container">
+    <div class="tab_btns">
+      <ul class="d-flex">
+        <li [ngClass]="{'active': mobileActiveExtensions}" (click)="mobileTabToggle('extensions')"><button type="button">Extensions</button></li>
+        <li [ngClass]="{'active': mobileActiveGenerator}" (click)="mobileTabToggle('generator')"><button type="button">Generator</button></li>
+        <li [ngClass]="{'active': mobileActiveForsale}" (click)="mobileTabToggle('forsale')"><button type="button">For Sale</button></li>
+      </ul>
+    </div>
+    <ul class="d-flex row">
+      <li class="col" id="extension_col">
+        <a class="main-col" routerLink="/extensions">
+          <h4 class="sub-title">Extensions</h4>
+          <div class="tag">
+            See All
+            <span class="arrow"
+              ><i class="fa fa-angle-right" aria-hidden="true"></i
+            ></span>
+          </div>
+        </a>
+        <ul *ngIf="loading">
+          <li *ngFor="let tld of apiService.tldList" class="avail">
+            <div class="inner">
+              <span class="shotlist"
+                ><i class="fa fa-star" aria-hidden="true"></i
+              ></span>
+              <div class="detail">
+                <a href="{{ getLinkForDomain(tld.tld) }}" class="domain-name">
+                  <span style="color: lightgray;">{{ keyword }}</span
+                  ><span class="ext" style="text-transform: lowercase">{{
+                    tld.tld
+                  }}</span>
+                </a>
+                <a
+                  href="{{ getLinkForDomain(tld.tld) }}"
+                  *ngIf="isAvail(tld.tld)"
+                  class="tag"
+                  style="visibility: hidden;"
+                  >Buy</a
+                >
+                <a
+                  href="{{ getLinkForDomain(tld.tld) }}"
+                  *ngIf="!isAvail(tld.tld)"
+                  class="tag"
+                  style="visibility: hidden;"
+                  >Whois</a
+                >
+              </div>
+            </div>
+          </li>
+          <li class="more_btn">
+            <a routerLink="/extensions">View More</a>
+          </li>
+        </ul>
+        <ul *ngIf="!loading">
+          <li
+            *ngFor="let tld of apiService.tldList"
+            [ngClass]="{
+              avail: isAvail(tld.tld),
+              'not-avail': !isAvail(tld.tld),
+              offer: false
+            }"
+          >
+            <div class="inner">
+              <span
+                class="shotlist"
+                [ngClass]="{ listed: isFavrouite(keyword + tld.tld) }"
+                (click)="addDomToFav(tld.tld)"
+                ><i class="fa fa-star" aria-hidden="true"></i
+              ></span>
+              <div class="detail">
+                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" class="domain-name">
+                  {{ keyword
+                  }}<span class="ext" style="text-transform: lowercase;">{{
+                    tld.tld
+                  }}</span>
+                </a>
+                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="isAvail(tld.tld)" class="tag">Buy</a>
+                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="!isAvail(tld.tld)" class="tag">Whois</a>
+                <!-- <div class="tag">Buy $2795</div> -->
+              </div>
+            </div>
+          </li>
+          <li class="more_btn">
+            <a routerLink="/extensions">View More</a>
+          </li>
+        </ul>
+      </li>
+      <li class="col" id="generator_col">
+        <a class="main-col" routerLink="/generator">
+          <h4 class="sub-title">Generator</h4>
+          <div class="tag">
+            See All
+            <span class="arrow"
+              ><i class="fa fa-angle-right" aria-hidden="true"></i
+            ></span>
+          </div>
+        </a>
+        <ul *ngIf="!genLoading">
+          <li
+            *ngFor="let genDomain of generatedDomains"
+            [ngClass]="{
+              avail: !genDomain.avialability,
+              'not-avail': genDomain.avialability,
+              offer: false
+            }"
+          >
+            <div class="inner">
+              <span
+                class="shotlist"
+                [ngClass]="{
+                  listed: isFavrouite(
+                    genDomain.keyword + genDomain.after + genDomain.tld
+                  )
+                }"
+                (click)="
+                  addGenToFav(
+                    genDomain.keyword + genDomain.after + genDomain.tld,
+                    genDomain.link
+                  )
+                "
+              >
+                <i class="fa fa-star" aria-hidden="true"></i
+              ></span>
+              <div class="detail">
+                <a href="{{ genDomain.link }}" target="_blank" class="domain-name">
+                  {{ keyword }}<span class="ext">{{ genDomain.after }}</span
+                  >{{ genDomain.tld }}
+                </a>
+                <a  href="{{ genDomain.link }}" target="_blank" *ngIf="!genDomain.avialability" class="tag">Buy</a>
+                <a href="{{ genDomain.link }}" target="_blank" *ngIf="genDomain.avialability" class="tag">Whois</a>
+              </div>
+            </div>
+          </li>
+
+          <li *ngIf="generatedDomains.length < 1">
+            Loading...
+          </li>
+          <li *ngIf="generatedDomains.length > 0" class="more_btn">
+            <a routerLink="/generated">View More</a>
+          </li>
+        </ul>
+      </li>
+      <li class="col" id="sale_col">
+        <a class="main-col" routerLink="/sale">
+          <h4 class="sub-title">For Sale</h4>
+          <div class="tag">
+            See All
+            <span class="arrow"
+              ><i class="fa fa-angle-right" aria-hidden="true"></i
+            ></span>
+          </div>
+        </a>
+        <ul>
+          <li class="offer" *ngFor="let saleDomain of saleDomains">
+            <div class="inner">
+              <span
+                class="shotlist"
+                [ngClass]="{
+                  listed: isFavrouite(
+                    saleDomain?.keyword + saleDomain?.after + saleDomain?.tld
+                  )
+                }"
+                (click)="addSaleToFav(saleDomain?.keyword, saleDomain?.link)"
+              >
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              <div class="detail">
+                <a href="{{ saleDomain.keyword }}" target="_blank" class="domain-name">
+                  {{ saleDomain.keyword }}
+                </a>
+                <a href="{{ saleDomain.keyword }}" target="_blank" class="tag">Buy ${{ saleDomain.price }}</a>
+              </div>
+            </div>
+          </li>
+          <li *ngIf="saleDomains.length < 1">
+            Loading...
+          </li>
+          <li class="more_btn" *ngIf="saleDomains.length > 0">
+            <a routerLink="/sale">View More</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="keyword?.length < 1" class="domains">
+  <div class="container">
+    <h2>Premium Names</h2>
+    <p>
+      Serious about your business name? Get a premium business name from
+      Domainify <br />branding experts. Logo, domain and transfer within 24
+      hours included.
+    </p>
+    <ul class="d-flex" *ngIf="initSaleDomains.length > 0">
+      <li *ngFor="let domain of initSaleDomains">
+        <div class="domain_detail">
+          <div class="img">
+            <a href="{{ domain.link }}" target="_blank">
+              <img src="{{ domain.image }}" alt="" />
+            </a>
+          </div>
+          <div class="detail">
+            <h3>
+              <a href="{{ domain.link }}" target="_blank">{{
+                domain.keyword
+              }}</a>
+            </h3>
+            <p>${{ domain.price }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="more_btn">
+      <a routerLink="/sale">View More</a>
+    </div>
+  </div>
+</div>
