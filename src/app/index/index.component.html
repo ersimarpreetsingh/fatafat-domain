@@ -153,7 +153,7 @@
       </ul>
     </div>
     <ul class="d-flex row">
-      <li class="col" id="extension_col">
+      <li class="col" id="extension_col" [ngStyle]="{'display': mobileActiveExtensions ? 'block' : 'none' }">
         <a class="main-col" routerLink="/extensions">
           <h4 class="sub-title">Extensions</h4>
           <div class="tag">
@@ -231,7 +231,7 @@
           </li>
         </ul>
       </li>
-      <li class="col" id="generator_col">
+      <li class="col" id="generator_col" [ngStyle]="{'display': mobileActiveGenerator ? 'block' : 'none' }">
         <a class="main-col" routerLink="/generator">
           <h4 class="sub-title">Generator</h4>
           <div class="tag">
@@ -286,7 +286,7 @@
           </li>
         </ul>
       </li>
-      <li class="col" id="sale_col">
+      <li class="col" id="sale_col" [ngStyle]="{'display': mobileActiveForsale ? 'block' : 'none' }">
         <a class="main-col" routerLink="/sale">
           <h4 class="sub-title">For Sale</h4>
           <div class="tag">
