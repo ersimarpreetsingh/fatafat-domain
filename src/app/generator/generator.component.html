@@ -104,7 +104,7 @@
                 </div>
                 <div class="character_drop cstm_drop" [ngClass]="{'show': characterFilterOpen}">
                     <h6>Character Count</h6>
-                    <div id="slider-range-max"></div>
+                    <nouislider [connect]="true" [min]="0" [max]="20" [step]="1" [tooltips]="[ false, true ]" [(ngModel)]="sliderValue"></nouislider>
                 </div>
             </div>
         </div>

@@ -34,13 +34,13 @@
         </span>
       </div>
       <div *ngIf="keyword?.length > 0" class="shortlisted drop">
-        <button class="shotlist" (click)="toggleFavMenu()">
+        <button class="shotlist">
           <i class="fa fa-star" aria-hidden="true"></i
           ><span class="count" *ngIf="favDomains.length > 0">{{
             favDomains.length
           }}</span>
         </button>
-        <div *ngIf="favDomains.length > 0" class="list" [ngClass]="{ show: showFavMenu }">
+        <div *ngIf="favDomains.length > 0" id="favMenu" class="list">
           <ul>
             <li *ngFor="let favDom of favDomains">
               <a href="{{ favDom.link }}" target="_blank" class="domain-name">
@@ -91,12 +91,12 @@
       >Whois</a
     >
     <div class="menu_btn drop">
-      <button type="button" class="btn" (click)="toggleDomainMenu()">
+      <button id="domainMenuBtn" type="button" class="btn">
         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       </button>
       <div
+        id="domainMenu"
         class="list"
-        [ngClass]="{ show: showDomainMenu }"
         *ngIf="!comLoading && comDomain"
       >
         <ul>
@@ -155,7 +155,7 @@
       </ul>
     </div>
     <ul class="d-flex row">
-      <li class="col" id="extension_col" [ngStyle]="{'display': mobileActiveExtensions ? 'block' : 'none' }">
+      <li class="col" id="extension_col" [ngClass]="{'mobile-inactive': !mobileActiveExtensions, 'mobile-active': mobileActiveExtensions}">
         <a class="main-col" routerLink="/extensions">
           <h4 class="sub-title">Extensions</h4>
           <div class="tag">
@@ -235,7 +235,7 @@
           </li>
         </ul>
       </li>
-      <li class="col" id="generator_col" [ngStyle]="{'display': mobileActiveGenerator ? 'block' : 'none' }">
+      <li class="col" id="generator_col" [ngClass]="{'mobile-inactive': !mobileActiveGenerator, 'mobile-active': mobileActiveGenerator}" >
         <a class="main-col" routerLink="/generator">
           <h4 class="sub-title">Generator</h4>
           <div class="tag">
@@ -286,11 +286,11 @@
             Loading...
           </li>
           <li *ngIf="generatedDomains.length > 0" class="more_btn">
-            <a routerLink="/generated">View More</a>
+            <a routerLink="/generator">View More</a>
           </li>
         </ul>
       </li>
-      <li class="col" id="sale_col" [ngStyle]="{'display': mobileActiveForsale ? 'block' : 'none' }">
+      <li class="col" id="sale_col" [ngClass]="{'mobile-inactive': !mobileActiveForsale, 'mobile-active': mobileActiveForsale}">
         <a class="main-col" routerLink="/sale">
           <h4 class="sub-title">For Sale</h4>
           <div class="tag">
@@ -315,10 +315,10 @@
                 <i class="fa fa-star" aria-hidden="true"></i>
               </span>
               <div class="detail">
-                <a href="{{ saleDomain.keyword }}" target="_blank" class="domain-name">
+                <a href="{{ saleDomain.link }}" target="_blank" class="domain-name">
                   {{ saleDomain.keyword }}
                 </a>
-                <a href="{{ saleDomain.keyword }}" target="_blank" class="tag">Buy ${{ saleDomain.price }}</a>
+                <a href="{{ saleDomain.link }}" target="_blank" class="tag">Buy ${{ saleDomain.price }}</a>
               </div>
             </div>
           </li>

@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SaleDomain, FavDomain, GeneratedDomain } from '../modals/api-types';
 import { Location } from '@angular/common';
+import { Options } from 'ng5-slider';
+import { NouisliderModule } from 'ng2-nouislider';
 
 @Component({
   selector: 'app-generator',
@@ -16,6 +18,7 @@ export class GeneratorComponent implements OnInit {
   favDomains: FavDomain[] = [];
   generatedDomains: GeneratedDomain[] = [];
   initSaleDomains: SaleDomain[] = [];
+  sliderValue = [1, 20];
 
   genDomainApiSubscription: Subscription;
 
@@ -153,6 +156,11 @@ export class GeneratorComponent implements OnInit {
           this.extensionFilterOpen = false;
           this.industryFilterOpen = false;
         }
+        if (!this.characterFilterOpen) {
+          this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
+            this.generatedDomains = res;
+          });
+        }
         break;
       }
     }
@@ -163,7 +171,7 @@ export class GeneratorComponent implements OnInit {
     this.industryFilter = this.apiService.industries.filter(industry => industry.checked).map(ind => {
       return ind.id;
     });
-    this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.charFilter).subscribe(res => {
+    this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
       this.generatedDomains = res;
     });
   }
@@ -175,8 +183,11 @@ export class GeneratorComponent implements OnInit {
     });
     this.tldFilterOpts.find(tld => tld.item.id === tldId).checked = true;
     this.tldFilter = this.tldFilterOpts.find(tld => tld.checked).item.tld;
-    this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.charFilter).subscribe(res => {
+    this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
       this.generatedDomains = res;
     });
+  }
+  change() {
+    console.log(this.sliderValue);
   }
 }
