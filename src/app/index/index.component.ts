@@ -115,11 +115,20 @@ export class IndexComponent implements OnInit {
       });
       this.domainApiSubscription = this.apiService.getDomains(this.keyword, true).subscribe(res => {
         this.domainData = res;
+        this.domainData.forEach(data=> {
+         data.link = data.avialability ?
+         `${this.apiService.truelink}${data.keyword}${data.tld}` :
+          `${this.apiService.truelink}${data.keyword}${data.tld}` ;
+        });
         this.loading = false;
         this.location.replaceState(`/?search=${this.keyword}`);
       });
       this.genDomainApiSubscription = this.apiService.getGenerator(this.keyword, true).subscribe(res => {
         this.generatedDomains = res;
+        this.generatedDomains.forEach(data => {
+           data.link = data.avialability ?
+           `${this.apiService.truelink}${data.keyword}${data.tld}` : `${this.apiService.truelink}${data.keyword}${data.tld}` ;
+         });
         this.genLoading = false;
       });
       this.saleDomainApiSubscription = this.apiService.getForSale(this.keyword, true).subscribe(res => {
