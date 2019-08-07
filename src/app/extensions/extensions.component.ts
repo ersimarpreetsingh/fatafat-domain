@@ -88,7 +88,7 @@ export class ExtensionsComponent implements OnInit {
         this.domainData.forEach(data => {
           data.link = data.avialability ?
           `${this.apiService.truelink}${data.keyword}${data.tld}` :
-           `${this.apiService.truelink}${data.keyword}${data.tld}` ;
+           `${this.apiService.falselink}${data.keyword}${data.tld}` ;
          });
         this.loading = false;
         this.location.replaceState(`extensions?search=${this.keyword}`);

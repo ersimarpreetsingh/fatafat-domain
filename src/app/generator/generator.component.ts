@@ -108,6 +108,11 @@ export class GeneratorComponent implements OnInit {
     if (this.keyword && this.keyword.length > 0) {
       this.genDomainApiSubscription = this.apiService.getGenerator(this.keyword, false).subscribe(res => {
         this.generatedDomains = res;
+        this.generatedDomains.forEach(data => {
+          data.link = data.avialability ?
+          `${this.apiService.truelink}${data.keyword}${data.tld}` :
+           `${this.apiService.falselink}${data.keyword}${data.tld}` ;
+        });
         this.genLoading = false;
         this.location.replaceState(`generator?search=${this.keyword}`);
       });

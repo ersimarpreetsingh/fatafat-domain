@@ -7,8 +7,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-  truelink = "http://www.anrdoezrs.net/links/9133603/type/dlg/https://godaddy.com/whois/results.aspx?isc=cjc99com&checkAvail=1&tmskey=&domain=";
-  falselink ="http://www.anrdoezrs.net/links/9133603/type/dlg/https://godaddy.com/domainsearch/find?isc=cjc99com&checkAvail=1&tmskey=&domainToCheck=";
+  truelink = 'http://www.anrdoezrs.net/links/9133603/type/dlg/' +
+              'https://godaddy.com/whois/results.aspx?isc=cjc99com&checkAvail=1&tmskey=&domain=';
+  falselink = 'http://www.anrdoezrs.net/links/9133603/type/dlg' +
+              '/https://godaddy.com/domainsearch/find?isc=cjc99com&checkAvail=1&tmskey=&domainToCheck=';
   tldList: TldInfo[] = [];
   allTldList: TldInfo[] = [];
   tldCats: string[] = [];
