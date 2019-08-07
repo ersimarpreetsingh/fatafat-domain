@@ -47,6 +47,11 @@ export class ExtensionsComponent implements OnInit {
     if (this.keyword && this.keyword.length > 0) {
       this.genDomainApiSubscription = this.apiService.getDomains(this.keyword, false).subscribe(res => {
         this.domainData = res;
+        this.domainData.forEach(data => {
+          data.link = data.avialability ?
+          `${this.apiService.truelink}${data.keyword}${data.tld}` :
+           `${this.apiService.truelink}${data.keyword}${data.tld}` ;
+         });
         this.loading = false;
         this.location.replaceState(`extensions?search=${this.keyword}`);
       });
