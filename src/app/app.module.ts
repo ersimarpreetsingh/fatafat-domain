@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Ng5SliderModule } from 'ng5-slider';
 import { NouisliderModule } from 'ng2-nouislider';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +29,6 @@ import { SaleComponent } from './sale/sale.component';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    Ng5SliderModule,
     NouisliderModule,
   ],
   providers: [Location],

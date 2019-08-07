@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SaleDomain, FavDomain, GeneratedDomain } from '../modals/api-types';
 import { Location } from '@angular/common';
-import { Options } from 'ng5-slider';
 import { NouisliderModule } from 'ng2-nouislider';
+
+declare var $: any;
 
 @Component({
   selector: 'app-generator',
@@ -36,7 +37,6 @@ export class GeneratorComponent implements OnInit {
 
   constructor(public apiService: ApiService, private location: Location) {
     this.keyword = apiService.keyword;
-    console.log(apiService.tldList);
     setTimeout(() => {
       this.tldFilterOpts = this.apiService.tldList.map(tld => {
         return {
@@ -48,6 +48,43 @@ export class GeneratorComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(document).ready(() => {
+      //   $("#drop_btn").click(function () {
+      //     $("#drop_btn").toggleClass('open');
+      //   });
+        $('.shotlist').click((event) => {
+          if ($('#favMenu').hasClass('show')) {
+            $('#favMenu').removeClass('show');
+          } else {
+            $('#favMenu').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('.language-dropdown #drop_btn').click((event) => {
+          if ($('.language-dropdown .dropdown').hasClass('show')) {
+            $('.language-dropdown .dropdown').removeClass('show');
+          } else {
+            $('.language-dropdown .dropdown').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('#domainMenuBtn').click((event) => {
+          if ($('#domainMenu').hasClass('show')) {
+            $('#domainMenu').removeClass('show');
+          } else {
+            $('#domainMenu').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('body').click(() => {
+          $('#favMenu').removeClass('show');
+          $('.language-dropdown #drop_btn').removeClass('open');
+          $('.language-dropdown .dropdown').removeClass('show');
+          $('#domainMenu').removeClass('show');
+        });
+      });
+
+
     this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
     if (window.location.href.split('=').length > 1) {
       this.keyword = window.location.href.split('=')[1];
@@ -186,8 +223,5 @@ export class GeneratorComponent implements OnInit {
     this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
       this.generatedDomains = res;
     });
-  }
-  change() {
-    console.log(this.sliderValue);
   }
 }

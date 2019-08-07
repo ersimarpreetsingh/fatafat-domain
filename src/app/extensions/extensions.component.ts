@@ -4,6 +4,7 @@ import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
+declare var $: any;
 @Component({
   selector: 'app-extensions',
   templateUrl: './extensions.component.html',
@@ -25,6 +26,43 @@ export class ExtensionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(document).ready(() => {
+      //   $("#drop_btn").click(function () {
+      //     $("#drop_btn").toggleClass('open');
+      //   });
+        $('.shotlist').click((event) => {
+          if ($('#favMenu').hasClass('show')) {
+            $('#favMenu').removeClass('show');
+          } else {
+            $('#favMenu').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('.language-dropdown #drop_btn').click((event) => {
+          if ($('.language-dropdown .dropdown').hasClass('show')) {
+            $('.language-dropdown .dropdown').removeClass('show');
+          } else {
+            $('.language-dropdown .dropdown').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('#domainMenuBtn').click((event) => {
+          if ($('#domainMenu').hasClass('show')) {
+            $('#domainMenu').removeClass('show');
+          } else {
+            $('#domainMenu').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('body').click(() => {
+          $('#favMenu').removeClass('show');
+          $('.language-dropdown #drop_btn').removeClass('open');
+          $('.language-dropdown .dropdown').removeClass('show');
+          $('#domainMenu').removeClass('show');
+        });
+      });
+
+
     this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
     if (window.location.href.split('=').length > 1) {
       this.keyword = window.location.href.split('=')[1];
@@ -120,7 +158,10 @@ export class ExtensionsComponent implements OnInit {
 
   getLinkForDomain(tld: string): string {
     if (this.domainData && this.domainData.length) {
-      return this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()).link;
+      if (this.domainData.findIndex(domain => domain.tld.toLowerCase() === tld.toLowerCase()) > -1) {
+        return this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()).link;
+      }
+      return '';
     }
     return '';
   }

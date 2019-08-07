@@ -34,13 +34,13 @@
         </span>
       </div>
       <div *ngIf="keyword?.length > 0" class="shortlisted drop">
-        <button class="shotlist" (click)="toggleFavMenu()">
+        <button class="shotlist">
           <i class="fa fa-star" aria-hidden="true"></i
           ><span class="count" *ngIf="favDomains.length > 0">{{
             favDomains.length
           }}</span>
         </button>
-        <div
+        <div id="favMenu"
           *ngIf="favDomains.length > 0"
           class="list"
           [ngClass]="{ show: showFavMenu }"
