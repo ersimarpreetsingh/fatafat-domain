@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SaleDomain, FavDomain, GeneratedDomain } from '../modals/api-types';
 import { Location } from '@angular/common';
-import { Options } from 'ng5-slider';
-import { NouisliderModule } from 'ng2-nouislider';
+// import { Options } from 'ng5-slider';
+// import { NouisliderModule } from 'ng2-nouislider';
 
 @Component({
   selector: 'app-generator',
