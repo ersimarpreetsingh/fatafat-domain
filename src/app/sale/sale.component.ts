@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -10,7 +10,7 @@ declare var $: any;
   templateUrl: './sale.component.html',
   styleUrls: ['./sale.component.css']
 })
-export class SaleComponent implements OnInit {
+export class SaleComponent implements OnInit, AfterViewChecked {
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
@@ -25,7 +25,7 @@ export class SaleComponent implements OnInit {
   }
 
   ngOnInit() {
-    $(document).ready(() => {
+     $(document).ready(() => {
       //   $("#drop_btn").click(function () {
       //     $("#drop_btn").toggleClass('open');
       //   });
@@ -59,19 +59,23 @@ export class SaleComponent implements OnInit {
           $('.language-dropdown .dropdown').removeClass('show');
           $('#domainMenu').removeClass('show');
         });
-      });
+       });
 
-    this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
-    if (window.location.href.split('=').length > 1) {
+     this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
+     if (window.location.href.split('=').length > 1) {
       this.keyword = window.location.href.split('=')[1];
       this.getDomainData();
     } else if (this.apiService.keyword && this.apiService.keyword.length > 0) {
       this.keyword = this.apiService.keyword;
       this.getDomainData();
     }
-    this.apiService.getForSaleInit(10).subscribe(res => {
+     this.apiService.getForSaleInit(10).subscribe(res => {
       this.initSaleDomains = res;
     });
+  }
+
+  ngAfterViewChecked() {
+    console.log('oninit code will go here');
   }
 
   getDomainData() {
@@ -106,7 +110,7 @@ export class SaleComponent implements OnInit {
   // addDomToFav(tld: string) {
   //   if (this.domainData && this.domainData.length) {
   //     const currentDomain: Domain = this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
-  //     if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
+  //   if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
   //       this.favDomains.push({
   //         keyword: `${currentDomain.keyword}${currentDomain.tld}`,
   //         link: currentDomain.link

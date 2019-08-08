@@ -1,6 +1,6 @@
 import { SelectableItem, TldInfo } from './../modals/api-types';
 import { ApiService } from './../api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SaleDomain, FavDomain, GeneratedDomain } from '../modals/api-types';
 import { Location } from '@angular/common';
@@ -13,7 +13,7 @@ declare var $: any;
   templateUrl: './generator.component.html',
   styleUrls: ['./generator.component.css']
 })
-export class GeneratorComponent implements OnInit {
+export class GeneratorComponent implements OnInit , AfterViewChecked {
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
@@ -98,6 +98,10 @@ export class GeneratorComponent implements OnInit {
     });
   }
 
+  ngAfterViewChecked() {
+    console.log('oninit code will go here');
+  }
+
   getDomainData() {
     this.genLoading = true;
     this.apiService.keyword = this.keyword;
@@ -136,7 +140,7 @@ export class GeneratorComponent implements OnInit {
   // addDomToFav(tld: string) {
   //   if (this.domainData && this.domainData.length) {
   //     const currentDomain: Domain = this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
-  //     if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
+  //  if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
   //       this.favDomains.push({
   //         keyword: `${currentDomain.keyword}${currentDomain.tld}`,
   //         link: currentDomain.link
@@ -146,14 +150,36 @@ export class GeneratorComponent implements OnInit {
   //     window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
   //   }
   // }
+
   addGenToFav(keyword: string, link: string) {
-    this.favDomains.push({
-      keyword,
-      link
-    });
-    window.localStorage.clear();
-    window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    if (this.generatedDomains && this.generatedDomains.length ) {
+      const currentDomain: GeneratedDomain = this.generatedDomains.find(
+        domain => (domain.keyword + domain.after + domain.tld ).toLowerCase() === keyword.toLowerCase()
+      );
+      if (
+        this.favDomains.findIndex(
+          dom =>
+            dom.keyword.toLowerCase() ===
+            (currentDomain.keyword + currentDomain.after + currentDomain.tld).toLowerCase()
+        ) < 0
+      ) {
+        this.favDomains.push({
+          keyword,
+          link
+        });
+      }
+      window.localStorage.clear();
+      window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    }
   }
+  // addGenToFav(keyword: string, link: string) {
+  //   this.favDomains.push({
+  //     keyword,
+  //     link
+  //   });
+  //   window.localStorage.clear();
+  //   window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+  // }
 
   addSaleToFav(keyword: string, link: string) {
     this.favDomains.push({

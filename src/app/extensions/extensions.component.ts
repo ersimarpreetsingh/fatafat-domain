@@ -1,5 +1,5 @@
 import { ApiService } from './../api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
@@ -10,7 +10,7 @@ declare var $: any;
   templateUrl: './extensions.component.html',
   styleUrls: ['./extensions.component.css']
 })
-export class ExtensionsComponent implements OnInit {
+export class ExtensionsComponent implements OnInit , AfterViewChecked {
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
@@ -74,6 +74,10 @@ export class ExtensionsComponent implements OnInit {
     this.apiService.getForSaleInit(10).subscribe(res => {
       this.initSaleDomains = res;
     });
+  }
+
+  ngAfterViewChecked() {
+    console.log('oninit code will go here');
   }
 
   getDomainData() {
