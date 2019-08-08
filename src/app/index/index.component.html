@@ -307,7 +307,7 @@
                 class="shotlist"
                 [ngClass]="{
                   listed: isFavrouite(
-                    saleDomain?.keyword + saleDomain?.after + saleDomain?.tld
+                    saleDomain?.keyword
                   )
                 }"
                 (click)="addSaleToFav(saleDomain?.keyword, saleDomain?.link)"

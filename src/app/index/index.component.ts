@@ -36,7 +36,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   showDomainMenu = false;
   showFavMenu = false;
-  constructor(private activatedRoute: ActivatedRoute, public apiService: ApiService, private location: Location) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    public apiService: ApiService,
+    private location: Location
+  ) {
     this.keyword = apiService.keyword;
   }
 
@@ -77,7 +81,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     //     });
     //   });
 
-    this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
+    this.favDomains = window.localStorage.getItem('favDom')
+      ? JSON.parse(window.localStorage.getItem('favDom'))
+      : [];
     if (window.location.href.split('=').length > 1) {
       this.keyword = window.location.href.split('=')[1];
       this.getDomainData();
@@ -91,7 +97,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    $('.shotlist').click((event) => {
+    $('.shotlist').click(event => {
       if ($('#favMenu').hasClass('show')) {
         $('#favMenu').removeClass('show');
       } else {
@@ -99,7 +105,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       }
       event.stopPropagation();
     });
-    $('.language-dropdown #drop_btn').click((event) => {
+    $('.language-dropdown #drop_btn').click(event => {
       if ($('.language-dropdown .dropdown').hasClass('show')) {
         $('.language-dropdown .dropdown').removeClass('show');
       } else {
@@ -107,7 +113,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       }
       event.stopPropagation();
     });
-    $('#domainMenuBtn').click((event) => {
+    $('#domainMenuBtn').click(event => {
       if ($('#domainMenu').hasClass('show')) {
         $('#domainMenu').removeClass('show');
       } else {
@@ -121,6 +127,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       $('.language-dropdown .dropdown').removeClass('show');
       $('#domainMenu').removeClass('show');
     });
+    this.favDomains = window.localStorage.getItem('favDom')
+      ? JSON.parse(window.localStorage.getItem('favDom'))
+      : [];
   }
 
   getDomainData() {
@@ -142,33 +151,41 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       this.saleDomainApiSubscription.unsubscribe();
     }
     if (this.keyword && this.keyword.length > 1) {
-      this.comDomainApiSubscription = this.apiService.getComInfo(this.keyword).subscribe(res => {
-        this.comDomain = res;
-        this.comLoading = false;
-      });
-      this.domainApiSubscription = this.apiService.getDomains(this.keyword, true).subscribe(res => {
-        this.domainData = res;
-        this.domainData.forEach(data => {
-         data.link = data.avialability ?
-         `${this.apiService.truelink}${data.keyword}${data.tld}` :
-          `${this.apiService.falselink}${data.keyword}${data.tld}` ;
+      this.comDomainApiSubscription = this.apiService
+        .getComInfo(this.keyword)
+        .subscribe(res => {
+          this.comDomain = res;
+          this.comLoading = false;
         });
-        this.loading = false;
-        this.location.replaceState(`/?search=${this.keyword}`);
-      });
-      this.genDomainApiSubscription = this.apiService.getGenerator(this.keyword, true).subscribe(res => {
-        this.generatedDomains = res;
-        this.generatedDomains.forEach(data => {
-           data.link = data.avialability ?
-           `${this.apiService.truelink}${data.keyword}${data.tld}` :
-            `${this.apiService.falselink}${data.keyword}${data.tld}` ;
-         });
-        this.genLoading = false;
-      });
-      this.saleDomainApiSubscription = this.apiService.getForSale(this.keyword, true).subscribe(res => {
-        this.saleDomains = res;
-        this.saleLoading = false;
-      });
+      this.domainApiSubscription = this.apiService
+        .getDomains(this.keyword, true)
+        .subscribe(res => {
+          this.domainData = res;
+          this.domainData.forEach(data => {
+            data.link = data.avialability
+              ? `${this.apiService.truelink}${data.keyword}${data.tld}`
+              : `${this.apiService.falselink}${data.keyword}${data.tld}`;
+          });
+          this.loading = false;
+          this.location.replaceState(`/?search=${this.keyword}`);
+        });
+      this.genDomainApiSubscription = this.apiService
+        .getGenerator(this.keyword, true)
+        .subscribe(res => {
+          this.generatedDomains = res;
+          this.generatedDomains.forEach(data => {
+            data.link = data.avialability
+              ? `${this.apiService.truelink}${data.keyword}${data.tld}`
+              : `${this.apiService.falselink}${data.keyword}${data.tld}`;
+          });
+          this.genLoading = false;
+        });
+      this.saleDomainApiSubscription = this.apiService
+        .getForSale(this.keyword, true)
+        .subscribe(res => {
+          this.saleDomains = res;
+          this.saleLoading = false;
+        });
     } else {
       this.domainData = [];
       this.generatedDomains = [];
@@ -181,17 +198,26 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   isAvail(tld: string): boolean {
     let currentDomain: Domain;
     if (this.domainData && this.domainData.length) {
-      currentDomain = (this.domainData && this.domainData.length > 0) ?
-      this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()) :
-      null;
+      currentDomain =
+        this.domainData && this.domainData.length > 0
+          ? this.domainData.find(
+              domain => domain.tld.toLowerCase() === tld.toLowerCase()
+            )
+          : null;
     }
     return currentDomain ? !currentDomain.avialability : !false;
   }
 
   getLinkForDomain(tld: string): string {
     if (this.domainData && this.domainData.length) {
-      if (this.domainData.findIndex(domain => domain.tld.toLowerCase() === tld.toLowerCase()) > -1) {
-        return this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()).link;
+      if (
+        this.domainData.findIndex(
+          domain => domain.tld.toLowerCase() === tld.toLowerCase()
+        ) > -1
+      ) {
+        return this.domainData.find(
+          domain => domain.tld.toLowerCase() === tld.toLowerCase()
+        ).link;
       }
       return '';
     }
@@ -212,8 +238,16 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   addDomToFav(tld: string) {
     if (this.domainData && this.domainData.length) {
-      const currentDomain: Domain = this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
-      if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
+      const currentDomain: Domain = this.domainData.find(
+        domain => domain.tld.toLowerCase() === tld.toLowerCase()
+      );
+      if (
+        this.favDomains.findIndex(
+          dom =>
+            dom.keyword.toLowerCase() ===
+            (currentDomain.keyword + currentDomain.tld).toLowerCase()
+        ) < 0
+      ) {
         this.favDomains.push({
           keyword: `${currentDomain.keyword}${currentDomain.tld}`,
           link: currentDomain.link
@@ -224,20 +258,38 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
   addGenToFav(keyword: string, link: string) {
-    this.favDomains.push({
-      keyword,
-      link
-    });
-    window.localStorage.clear();
-    window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    if (this.generatedDomains && this.generatedDomains.length) {
+      const currentDomain: GeneratedDomain = this.generatedDomains.find(
+        domain => (domain.keyword + domain.after + domain.tld ).toLowerCase() === keyword.toLowerCase()
+      );
+      if (
+        this.favDomains.findIndex(
+          dom =>
+            dom.keyword.toLowerCase() ===
+            (currentDomain.keyword + currentDomain.after + currentDomain.tld).toLowerCase()
+        ) < 0
+      ) {
+        this.favDomains.push({
+          keyword,
+          link
+        });
+      }
+      window.localStorage.clear();
+      window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    }
   }
   addSaleToFav(keyword: string, link: string) {
+     if (this.saleDomains && this.saleDomains.length) {
+       const currentDomain: SaleDomain = this.saleDomains.find(domain => domain.keyword.toLowerCase() === keyword.toLowerCase());
+       if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword).toLowerCase()) < 0) {
     this.favDomains.push({
       keyword,
       link
     });
-    window.localStorage.clear();
-    window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+     }
+       window.localStorage.clear();
+       window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+      }
   }
   removeFromFav(keyword: string) {
     this.favDomains = this.favDomains.filter(dom => !(dom.keyword === keyword));
@@ -245,7 +297,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
   }
   isFavrouite(keyword: string) {
-    return this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === keyword.toLowerCase()) > -1;
+    return (
+      this.favDomains.findIndex(
+        dom => dom.keyword.toLowerCase() === keyword.toLowerCase()
+      ) > -1
+    );
   }
 
   mobileTabToggle(tabName: string) {
@@ -253,17 +309,17 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       case 'extensions': {
         this.mobileActiveExtensions = true;
         this.mobileActiveGenerator = false;
-        this. mobileActiveForsale = false;
+        this.mobileActiveForsale = false;
         break;
       }
       case 'generator': {
         this.mobileActiveGenerator = true;
-        this. mobileActiveForsale = false;
+        this.mobileActiveForsale = false;
         this.mobileActiveExtensions = false;
         break;
       }
       case 'forsale': {
-        this. mobileActiveForsale = true;
+        this.mobileActiveForsale = true;
         this.mobileActiveGenerator = false;
         this.mobileActiveExtensions = false;
         break;
@@ -271,4 +327,3 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
 }
-

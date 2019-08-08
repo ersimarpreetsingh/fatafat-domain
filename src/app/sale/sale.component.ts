@@ -139,7 +139,7 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   // addDomToFav(tld: string) {
   //   if (this.domainData && this.domainData.length) {
   //     const currentDomain: Domain = this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
-  //     if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
+  //   if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
   //       this.favDomains.push({
   //         keyword: `${currentDomain.keyword}${currentDomain.tld}`,
   //         link: currentDomain.link

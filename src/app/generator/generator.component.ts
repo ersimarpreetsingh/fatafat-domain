@@ -169,7 +169,7 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   // addDomToFav(tld: string) {
   //   if (this.domainData && this.domainData.length) {
   //     const currentDomain: Domain = this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
-  //     if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
+  //  if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
   //       this.favDomains.push({
   //         keyword: `${currentDomain.keyword}${currentDomain.tld}`,
   //         link: currentDomain.link
@@ -179,14 +179,36 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   //     window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
   //   }
   // }
+
   addGenToFav(keyword: string, link: string) {
-    this.favDomains.push({
-      keyword,
-      link
-    });
-    window.localStorage.clear();
-    window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    if (this.generatedDomains && this.generatedDomains.length ) {
+      const currentDomain: GeneratedDomain = this.generatedDomains.find(
+        domain => (domain.keyword + domain.after + domain.tld ).toLowerCase() === keyword.toLowerCase()
+      );
+      if (
+        this.favDomains.findIndex(
+          dom =>
+            dom.keyword.toLowerCase() ===
+            (currentDomain.keyword + currentDomain.after + currentDomain.tld).toLowerCase()
+        ) < 0
+      ) {
+        this.favDomains.push({
+          keyword,
+          link
+        });
+      }
+      window.localStorage.clear();
+      window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    }
   }
+  // addGenToFav(keyword: string, link: string) {
+  //   this.favDomains.push({
+  //     keyword,
+  //     link
+  //   });
+  //   window.localStorage.clear();
+  //   window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+  // }
 
   addSaleToFav(keyword: string, link: string) {
     this.favDomains.push({
