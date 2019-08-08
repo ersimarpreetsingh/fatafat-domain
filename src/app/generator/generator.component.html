@@ -102,15 +102,17 @@
         class="industry_drop cstm_drop"
         [ngClass]="{ show: industryFilterOpen }"
       >
-        <ul>
-          <li *ngFor="let industry of apiService.industries">
-            <input [(ngModel)]="industry.checked" type="checkbox" />
-            <label
-              >{{ industry.industry }}
-              <span class="checkmark"></span>
-            </label>
-          </li>
-        </ul>
+        <div class="list_inner">
+          <ul>
+            <li *ngFor="let industry of apiService.industries">
+              <input [(ngModel)]="industry.checked" type="checkbox" />
+              <label
+                >{{ industry.industry }}
+                <span class="checkmark"></span>
+              </label>
+            </li>
+          </ul>
+        </div>
         <div class="btns">
           <button class="reset" type="button">Reset</button>
           <button class="apply" type="button" (click)="filterByIndustry()">
@@ -122,20 +124,22 @@
         class="extension_drop cstm_drop"
         [ngClass]="{ show: extensionFilterOpen }"
       >
-        <ul>
-          <li *ngFor="let tld of tldFilterOpts">
-            <input
-              data-index=""
-              type="checkbox"
-              [(ngModel)]="tld.checked"
-              (change)="filterByTld(tld.item.id)"
-            />
-            <label
-              >{{ tld.item.tld }}
-              <span class="checkmark"></span>
-            </label>
-          </li>
-        </ul>
+        <div class="list_inner">
+          <ul>
+            <li *ngFor="let tld of tldFilterOpts">
+              <input
+                data-index=""
+                type="checkbox"
+                [(ngModel)]="tld.checked"
+                (change)="filterByTld(tld.item.id)"
+              />
+              <label
+                >{{ tld.item.tld }}
+                <span class="checkmark"></span>
+              </label>
+            </li>
+          </ul>
+        </div>
       </div>
       <div
         class="character_drop cstm_drop"
@@ -150,6 +154,12 @@
           [tooltips]="[false, true]"
           [(ngModel)]="sliderValue"
         ></nouislider>
+        <div class="btns">
+          <button class="reset" type="button">Reset</button>
+          <button class="apply" type="button" (click)="filterByIndustry()">
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   </div>
