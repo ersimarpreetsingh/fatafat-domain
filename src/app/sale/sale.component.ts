@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -10,7 +10,7 @@ declare var $: any;
   templateUrl: './sale.component.html',
   styleUrls: ['./sale.component.css']
 })
-export class SaleComponent implements OnInit {
+export class SaleComponent implements OnInit, AfterViewChecked {
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
@@ -25,41 +25,41 @@ export class SaleComponent implements OnInit {
   }
 
   ngOnInit() {
-    $(document).ready(() => {
-      //   $("#drop_btn").click(function () {
-      //     $("#drop_btn").toggleClass('open');
-      //   });
-        $('.shotlist').click((event) => {
-          if ($('#favMenu').hasClass('show')) {
-            $('#favMenu').removeClass('show');
-          } else {
-            $('#favMenu').addClass('show');
-          }
-          event.stopPropagation();
-        });
-        $('.language-dropdown #drop_btn').click((event) => {
-          if ($('.language-dropdown .dropdown').hasClass('show')) {
-            $('.language-dropdown .dropdown').removeClass('show');
-          } else {
-            $('.language-dropdown .dropdown').addClass('show');
-          }
-          event.stopPropagation();
-        });
-        $('#domainMenuBtn').click((event) => {
-          if ($('#domainMenu').hasClass('show')) {
-            $('#domainMenu').removeClass('show');
-          } else {
-            $('#domainMenu').addClass('show');
-          }
-          event.stopPropagation();
-        });
-        $('body').click(() => {
-          $('#favMenu').removeClass('show');
-          $('.language-dropdown #drop_btn').removeClass('open');
-          $('.language-dropdown .dropdown').removeClass('show');
-          $('#domainMenu').removeClass('show');
-        });
-      });
+    // $(document).ready(() => {
+    //   //   $("#drop_btn").click(function () {
+    //   //     $("#drop_btn").toggleClass('open');
+    //   //   });
+    //     $('.shotlist').click((event) => {
+    //       if ($('#favMenu').hasClass('show')) {
+    //         $('#favMenu').removeClass('show');
+    //       } else {
+    //         $('#favMenu').addClass('show');
+    //       }
+    //       event.stopPropagation();
+    //     });
+    //     $('.language-dropdown #drop_btn').click((event) => {
+    //       if ($('.language-dropdown .dropdown').hasClass('show')) {
+    //         $('.language-dropdown .dropdown').removeClass('show');
+    //       } else {
+    //         $('.language-dropdown .dropdown').addClass('show');
+    //       }
+    //       event.stopPropagation();
+    //     });
+    //     $('#domainMenuBtn').click((event) => {
+    //       if ($('#domainMenu').hasClass('show')) {
+    //         $('#domainMenu').removeClass('show');
+    //       } else {
+    //         $('#domainMenu').addClass('show');
+    //       }
+    //       event.stopPropagation();
+    //     });
+    //     $('body').click(() => {
+    //       $('#favMenu').removeClass('show');
+    //       $('.language-dropdown #drop_btn').removeClass('open');
+    //       $('.language-dropdown .dropdown').removeClass('show');
+    //       $('#domainMenu').removeClass('show');
+    //     });
+    //   });
 
     this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
     if (window.location.href.split('=').length > 1) {
@@ -71,6 +71,39 @@ export class SaleComponent implements OnInit {
     }
     this.apiService.getForSaleInit(10).subscribe(res => {
       this.initSaleDomains = res;
+    });
+  }
+
+  ngAfterViewChecked() {
+    $('.shotlist').click((event) => {
+      if ($('#favMenu').hasClass('show')) {
+        $('#favMenu').removeClass('show');
+      } else {
+        $('#favMenu').addClass('show');
+      }
+      event.stopPropagation();
+    });
+    $('.language-dropdown #drop_btn').click((event) => {
+      if ($('.language-dropdown .dropdown').hasClass('show')) {
+        $('.language-dropdown .dropdown').removeClass('show');
+      } else {
+        $('.language-dropdown .dropdown').addClass('show');
+      }
+      event.stopPropagation();
+    });
+    $('#domainMenuBtn').click((event) => {
+      if ($('#domainMenu').hasClass('show')) {
+        $('#domainMenu').removeClass('show');
+      } else {
+        $('#domainMenu').addClass('show');
+      }
+      event.stopPropagation();
+    });
+    $('body').click(() => {
+      $('#favMenu').removeClass('show');
+      $('.language-dropdown #drop_btn').removeClass('open');
+      $('.language-dropdown .dropdown').removeClass('show');
+      $('#domainMenu').removeClass('show');
     });
   }
 
