@@ -193,6 +193,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     return '';
   }
   clearKeyword() {
+    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     this.location.replaceState('/');

@@ -123,21 +123,21 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         }
         event.stopPropagation();
       });
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
           $('.industry_drop.cstm_drop').removeClass('show');
         }
         event.stopPropagation();
       });
 
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.extension_drop.cstm_drop').is(event.target)) && $('.extension_drop.cstm_drop').has(event.target).length === 0) {
           $('.extension_drop.cstm_drop').removeClass('show');
         }
         event.stopPropagation();
       });
 
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.character_drop.cstm_drop').is(event.target)) && $('.character_drop.cstm_drop').has(event.target).length === 0) {
           $('.character_drop.cstm_drop').removeClass('show');
         }
@@ -173,6 +173,7 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   }
 
   clearKeyword() {
+    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     this.location.replaceState('generator');
@@ -297,10 +298,14 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     this.industryFilter = this.apiService.industries.filter(industry => industry.checked).map(ind => {
       return ind.id;
     });
+    $('.industry_drop').removeClass('show');
+    this.filterByIndustry();
   }
 
   resetCharFilter() {
     this.sliderValue = [1, 20];
+    $('.character_drop').removeClass('show');
+    this.filterByIndustry();
   }
 
   filterByTld(tldId: number) {
