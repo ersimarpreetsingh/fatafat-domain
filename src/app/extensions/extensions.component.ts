@@ -28,14 +28,14 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
 
   ngOnInit() {
     $(document).ready(() => {
-        $('.shotlist').click((event) => {
-          if ($('#favMenu').hasClass('show')) {
-            $('#favMenu').removeClass('show');
-          } else {
-            $('#favMenu').addClass('show');
-          }
-          event.stopPropagation();
-        });
+        // $('.shotlist').click((event) => {
+        //   if ($('#favMenu').hasClass('show')) {
+        //     $('#favMenu').removeClass('show');
+        //   } else {
+        //     $('#favMenu').addClass('show');
+        //   }
+        //   event.stopPropagation();
+        // });
         $('.language-dropdown #drop_btn').click((event) => {
           if ($('.language-dropdown .dropdown').hasClass('show')) {
             $('.language-dropdown .dropdown').removeClass('show');
@@ -44,14 +44,14 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
           }
           event.stopPropagation();
         });
-        $('#domainMenuBtn').click((event) => {
-          if ($('#domainMenu').hasClass('show')) {
-            $('#domainMenu').removeClass('show');
-          } else {
-            $('#domainMenu').addClass('show');
-          }
-          event.stopPropagation();
-        });
+        // $('#domainMenuBtn').click((event) => {
+        //   if ($('#domainMenu').hasClass('show')) {
+        //     $('#domainMenu').removeClass('show');
+        //   } else {
+        //     $('#domainMenu').addClass('show');
+        //   }
+        //   event.stopPropagation();
+        // });
         $('body').click(() => {
           $('#favMenu').removeClass('show');
           $('.language-dropdown #drop_btn').removeClass('open');
@@ -122,6 +122,7 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
    }
 
   clearKeyword() {
+    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     this.location.replaceState('generator');

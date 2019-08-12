@@ -99,7 +99,7 @@ export class SaleComponent implements OnInit, AfterViewChecked {
         }
         event.stopPropagation();
       });
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
           $('.industry_drop.cstm_drop').removeClass('show');
         }
@@ -132,6 +132,7 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   }
 
   clearKeyword() {
+    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     this.saleDomains = [];

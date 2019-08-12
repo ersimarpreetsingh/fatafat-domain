@@ -124,6 +124,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         .getComInfo(this.keyword)
         .subscribe(res => {
           this.comDomain = res;
+          this.comDomain.link = res.avialability ? `${this.apiService.truelink}${res.keyword}${res.tld}`
+          : `${this.apiService.falselink}${res.keyword}${res.tld}`;
           this.comLoading = false;
         });
       this.domainApiSubscription = this.apiService
@@ -193,6 +195,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     return '';
   }
   clearKeyword() {
+    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     this.location.replaceState('/');
