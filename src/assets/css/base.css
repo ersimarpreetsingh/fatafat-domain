@@ -2800,5 +2800,5 @@ h1.title {
 .loader img {
   width:120px;
 }
-
+.menu_btn:hover #domainMenu{display: block;}
 /*# sourceMappingURL=base.css.map */
