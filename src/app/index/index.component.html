@@ -20,7 +20,7 @@
           (keyup)="getDomainData()"
         />
         <span class="btns">
-          <button *ngIf="keyword?.length < 1" type="button" class="search_btn">
+          <button *ngIf="keyword?.length < 1" type="button" class="search_btn" id="search-icon">
             <img src="assets/images/search-icon.png" alt="" />
           </button>
           <button
@@ -33,7 +33,7 @@
           </button>
         </span>
       </div>
-      <div *ngIf="keyword?.length > 0" class="shortlisted drop">
+      <div *ngIf="keyword?.length > 0" (onload)="registerFavJquery()" class="shortlisted drop">
         <button class="shotlist">
           <i class="fa fa-star" aria-hidden="true"></i
           ><span class="count" *ngIf="favDomains.length > 0">{{

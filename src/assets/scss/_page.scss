@@ -1513,15 +1513,23 @@
                             left: 40%;
                         }
                     }
+                    .noUi-origin .noUi-handle-lower{
+                        display: none;  
+                    }
                 }
 
-                .noUi-connects:before {
-                    content: '';
-                    position: absolute;
-                    left: 0;
-                    height: 5px;
-                    background: #39a2f6;
-                    width: 25px;
+                .noUi-connects{
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        height: 5px;
+                        background: #39a2f6;
+                        width: 25px;
+                    }
+                    .noUi-connect{
+                        background: #39a2f6;
+                    }
                 }
 
                 // #slider-range-max {

@@ -29,6 +29,12 @@ export interface SaleDomain {
     image: string;
 }
 
+export interface SaleDomainResult {
+    last_id?: number;
+    total_records?: number;
+    data: SaleDomain[];
+}
+
 export interface FavDomain {
     keyword: string;
     link: string;
@@ -39,6 +45,12 @@ export interface Industry {
     industry: string;
     checked?: boolean;
 }
+
+export interface SaleCategory {
+    id: number;
+    tags: string;
+}
+
 export interface SelectableItem<T> {
     item: T;
     checked: boolean;

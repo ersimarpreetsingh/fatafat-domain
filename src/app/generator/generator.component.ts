@@ -14,6 +14,7 @@ declare var $: any;
   styleUrls: ['./generator.component.css']
 })
 export class GeneratorComponent implements OnInit , AfterViewChecked {
+  jqueryBinded = false;
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
@@ -49,30 +50,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
 
   ngOnInit() {
     $(document).ready(() => {
-      //   $("#drop_btn").click(function () {
-      //     $("#drop_btn").toggleClass('open');
-      //   });
-      $('.shotlist').click((event) => {
-        if ($('#favMenu').hasClass('show')) {
-          $('#favMenu').removeClass('show');
-        } else {
-          $('#favMenu').addClass('show');
-        }
-        event.stopPropagation();
-      });
       $('.language-dropdown #drop_btn').click((event) => {
         if ($('.language-dropdown .dropdown').hasClass('show')) {
           $('.language-dropdown .dropdown').removeClass('show');
         } else {
           $('.language-dropdown .dropdown').addClass('show');
-        }
-        event.stopPropagation();
-      });
-      $('#domainMenuBtn').click((event) => {
-        if ($('#domainMenu').hasClass('show')) {
-          $('#domainMenu').removeClass('show');
-        } else {
-          $('#domainMenu').addClass('show');
         }
         event.stopPropagation();
       });
@@ -94,12 +76,75 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
       this.getDomainData();
     }
     this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res;
+      this.initSaleDomains = res.data;
     });
   }
 
   ngAfterViewChecked() {
-    console.log('oninit code will go here');
+    if (!this.jqueryBinded && this.keyword.length > 0) {
+      this.jqueryBinded = true;
+      $('.shotlist').click((event) => {
+        if ($('#favMenu').hasClass('show')) {
+          $('#favMenu').removeClass('show');
+        } else {
+          $('#favMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('#domainMenuBtn').click((event) => {
+        if ($('#domainMenu').hasClass('show')) {
+          $('#domainMenu').removeClass('show');
+        } else {
+          $('#domainMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('.dropdown.industry_filter').click(event => {
+        if ($('.industry_drop.cstm_drop').hasClass('show')) {
+          $('.industry_drop.cstm_drop').removeClass('show');
+        } else {
+          $('.industry_drop.cstm_drop').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('.dropdown.extension_filter').click(event => {
+        if ($('.extension_drop.cstm_drop').hasClass('show')) {
+          $('.extension_drop.cstm_drop').removeClass('show');
+        } else {
+          $('.extension_drop.cstm_drop').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('.dropdown.character_filter').click(event => {
+        if ($('.character_drop.cstm_drop').hasClass('show')) {
+          $('.character_drop.cstm_drop').removeClass('show');
+        } else {
+          $('.character_drop.cstm_drop').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $(document).mouseup((event) => {
+        if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
+          $('.industry_drop.cstm_drop').removeClass('show');
+        }
+        event.stopPropagation();
+      });
+
+      $(document).mouseup((event) => {
+        if (!($('.extension_drop.cstm_drop').is(event.target)) && $('.extension_drop.cstm_drop').has(event.target).length === 0) {
+          $('.extension_drop.cstm_drop').removeClass('show');
+        }
+        event.stopPropagation();
+      });
+
+      $(document).mouseup((event) => {
+        if (!($('.character_drop.cstm_drop').is(event.target)) && $('.character_drop.cstm_drop').has(event.target).length === 0) {
+          $('.character_drop.cstm_drop').removeClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('.noUi-origin').first().attr('disabled', 'true');
+    }
   }
 
   getDomainData() {
@@ -235,7 +280,8 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   }
 
   filterByIndustry() {
-    this.industryFilterOpen = false;
+    $('.industry_drop.cstm_drop').removeClass('show');
+    $('.character_drop.cstm_drop').removeClass('show');
     this.industryFilter = this.apiService.industries.filter(industry => industry.checked).map(ind => {
       return ind.id;
     });
@@ -244,8 +290,21 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     });
   }
 
+  resetIndustryFilter() {
+    this.apiService.industries.forEach(industry => {
+      industry.checked = false;
+    });
+    this.industryFilter = this.apiService.industries.filter(industry => industry.checked).map(ind => {
+      return ind.id;
+    });
+  }
+
+  resetCharFilter() {
+    this.sliderValue = [1, 20];
+  }
+
   filterByTld(tldId: number) {
-    this.extensionFilterOpen = false;
+    $('.extension_drop.cstm_drop').removeClass('show');
     this.tldFilterOpts.forEach(tld => {
       tld.checked = false;
     });

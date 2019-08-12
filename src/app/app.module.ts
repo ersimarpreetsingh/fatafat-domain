@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NouisliderModule } from 'ng2-nouislider';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { SaleComponent } from './sale/sale.component';
     AppRoutingModule,
     FormsModule,
     NouisliderModule,
+    InfiniteScrollModule,
   ],
   providers: [Location],
   bootstrap: [AppComponent]

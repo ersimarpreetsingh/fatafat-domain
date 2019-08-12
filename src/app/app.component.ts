@@ -22,5 +22,8 @@ export class AppComponent {
     this.apiService.getIndustries().subscribe(res => {
       this.apiService.industries = res;
     });
+    this.apiService.getSaleCategories().subscribe(res => {
+      this.apiService.saleCategories = res;
+    });
   }
 }

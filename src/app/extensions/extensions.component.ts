@@ -11,6 +11,7 @@ declare var $: any;
   styleUrls: ['./extensions.component.css']
 })
 export class ExtensionsComponent implements OnInit , AfterViewChecked {
+  jqueryBinded = false;
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
@@ -27,9 +28,6 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
 
   ngOnInit() {
     $(document).ready(() => {
-      //   $("#drop_btn").click(function () {
-      //     $("#drop_btn").toggleClass('open');
-      //   });
         $('.shotlist').click((event) => {
           if ($('#favMenu').hasClass('show')) {
             $('#favMenu').removeClass('show');
@@ -72,12 +70,31 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
       this.getDomainData();
     }
     this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res;
+      this.initSaleDomains = res.data;
     });
   }
 
   ngAfterViewChecked() {
-    console.log('oninit code will go here');
+    if (!this.jqueryBinded && this.keyword.length > 0) {
+      this.jqueryBinded = true;
+      console.log('initialized');
+      $('.shotlist').click((event) => {
+        if ($('#favMenu').hasClass('show')) {
+          $('#favMenu').removeClass('show');
+        } else {
+          $('#favMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('#domainMenuBtn').click((event) => {
+        if ($('#domainMenu').hasClass('show')) {
+          $('#domainMenu').removeClass('show');
+        } else {
+          $('#domainMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+    }
   }
 
   getDomainData() {

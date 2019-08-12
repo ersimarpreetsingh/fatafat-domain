@@ -79,7 +79,7 @@ header {
                 box-shadow: #0000001c 4px 1px 23px 1px;
                 border-radius: 10px;
                 display: none;
-                z-index: 11;
+                z-index: 200;
 
                 @media (min-width:375px) {
                     width: 345px;

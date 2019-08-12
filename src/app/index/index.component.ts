@@ -13,6 +13,7 @@ declare var $: any;
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit, AfterViewChecked {
+  jqueryBinded = false;
   domainData: Domain[] = [];
   generatedDomains: GeneratedDomain[] = [];
   saleDomains: SaleDomain[] = [];
@@ -45,41 +46,22 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    // $(document).ready(() => {
-    //   //   $("#drop_btn").click(function () {
-    //   //     $("#drop_btn").toggleClass('open');
-    //   //   });
-    //     $('.shotlist').click((event) => {
-    //       if ($('#favMenu').hasClass('show')) {
-    //         $('#favMenu').removeClass('show');
-    //       } else {
-    //         $('#favMenu').addClass('show');
-    //       }
-    //       event.stopPropagation();
-    //     });
-    //     $('.language-dropdown #drop_btn').click((event) => {
-    //       if ($('.language-dropdown .dropdown').hasClass('show')) {
-    //         $('.language-dropdown .dropdown').removeClass('show');
-    //       } else {
-    //         $('.language-dropdown .dropdown').addClass('show');
-    //       }
-    //       event.stopPropagation();
-    //     });
-    //     $('#domainMenuBtn').click((event) => {
-    //       if ($('#domainMenu').hasClass('show')) {
-    //         $('#domainMenu').removeClass('show');
-    //       } else {
-    //         $('#domainMenu').addClass('show');
-    //       }
-    //       event.stopPropagation();
-    //     });
-    //     $('body').click(() => {
-    //       $('#favMenu').removeClass('show');
-    //       $('.language-dropdown #drop_btn').removeClass('open');
-    //       $('.language-dropdown .dropdown').removeClass('show');
-    //       $('#domainMenu').removeClass('show');
-    //     });
-    //   });
+    $(document).ready(() => {
+      $('.language-dropdown #drop_btn').click((event) => {
+        if ($('.language-dropdown .dropdown').hasClass('show')) {
+          $('.language-dropdown .dropdown').removeClass('show');
+        } else {
+          $('.language-dropdown .dropdown').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('body').click(() => {
+        $('#favMenu').removeClass('show');
+        $('.language-dropdown #drop_btn').removeClass('open');
+        $('.language-dropdown .dropdown').removeClass('show');
+        $('#domainMenu').removeClass('show');
+      });
+    });
 
     this.favDomains = window.localStorage.getItem('favDom')
       ? JSON.parse(window.localStorage.getItem('favDom'))
@@ -92,44 +74,31 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       this.getDomainData();
     }
     this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res;
+      this.initSaleDomains = res.data;
     });
   }
 
   ngAfterViewChecked() {
-    $('.shotlist').click(event => {
-      if ($('#favMenu').hasClass('show')) {
-        $('#favMenu').removeClass('show');
-      } else {
-        $('#favMenu').addClass('show');
-      }
-      event.stopPropagation();
-    });
-    $('.language-dropdown #drop_btn').click(event => {
-      if ($('.language-dropdown .dropdown').hasClass('show')) {
-        $('.language-dropdown .dropdown').removeClass('show');
-      } else {
-        $('.language-dropdown .dropdown').addClass('show');
-      }
-      event.stopPropagation();
-    });
-    $('#domainMenuBtn').click(event => {
-      if ($('#domainMenu').hasClass('show')) {
-        $('#domainMenu').removeClass('show');
-      } else {
-        $('#domainMenu').addClass('show');
-      }
-      event.stopPropagation();
-    });
-    $('body').click(() => {
-      $('#favMenu').removeClass('show');
-      $('.language-dropdown #drop_btn').removeClass('open');
-      $('.language-dropdown .dropdown').removeClass('show');
-      $('#domainMenu').removeClass('show');
-    });
-    this.favDomains = window.localStorage.getItem('favDom')
-      ? JSON.parse(window.localStorage.getItem('favDom'))
-      : [];
+    if (!this.jqueryBinded && this.keyword.length > 0) {
+      this.jqueryBinded = true;
+      console.log('initialized');
+      $('.shotlist').click((event) => {
+        if ($('#favMenu').hasClass('show')) {
+          $('#favMenu').removeClass('show');
+        } else {
+          $('#favMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+      $('#domainMenuBtn').click((event) => {
+        if ($('#domainMenu').hasClass('show')) {
+          $('#domainMenu').removeClass('show');
+        } else {
+          $('#domainMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+    }
   }
 
   getDomainData() {
@@ -183,7 +152,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       this.saleDomainApiSubscription = this.apiService
         .getForSale(this.keyword, true)
         .subscribe(res => {
-          this.saleDomains = res;
+          this.saleDomains = res.data;
           this.saleLoading = false;
         });
     } else {
@@ -201,8 +170,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       currentDomain =
         this.domainData && this.domainData.length > 0
           ? this.domainData.find(
-              domain => domain.tld.toLowerCase() === tld.toLowerCase()
-            )
+            domain => domain.tld.toLowerCase() === tld.toLowerCase()
+          )
           : null;
     }
     return currentDomain ? !currentDomain.avialability : !false;
@@ -260,7 +229,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   addGenToFav(keyword: string, link: string) {
     if (this.generatedDomains && this.generatedDomains.length) {
       const currentDomain: GeneratedDomain = this.generatedDomains.find(
-        domain => (domain.keyword + domain.after + domain.tld ).toLowerCase() === keyword.toLowerCase()
+        domain => (domain.keyword + domain.after + domain.tld).toLowerCase() === keyword.toLowerCase()
       );
       if (
         this.favDomains.findIndex(
@@ -279,17 +248,17 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
   addSaleToFav(keyword: string, link: string) {
-     if (this.saleDomains && this.saleDomains.length) {
-       const currentDomain: SaleDomain = this.saleDomains.find(domain => domain.keyword.toLowerCase() === keyword.toLowerCase());
-       if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword).toLowerCase()) < 0) {
-    this.favDomains.push({
-      keyword,
-      link
-    });
-     }
-       window.localStorage.clear();
-       window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    if (this.saleDomains && this.saleDomains.length) {
+      const currentDomain: SaleDomain = this.saleDomains.find(domain => domain.keyword.toLowerCase() === keyword.toLowerCase());
+      if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword).toLowerCase()) < 0) {
+        this.favDomains.push({
+          keyword,
+          link
+        });
       }
+      window.localStorage.clear();
+      window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+    }
   }
   removeFromFav(keyword: string) {
     this.favDomains = this.favDomains.filter(dom => !(dom.keyword === keyword));
@@ -325,5 +294,18 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         break;
       }
     }
+  }
+
+  registerFavJquery() {
+    $(document).ready(() => {
+      $('.shotlist').click((event) => {
+        if ($('#favMenu').hasClass('show')) {
+          $('#favMenu').removeClass('show');
+        } else {
+          $('#favMenu').addClass('show');
+        }
+        event.stopPropagation();
+      });
+    });
   }
 }

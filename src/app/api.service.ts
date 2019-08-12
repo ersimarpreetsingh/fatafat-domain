@@ -1,4 +1,4 @@
-import { Domain, TldInfo, GeneratedDomain, SaleDomain, Industry } from './modals/api-types';
+import { Domain, TldInfo, GeneratedDomain, SaleDomain, Industry, SaleDomainResult, SaleCategory } from './modals/api-types';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,7 @@ export class ApiService {
   allTldList: TldInfo[] = [];
   tldCats: string[] = [];
   industries: Industry[] = [];
+  saleCategories: SaleCategory[] = [];
   keyword = '';
 
   constructor(public http: HttpClient) { }
@@ -39,15 +40,15 @@ export class ApiService {
     return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword, limit : 102});
   }
 
-  getForSale(keyword: string, limited?: boolean): Observable<SaleDomain[]> {
+  getForSale(keyword: string, limited?: boolean): Observable<SaleDomainResult> {
     if (limited) {
-      return this.http.post<SaleDomain[]>('https://instantdomains.com/api/v1/sale', {keyword: keyword, limit: 34});
+      return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {keyword: keyword, limit: 34});
     }
-    return this.http.post<SaleDomain[]>('https://instantdomains.com/api/v1/sale', {keyword: keyword});
+    return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {keyword: keyword, limit: 15});
   }
 
-  getForSaleInit(limitSearch: number): Observable<SaleDomain[]> {
-    return this.http.post<SaleDomain[]>('https://instantdomains.com/api/v1/sale', {limit: limitSearch});
+  getForSaleInit(limitSearch: number): Observable<SaleDomainResult> {
+    return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {limit: limitSearch});
   }
 
   getComInfo(keywordSearch: string): Observable<Domain> {
@@ -67,6 +68,21 @@ export class ApiService {
      char: char > 0 ? char : 20,
       tld: (tld && tld.length) > 0 ? tld : '.com',
       industry_ids: (industryIds && industryIds.length > 0) ? industryIds.toString() : '1'});
+  }
+
+  getFilterForSale(keyword: string, categories: string, min: number, max: number, lastId: number): Observable<SaleDomainResult> {
+    return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {
+      keyword,
+      limit: 15,
+      categories,
+      min,
+      max,
+      last_id: lastId
+    });
+  }
+
+  getSaleCategories(): Observable<SaleCategory[]> {
+    return this.http.get<SaleCategory[]>('https://instantdomains.com/api/v1/salecategories');
   }
 
 }
