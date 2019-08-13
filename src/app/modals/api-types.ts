@@ -55,3 +55,19 @@ export interface SelectableItem<T> {
     item: T;
     checked: boolean;
 }
+export interface CountryCode {
+as: string;
+city: string;
+country: string;
+countryCode: string;
+isp: string;
+lat: string;
+lon: string;
+org: string;
+query: string;
+region: string;
+regionName: string;
+status: string;
+timezone: string;
+zip: string;
+}

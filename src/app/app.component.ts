@@ -25,5 +25,9 @@ export class AppComponent {
     this.apiService.getSaleCategories().subscribe(res => {
       this.apiService.saleCategories = res;
     });
+    this.apiService.getCountrycode().subscribe(res => { 
+      this.apiService.Countrycode = res;
+     // console.log(this.apiService.Countrycode);
+    });
   }
 }

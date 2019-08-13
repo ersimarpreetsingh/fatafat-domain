@@ -1,4 +1,4 @@
-import { Domain, TldInfo, GeneratedDomain, SaleDomain, Industry, SaleDomainResult, SaleCategory } from './modals/api-types';
+import { Domain, TldInfo, GeneratedDomain, SaleDomain, Industry, SaleDomainResult, SaleCategory , CountryCode } from './modals/api-types';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,7 @@ export class ApiService {
   tldCats: string[] = [];
   industries: Industry[] = [];
   saleCategories: SaleCategory[] = [];
+  Countrycode: CountryCode ;
   keyword = '';
 
   constructor(public http: HttpClient) { }
@@ -28,23 +29,23 @@ export class ApiService {
 
   getDomains(keyword: string, limited?: boolean): Observable<Domain[]> {
     if (limited) {
-      return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', {keyword: keyword, limit: 34});
+      return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', { keyword, limit: 34});
     }
-    return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', {keyword: keyword });
+    return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', { keyword });
   }
 
   getGenerator(keyword: string, limited?: boolean): Observable<GeneratedDomain[]> {
     if (limited) {
-      return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword, limit: 34});
+      return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', { keyword, limit: 34});
     }
-    return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword, limit : 102});
+    return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword, limit : 102});
   }
 
   getForSale(keyword: string, limited?: boolean): Observable<SaleDomainResult> {
     if (limited) {
-      return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {keyword: keyword, limit: 34});
+      return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {keyword, limit: 34});
     }
-    return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {keyword: keyword, limit: 15});
+    return this.http.post<SaleDomainResult>('https://instantdomains.com/api/v1/sale', {keyword, limit: 15});
   }
 
   getForSaleInit(limitSearch: number): Observable<SaleDomainResult> {
@@ -86,6 +87,10 @@ export class ApiService {
   }
   getTldId(ex: string): number {
      return this.allTldList.find(tld => tld.tld === ex).id;
+  }
+
+  getCountrycode(): Observable<CountryCode> {
+    return this.http.get<CountryCode>('http://ip-api.com/json');
   }
 
 }
