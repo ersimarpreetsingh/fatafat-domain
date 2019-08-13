@@ -45,6 +45,8 @@ export class SaleComponent implements OnInit, AfterViewChecked {
         if ($('.language-dropdown .dropdown').hasClass('show')) {
           $('.language-dropdown .dropdown').removeClass('show');
         } else {
+          $('#favMenu').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');          
           $('.language-dropdown .dropdown').addClass('show');
         }
         event.stopPropagation();
@@ -79,22 +81,19 @@ export class SaleComponent implements OnInit, AfterViewChecked {
         if ($('#favMenu').hasClass('show')) {
           $('#favMenu').removeClass('show');
         } else {
+          $('.language-dropdown .dropdown').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');
           $('#favMenu').addClass('show');
         }
         event.stopPropagation();
       });
-      $('#domainMenuBtn').click((event) => {
-        if ($('#domainMenu').hasClass('show')) {
-          $('#domainMenu').removeClass('show');
-        } else {
-          $('#domainMenu').addClass('show');
-        }
-        event.stopPropagation();
-      });
+
       $('.dropdown.industry_filter').click((event) => {
         if ($('.industry_drop.cstm_drop').hasClass('show')) {
           $('.industry_drop.cstm_drop').removeClass('show');
         } else {
+          $('.language-dropdown .dropdown').removeClass('show');
+          $('#favMenu').removeClass('show');
           $('.industry_drop.cstm_drop').addClass('show');
         }
         event.stopPropagation();
@@ -195,7 +194,14 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     });
   }
   resetCategoryfilter() {
+    $('.industry_drop.cstm_drop').removeClass('show');
     this.saleCategories.forEach(cat => cat.checked = false);
+    const categoryFilter: number[] = this.saleCategories.filter(cat => cat.checked).map(cat => cat.item.id);
+    this.apiService.getFilterForSale(this.keyword, categoryFilter.toString(), this.min, this.max, this.lastId).subscribe(res => {
+      this.saleDomains = res.data;
+      this.lastId = res.last_id;
+      this.stopInfiniteScroll = this.lastId === res.total_records;
+    });
   }
   onScrollDown() {
     if (!this.stopInfiniteScroll) {

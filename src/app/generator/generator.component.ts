@@ -54,6 +54,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if ($('.language-dropdown .dropdown').hasClass('show')) {
           $('.language-dropdown .dropdown').removeClass('show');
         } else {
+          $('.extension_drop.cstm_drop').removeClass('show');
+          $('.character_drop.cstm_drop').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');
+          $('#favMenu').removeClass('show');
+          $('#domainMenu').removeClass('show');
           $('.language-dropdown .dropdown').addClass('show');
         }
         event.stopPropagation();
@@ -87,6 +92,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if ($('#favMenu').hasClass('show')) {
           $('#favMenu').removeClass('show');
         } else {
+          $('.extension_drop.cstm_drop').removeClass('show');
+          $('.character_drop.cstm_drop').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');
+          $('#domainMenu').removeClass('show');
+          $('.language-dropdown .dropdown').removeClass('show');
           $('#favMenu').addClass('show');
         }
         event.stopPropagation();
@@ -95,6 +105,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if ($('#domainMenu').hasClass('show')) {
           $('#domainMenu').removeClass('show');
         } else {
+          $('.extension_drop.cstm_drop').removeClass('show');
+          $('.character_drop.cstm_drop').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');
+          $('#favMenu').removeClass('show');
+          $('.language-dropdown .dropdown').removeClass('show');
           $('#domainMenu').addClass('show');
         }
         event.stopPropagation();
@@ -103,6 +118,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if ($('.industry_drop.cstm_drop').hasClass('show')) {
           $('.industry_drop.cstm_drop').removeClass('show');
         } else {
+          $('.extension_drop.cstm_drop').removeClass('show');
+          $('.character_drop.cstm_drop').removeClass('show');
+          $('#favMenu').removeClass('show');
+          $('#domainMenu').removeClass('show');
+          $('.language-dropdown .dropdown').removeClass('show');
           $('.industry_drop.cstm_drop').addClass('show');
         }
         event.stopPropagation();
@@ -111,6 +131,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if ($('.extension_drop.cstm_drop').hasClass('show')) {
           $('.extension_drop.cstm_drop').removeClass('show');
         } else {
+          $('.character_drop.cstm_drop').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');
+          $('#favMenu').removeClass('show');
+          $('#domainMenu').removeClass('show');
+          $('.language-dropdown .dropdown').removeClass('show');
           $('.extension_drop.cstm_drop').addClass('show');
         }
         event.stopPropagation();
@@ -119,25 +144,30 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if ($('.character_drop.cstm_drop').hasClass('show')) {
           $('.character_drop.cstm_drop').removeClass('show');
         } else {
+          $('.extension_drop.cstm_drop').removeClass('show');
+          $('.industry_drop.cstm_drop').removeClass('show');
+          $('#favMenu').removeClass('show');
+          $('#domainMenu').removeClass('show');
+          $('.language-dropdown .dropdown').removeClass('show');
           $('.character_drop.cstm_drop').addClass('show');
         }
         event.stopPropagation();
       });
-      $('body').click((event) => {
+      $(document).mouseup((event) => {
         if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
           $('.industry_drop.cstm_drop').removeClass('show');
         }
         event.stopPropagation();
       });
 
-      $('body').click((event) => {
+      $(document).mouseup((event) => {
         if (!($('.extension_drop.cstm_drop').is(event.target)) && $('.extension_drop.cstm_drop').has(event.target).length === 0) {
           $('.extension_drop.cstm_drop').removeClass('show');
         }
         event.stopPropagation();
       });
 
-      $('body').click((event) => {
+      $(document).mouseup((event) => {
         if (!($('.character_drop.cstm_drop').is(event.target)) && $('.character_drop.cstm_drop').has(event.target).length === 0) {
           $('.character_drop.cstm_drop').removeClass('show');
         }
@@ -173,7 +203,6 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   }
 
   clearKeyword() {
-    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     this.location.replaceState('generator');
@@ -298,14 +327,10 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     this.industryFilter = this.apiService.industries.filter(industry => industry.checked).map(ind => {
       return ind.id;
     });
-    $('.industry_drop').removeClass('show');
-    this.filterByIndustry();
   }
 
   resetCharFilter() {
     this.sliderValue = [1, 20];
-    $('.character_drop').removeClass('show');
-    this.filterByIndustry();
   }
 
   filterByTld(tldId: number) {

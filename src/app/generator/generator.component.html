@@ -43,9 +43,9 @@
         <div *ngIf="favDomains.length > 0" id="favMenu" class="list">
           <ul>
             <li *ngFor="let favDom of favDomains">
-              <div class="domain-name">
+              <a href="{{ favDom.link }}" target="_blank" class="domain-name">
                 {{ favDom.keyword }}
-              </div>
+              </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
                 <img src="assets/images/cross.png" alt="" />
               </div>

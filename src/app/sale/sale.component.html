@@ -47,9 +47,9 @@
         >
           <ul>
             <li *ngFor="let favDom of favDomains">
-              <div class="domain-name">
+              <a href="{{ favDom.link }}" target="_blank" class="domain-name">
                 {{ favDom.keyword }}
-              </div>
+              </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
                 <img src="assets/images/cross.png" alt="" />
               </div>
@@ -131,9 +131,9 @@
                     </div>
                 </li>
             </ul>
-            <div class="loader" *ngIf="stopInfiniteScroll" >
+            <!-- <div class="loader" *ngIf="stopInfiniteScroll" >
                 <img src="assets/images/loader.svg" alt="">
-            </div>
+            </div> -->
         </div>
     </div>
 

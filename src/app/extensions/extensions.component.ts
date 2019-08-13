@@ -1,5 +1,5 @@
 import { ApiService } from './../api.service';
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ɵConsole } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
@@ -10,7 +10,7 @@ declare var $: any;
   templateUrl: './extensions.component.html',
   styleUrls: ['./extensions.component.css']
 })
-export class ExtensionsComponent implements OnInit , AfterViewChecked {
+export class ExtensionsComponent implements OnInit, AfterViewChecked {
   jqueryBinded = false;
   public keyword = '';
   showFavMenu = false;
@@ -28,37 +28,22 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
 
   ngOnInit() {
     $(document).ready(() => {
-        // $('.shotlist').click((event) => {
-        //   if ($('#favMenu').hasClass('show')) {
-        //     $('#favMenu').removeClass('show');
-        //   } else {
-        //     $('#favMenu').addClass('show');
-        //   }
-        //   event.stopPropagation();
-        // });
-        $('.language-dropdown #drop_btn').click((event) => {
-          if ($('.language-dropdown .dropdown').hasClass('show')) {
-            $('.language-dropdown .dropdown').removeClass('show');
-          } else {
-            $('.language-dropdown .dropdown').addClass('show');
-          }
-          event.stopPropagation();
-        });
-        // $('#domainMenuBtn').click((event) => {
-        //   if ($('#domainMenu').hasClass('show')) {
-        //     $('#domainMenu').removeClass('show');
-        //   } else {
-        //     $('#domainMenu').addClass('show');
-        //   }
-        //   event.stopPropagation();
-        // });
-        $('body').click(() => {
-          $('#favMenu').removeClass('show');
-          $('.language-dropdown #drop_btn').removeClass('open');
+      $('.language-dropdown #drop_btn').unbind();
+      $('.language-dropdown #drop_btn').click((event) => {
+        if ($('.language-dropdown .dropdown').hasClass('show')) {
           $('.language-dropdown .dropdown').removeClass('show');
-          $('#domainMenu').removeClass('show');
-        });
+        } else {
+          $('.language-dropdown .dropdown').addClass('show');
+          $('#favMenu').removeClass('show');
+        }
+        event.stopPropagation();
       });
+      $('body').click(() => {
+        $('#favMenu').removeClass('show');
+        $('.language-dropdown #drop_btn').removeClass('open');
+        $('.language-dropdown .dropdown').removeClass('show');
+      });
+    });
 
 
     this.favDomains = window.localStorage.getItem('favDom') ? JSON.parse(window.localStorage.getItem('favDom')) : [];
@@ -82,15 +67,8 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
         if ($('#favMenu').hasClass('show')) {
           $('#favMenu').removeClass('show');
         } else {
+          $('.language-dropdown .dropdown').removeClass('show');
           $('#favMenu').addClass('show');
-        }
-        event.stopPropagation();
-      });
-      $('#domainMenuBtn').click((event) => {
-        if ($('#domainMenu').hasClass('show')) {
-          $('#domainMenu').removeClass('show');
-        } else {
-          $('#domainMenu').addClass('show');
         }
         event.stopPropagation();
       });
@@ -108,9 +86,9 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
         this.domainData = res;
         this.domainData.forEach(data => {
           data.link = data.avialability ?
-          `${this.apiService.truelink}${data.keyword}${data.tld}` :
-           `${this.apiService.falselink}${data.keyword}${data.tld}` ;
-         });
+            `${this.apiService.truelink}${data.keyword}${data.tld}` :
+            `${this.apiService.falselink}${data.keyword}${data.tld}`;
+        });
         this.loading = false;
         this.location.replaceState(`extensions?search=${this.keyword}`);
       });
@@ -119,7 +97,7 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
       this.loading = false;
       this.location.replaceState(`extensions`);
     }
-   }
+  }
 
   clearKeyword() {
     this.jqueryBinded = false;
@@ -136,8 +114,8 @@ export class ExtensionsComponent implements OnInit , AfterViewChecked {
     let currentDomain: Domain;
     if (this.domainData && this.domainData.length) {
       currentDomain = (this.domainData && this.domainData.length > 0) ?
-      this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()) :
-      null;
+        this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()) :
+        null;
     }
     return currentDomain ? !currentDomain.avialability : !false;
   }

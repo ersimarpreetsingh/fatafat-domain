@@ -47,10 +47,13 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     $(document).ready(() => {
+      $('.language-dropdown #drop_btn').unbind();
       $('.language-dropdown #drop_btn').click((event) => {
         if ($('.language-dropdown .dropdown').hasClass('show')) {
           $('.language-dropdown .dropdown').removeClass('show');
         } else {
+          $('#domainMenu').removeClass('show');
+          $('#favMenu').removeClass('show');
           $('.language-dropdown .dropdown').addClass('show');
         }
         event.stopPropagation();
@@ -64,8 +67,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     });
 
     this.favDomains = window.localStorage.getItem('favDom')
-      ? JSON.parse(window.localStorage.getItem('favDom'))
-      : [];
+    ? JSON.parse(window.localStorage.getItem('favDom'))
+    : [];
     if (window.location.href.split('=').length > 1) {
       this.keyword = window.location.href.split('=')[1];
       this.getDomainData();
@@ -86,6 +89,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         if ($('#favMenu').hasClass('show')) {
           $('#favMenu').removeClass('show');
         } else {
+          $('.language-dropdown .dropdown').removeClass('show');
+          $('#domainMenu').removeClass('show');
           $('#favMenu').addClass('show');
         }
         event.stopPropagation();
@@ -94,6 +99,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         if ($('#domainMenu').hasClass('show')) {
           $('#domainMenu').removeClass('show');
         } else {
+          $('.language-dropdown .dropdown').removeClass('show');
+          $('#favMenu').removeClass('show');
           $('#domainMenu').addClass('show');
         }
         event.stopPropagation();
