@@ -21,7 +21,6 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
   genDomainApiSubscription: Subscription;
 
   loading = false;
-
   constructor(public apiService: ApiService, private location: Location) {
     this.keyword = apiService.keyword;
   }

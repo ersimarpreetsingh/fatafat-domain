@@ -34,18 +34,54 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   tldFilter = '';
   charFilter: number;
 
-  tldFilterOpts: SelectableItem<TldInfo>[];
+  tldFilterOpts: SelectableItem<string>[];
+  extarray = [
+    '.com',
+    '.net',
+    '.org',
+    '.co',
+    '.app',
+    '.info',
+    '.biz',
+    '.co.uk',
+    '.com.au',
+    '.nz',
+    '.eu',
+    '.ae',
+    '.cz',
+    '.nl',
+    '.fi',
+    '.fr',
+    '.de',
+    '.gr',
+    '.in',
+    '.hu',
+    '.id',
+    '.jp',
+    '.it',
+    '.kr',
+    '.cn',
+    '.no',
+    '.pl',
+    '.pt',
+    '.ro',
+    '.ru',
+    '.es',
+    '.se',
+    '.th',
+    '.tr',
+    '.vn'];
 
   constructor(public apiService: ApiService, private location: Location) {
     this.keyword = apiService.keyword;
     setTimeout(() => {
-      this.tldFilterOpts = this.apiService.tldList.map(tld => {
+    this.tldFilterOpts = this.extarray.map(tld => {
         return {
           item: tld,
           checked: false
         };
       });
-    }, 2000);
+    }, 3000);
   }
 
   ngOnInit() {
@@ -333,13 +369,13 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     this.sliderValue = [1, 20];
   }
 
-  filterByTld(tldId: number) {
+  filterByTld(tldStr: string) {
     $('.extension_drop.cstm_drop').removeClass('show');
     this.tldFilterOpts.forEach(tld => {
       tld.checked = false;
     });
-    this.tldFilterOpts.find(tld => tld.item.id === tldId).checked = true;
-    this.tldFilter = this.tldFilterOpts.find(tld => tld.checked).item.tld;
+    this.tldFilterOpts.find(tld => tld.item === tldStr).checked = true;
+    this.tldFilter = this.tldFilterOpts.find(tld => tld.checked).item;
     this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
       this.generatedDomains = res;
     });

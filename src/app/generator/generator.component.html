@@ -127,11 +127,11 @@
                 data-index=""
                 type="checkbox"
                 [(ngModel)]="tld.checked"
-                (click)="filterByTld(tld.item.id)"
+                (click)="filterByTld(tld.item)"
               />
               <label
-              (click)="filterByTld(tld.item.id)"
-                >{{ tld.item.tld }}
+              (click)="filterByTld(tld.item)"
+                >{{ tld.item }}
                 <span class="checkmark"></span>
               </label>
             </li>

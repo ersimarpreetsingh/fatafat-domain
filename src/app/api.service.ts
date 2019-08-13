@@ -64,7 +64,7 @@ export class ApiService {
   }
 
   getFilteredGenerator(keyword: string, industryIds?: number[], tld?: string, char?: number ): Observable<GeneratedDomain[]> {
-    return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword: keyword,
+    return this.http.post<GeneratedDomain[]>('https://instantdomains.com/api/v1/genrate', {keyword,
      char: char > 0 ? char : 20,
       tld: (tld && tld.length) > 0 ? tld : '.com',
       industry_ids: (industryIds && industryIds.length > 0) ? industryIds.toString() : '1'});
@@ -83,6 +83,9 @@ export class ApiService {
 
   getSaleCategories(): Observable<SaleCategory[]> {
     return this.http.get<SaleCategory[]>('https://instantdomains.com/api/v1/salecategories');
+  }
+  getTldId(ex: string): number {
+     return this.allTldList.find(tld => tld.tld === ex).id;
   }
 
 }
