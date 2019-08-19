@@ -4,7 +4,7 @@
 >
   <div class="container">
     <h1 *ngIf="keyword?.length < 1" class="title">
-      Instant Domain Name Search
+        {{ apiService.currentTranslation?.data.h1 }}
     </h1>
     <!-- <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6> -->
     <form action="">
@@ -56,10 +56,10 @@
     </form>
     <div class="search_selector">
       <ul class="d-flex">
-        <li><a routerLink="/">All</a></li>
-        <li><a class="active" routerLink="/extensions">Extensions</a></li>
-        <li><a routerLink="/generator">Generator</a></li>
-        <li><a routerLink="/sale">For Sale</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>
+        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -74,7 +74,7 @@
                     <ul class="d-flex">
                         <li [ngClass]="{'avail': isAvail(tld.tld), 'not-avail': !isAvail(tld.tld)}" *ngFor="let tld of filterTldList(cat)" >
                           <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank">{{ tld.tld }}
-                            <span *ngIf="isAvail(tld.tld)" class="tag">BUY</span>
+                            <span *ngIf="isAvail(tld.tld)" class="tag">{{ apiService.currentTranslation?.data.buy }}</span>
                             <span *ngIf="!isAvail(tld.tld)" class="tag">WHOIS</span>
                           </a>
                         </li>
@@ -88,11 +88,9 @@
 
 <div *ngIf="keyword?.length < 1" class="domains">
   <div class="container">
-    <h2>Premium Names</h2>
+    <h2>{{ apiService.currentTranslation?.data.primium_h2 }}</h2>
     <p>
-      Serious about your business name? Get a premium business name from
-      Domainify <br />branding experts. Logo, domain and transfer within 24
-      hours included.
+        {{ apiService.currentTranslation?.data.serious_about_h3 }}
     </p>
     <ul class="d-flex" *ngIf="initSaleDomains.length > 0">
       <li *ngFor="let domain of initSaleDomains">
@@ -114,7 +112,7 @@
       </li>
     </ul>
     <div class="more_btn">
-      <a href="#">View More</a>
+      <a href="#">{{ apiService.currentTranslation?.data.view_more }}</a>
     </div>
   </div>
 </div>

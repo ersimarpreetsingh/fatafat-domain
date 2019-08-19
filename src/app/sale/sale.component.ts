@@ -4,6 +4,7 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 @Component({
@@ -27,7 +28,7 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   stopInfiniteScroll = false;
 
 
-  constructor(public apiService: ApiService, private location: Location) {
+  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute) {
     this.keyword = apiService.keyword;
     setTimeout(() => {
       this.apiService.saleCategories.forEach(saleCat => {
@@ -40,17 +41,31 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.apiService.translatingVar = this.activatedRoute.snapshot.url[0] &&
+    this.activatedRoute.snapshot.url[0].path && this.activatedRoute.snapshot.url[0].path.length > 0
+    ? ((this.activatedRoute.snapshot.url[0].path !== 'sale'
+    && this.activatedRoute.snapshot.url[0].path !== 'generator'
+    && this.activatedRoute.snapshot.url[0].path !== 'extensions')
+    ? this.activatedRoute.snapshot.url[0].path
+    : 'en')
+    : 'en';
+    window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
+    this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
     $(document).ready(() => {
-      $('.language-dropdown #drop_btn').click((event) => {
-        if ($('.language-dropdown .dropdown').hasClass('show')) {
-          $('.language-dropdown .dropdown').removeClass('show');
-        } else {
-          $('#favMenu').removeClass('show');
-          $('.industry_drop.cstm_drop').removeClass('show');          
-          $('.language-dropdown .dropdown').addClass('show');
-        }
-        event.stopPropagation();
-      });
+      $('header').removeClass('home');
+      if (!($('app-root div').first().hasClass('results-page'))) {
+        $('app-root div').first().addClass('results-page');
+      }
+      // $('.language-dropdown #drop_btn').click((event) => {
+      //   if ($('.language-dropdown .dropdown').hasClass('show')) {
+      //     $('.language-dropdown .dropdown').removeClass('show');
+      //   } else {
+      //     $('#favMenu').removeClass('show');
+      //     $('.industry_drop.cstm_drop').removeClass('show');
+      //     $('.language-dropdown .dropdown').addClass('show');
+      //   }
+      //   event.stopPropagation();
+      // });
       $('body').click(() => {
         $('#favMenu').removeClass('show');
         $('.language-dropdown #drop_btn').removeClass('open');
@@ -68,42 +83,44 @@ export class SaleComponent implements OnInit, AfterViewChecked {
       this.keyword = this.apiService.keyword;
       this.getDomainData();
     }
-    this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res.data;
+    this.apiService.getFilterForSale(this.keyword, '', this.min, this.max, this.lastId).subscribe(res => {
+      this.saleDomains = res.data;
     });
   }
 
   ngAfterViewChecked() {
-    if (!this.jqueryBinded && this.keyword.length > 0) {
+    if (!this.jqueryBinded) {
       this.jqueryBinded = true;
       console.log('initialized');
-      $('.shotlist').click((event) => {
-        if ($('#favMenu').hasClass('show')) {
-          $('#favMenu').removeClass('show');
-        } else {
-          $('.language-dropdown .dropdown').removeClass('show');
-          $('.industry_drop.cstm_drop').removeClass('show');
-          $('#favMenu').addClass('show');
-        }
-        event.stopPropagation();
-      });
+      setTimeout(() => {
+        $('.shotlist').click((event) => {
+          if ($('#favMenu').hasClass('show')) {
+            $('#favMenu').removeClass('show');
+          } else {
+            $('.language-dropdown .dropdown').removeClass('show');
+            $('.industry_drop.cstm_drop').removeClass('show');
+            $('#favMenu').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('.dropdown.industry_filter').click((event) => {
+          if ($('.industry_drop.cstm_drop').hasClass('show')) {
+            $('.industry_drop.cstm_drop').removeClass('show');
+          } else {
+            $('.language-dropdown .dropdown').removeClass('show');
+            $('#favMenu').removeClass('show');
+            $('.industry_drop.cstm_drop').addClass('show');
+          }
+          event.stopPropagation();
+        });
+        $('body').click((event) => {
+          if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
+            $('.industry_drop.cstm_drop').removeClass('show');
+          }
+          event.stopPropagation();
+        });
+      }, 2000);
 
-      $('.dropdown.industry_filter').click((event) => {
-        if ($('.industry_drop.cstm_drop').hasClass('show')) {
-          $('.industry_drop.cstm_drop').removeClass('show');
-        } else {
-          $('.language-dropdown .dropdown').removeClass('show');
-          $('#favMenu').removeClass('show');
-          $('.industry_drop.cstm_drop').addClass('show');
-        }
-        event.stopPropagation();
-      });
-      $('body').click((event) => {
-        if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
-          $('.industry_drop.cstm_drop').removeClass('show');
-        }
-        event.stopPropagation();
-      });
     }
   }
 
@@ -118,15 +135,21 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     if (this.keyword && this.keyword.length > 0) {
       this.saleDomainApiSubscription = this.apiService.getFilterForSale(this.keyword, null, null, null, this.lastId).subscribe(res => {
         this.saleDomains = res.data;
-        this.lastId = res.last_id;
         this.saleLoading = false;
-        this.stopInfiniteScroll = this.lastId === res.total_records;
-        this.location.replaceState(`sale?search=${this.keyword}`);
+        if (this.apiService.translatingVar === 'en') {
+          this.location.replaceState(`sale?search=${this.keyword}`);
+        } else {
+          this.location.replaceState(`${this.apiService.translatingVar}/sale?search=${this.keyword}`);
+        }
       });
     } else {
       this.saleLoading = false;
       this.saleDomains = [];
-      this.location.replaceState('sale');
+      if (this.apiService.translatingVar === 'en') {
+        this.location.replaceState(`sale`);
+      } else {
+        this.location.replaceState(`${this.apiService.translatingVar}/sale`);
+      }
     }
   }
 
@@ -137,7 +160,11 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     this.saleDomains = [];
     this.lastId = 0;
     this.stopInfiniteScroll = false;
-    this.location.replaceState('generator');
+    if (this.apiService.translatingVar === 'en') {
+      this.location.replaceState(`sale`);
+    } else {
+      this.location.replaceState(`${this.apiService.translatingVar}/sale`);
+    }
   }
 
   toggleFavMenu() {
@@ -189,8 +216,6 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     $('.industry_drop.cstm_drop').removeClass('show');
     this.apiService.getFilterForSale(this.keyword, categoryFilter.toString(), this.min, this.max, this.lastId).subscribe(res => {
       this.saleDomains = res.data;
-      this.lastId = res.last_id;
-      this.stopInfiniteScroll = this.lastId === res.total_records;
     });
   }
   resetCategoryfilter() {
@@ -199,17 +224,14 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     const categoryFilter: number[] = this.saleCategories.filter(cat => cat.checked).map(cat => cat.item.id);
     this.apiService.getFilterForSale(this.keyword, categoryFilter.toString(), this.min, this.max, this.lastId).subscribe(res => {
       this.saleDomains = res.data;
-      this.lastId = res.last_id;
-      this.stopInfiniteScroll = this.lastId === res.total_records;
     });
   }
   onScrollDown() {
+    this.lastId++;
     if (!this.stopInfiniteScroll) {
       const categoryFilter: number[] = this.saleCategories.filter(cat => cat.checked).map(cat => cat.item.id);
       this.apiService.getFilterForSale(this.keyword, categoryFilter.toString(), this.min, this.max, this.lastId).subscribe(res => {
         this.saleDomains = [...this.saleDomains, ...res.data];
-        this.lastId = res.last_id;
-        this.stopInfiniteScroll = this.lastId === res.total_records;
       });
     }
   }

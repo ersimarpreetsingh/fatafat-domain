@@ -46,18 +46,18 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.apiService.translatingVar = this.activatedRoute.snapshot.url[0] &&
+    this.activatedRoute.snapshot.url[0].path && this.activatedRoute.snapshot.url[0].path.length > 0
+    ? this.activatedRoute.snapshot.url[0].path
+    : 'en';
+    window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
+    this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
     $(document).ready(() => {
-      $('.language-dropdown #drop_btn').unbind();
-      $('.language-dropdown #drop_btn').click((event) => {
-        if ($('.language-dropdown .dropdown').hasClass('show')) {
-          $('.language-dropdown .dropdown').removeClass('show');
-        } else {
-          $('#domainMenu').removeClass('show');
-          $('#favMenu').removeClass('show');
-          $('.language-dropdown .dropdown').addClass('show');
-        }
-        event.stopPropagation();
-      });
+      $('app-root div').first().removeClass('results-page');
+      if (!($('header').hasClass('home'))) {
+        $('header').addClass('home');
+      }
+
       $('body').click(() => {
         $('#favMenu').removeClass('show');
         $('.language-dropdown #drop_btn').removeClass('open');
@@ -145,7 +145,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
               : `${this.apiService.falselink}${data.keyword}${data.tld}`;
           });
           this.loading = false;
-          this.location.replaceState(`/?search=${this.keyword}`);
+          if (this.apiService.translatingVar === 'en') {
+            this.location.replaceState(`/?search=${this.keyword}`);
+          } else {
+            this.location.replaceState(`/${this.apiService.translatingVar}?search=${this.keyword}`);
+          }
         });
       this.genDomainApiSubscription = this.apiService
         .getGenerator(this.keyword, true)
@@ -169,7 +173,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       this.generatedDomains = [];
       this.loading = false;
       this.genLoading = false;
-      this.location.replaceState(`/`);
+      if (this.apiService.translatingVar === 'en') {
+        this.location.replaceState(`/`);
+      } else {
+        this.location.replaceState(`/${this.apiService.translatingVar}`);
+      }
     }
   }
 
@@ -205,7 +213,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
-    this.location.replaceState('/');
+    if (this.apiService.translatingVar === 'en') {
+      this.location.replaceState(`/`);
+    } else {
+      this.location.replaceState(`/${this.apiService.translatingVar}`);
+    }
   }
   toggleDomainMenu() {
     this.showDomainMenu = !this.showDomainMenu;

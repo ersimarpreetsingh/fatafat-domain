@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ExtensionsComponent } from './extensions/extensions.component';
 import { GeneratorComponent } from './generator/generator.component';
 import { SaleComponent } from './sale/sale.component';
+import { SitemapComponent } from './sitemap/sitemap.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SaleComponent } from './sale/sale.component';
     ExtensionsComponent,
     GeneratorComponent,
     SaleComponent,
+    SitemapComponent,
   ],
   imports: [
     BrowserModule,

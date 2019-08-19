@@ -1,8 +1,9 @@
 import { ApiService } from './../api.service';
-import { Component, OnInit, AfterViewChecked, ɵConsole } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 @Component({
@@ -21,22 +22,44 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
   genDomainApiSubscription: Subscription;
 
   loading = false;
-  constructor(public apiService: ApiService, private location: Location) {
+  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute) {
     this.keyword = apiService.keyword;
+    if (this.apiService.allTldList && this.apiService.allTldList.length < 1) {
+      this.apiService.getTldList(false).subscribe(res => {
+        this.apiService.allTldList = res;
+        this.apiService.getTldCats().subscribe(resp => {
+          this.apiService.tldCats = resp;
+        });
+      });
+    }
   }
 
   ngOnInit() {
+    this.apiService.translatingVar = this.activatedRoute.snapshot.url[0] &&
+    this.activatedRoute.snapshot.url[0].path && this.activatedRoute.snapshot.url[0].path.length > 0
+    ? ((this.activatedRoute.snapshot.url[0].path !== 'sale'
+    && this.activatedRoute.snapshot.url[0].path !== 'generator'
+    && this.activatedRoute.snapshot.url[0].path !== 'extensions')
+    ? this.activatedRoute.snapshot.url[0].path
+    : 'en')
+    : 'en';
+    window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
+    this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
     $(document).ready(() => {
-      $('.language-dropdown #drop_btn').unbind();
-      $('.language-dropdown #drop_btn').click((event) => {
-        if ($('.language-dropdown .dropdown').hasClass('show')) {
-          $('.language-dropdown .dropdown').removeClass('show');
-        } else {
-          $('.language-dropdown .dropdown').addClass('show');
-          $('#favMenu').removeClass('show');
-        }
-        event.stopPropagation();
-      });
+      $('app-root div').first().removeClass('results-page');
+      if (!($('header').hasClass('home'))) {
+        $('header').addClass('home');
+      }
+      // $('.language-dropdown #drop_btn').unbind();
+      // $('.language-dropdown #drop_btn').click((event) => {
+      //   if ($('.language-dropdown .dropdown').hasClass('show')) {
+      //     $('.language-dropdown .dropdown').removeClass('show');
+      //   } else {
+      //     $('.language-dropdown .dropdown').addClass('show');
+      //     $('#favMenu').removeClass('show');
+      //   }
+      //   event.stopPropagation();
+      // });
       $('body').click(() => {
         $('#favMenu').removeClass('show');
         $('.language-dropdown #drop_btn').removeClass('open');
@@ -89,12 +112,20 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
             `${this.apiService.falselink}${data.keyword}${data.tld}`;
         });
         this.loading = false;
-        this.location.replaceState(`extensions?search=${this.keyword}`);
+        if (this.apiService.translatingVar === 'en') {
+          this.location.replaceState(`extensions?search=${this.keyword}`);
+        } else {
+          this.location.replaceState(`${this.apiService.translatingVar}/extensions?search=${this.keyword}`);
+        }
       });
     } else {
       this.domainData = [];
       this.loading = false;
-      this.location.replaceState(`extensions`);
+      if (this.apiService.translatingVar === 'en') {
+        this.location.replaceState(`extensions`);
+      } else {
+        this.location.replaceState(`${this.apiService.translatingVar}/extensions`);
+      }
     }
   }
 
@@ -102,7 +133,11 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
     this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
-    this.location.replaceState('generator');
+    if (this.apiService.translatingVar === 'en') {
+      this.location.replaceState(`extensions`);
+    } else {
+      this.location.replaceState(`${this.apiService.translatingVar}/extensions`);
+    }
   }
 
   toggleFavMenu() {

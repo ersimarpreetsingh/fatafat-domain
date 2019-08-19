@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { SaleDomain, FavDomain, GeneratedDomain } from '../modals/api-types';
 import { Location } from '@angular/common';
 import { NouisliderModule } from 'ng2-nouislider';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -72,7 +73,7 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     '.tr',
     '.vn'];
 
-  constructor(public apiService: ApiService, private location: Location) {
+  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute) {
     this.keyword = apiService.keyword;
     setTimeout(() => {
     this.tldFilterOpts = this.extarray.map(tld => {
@@ -85,20 +86,21 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   }
 
   ngOnInit() {
+    this.apiService.translatingVar = this.activatedRoute.snapshot.url[0] &&
+    this.activatedRoute.snapshot.url[0].path && this.activatedRoute.snapshot.url[0].path.length > 0
+    ? ((this.activatedRoute.snapshot.url[0].path !== 'sale'
+    && this.activatedRoute.snapshot.url[0].path !== 'generator'
+    && this.activatedRoute.snapshot.url[0].path !== 'extensions')
+    ? this.activatedRoute.snapshot.url[0].path
+    : 'en')
+    : 'en';
+    window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
+    this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
     $(document).ready(() => {
-      $('.language-dropdown #drop_btn').click((event) => {
-        if ($('.language-dropdown .dropdown').hasClass('show')) {
-          $('.language-dropdown .dropdown').removeClass('show');
-        } else {
-          $('.extension_drop.cstm_drop').removeClass('show');
-          $('.character_drop.cstm_drop').removeClass('show');
-          $('.industry_drop.cstm_drop').removeClass('show');
-          $('#favMenu').removeClass('show');
-          $('#domainMenu').removeClass('show');
-          $('.language-dropdown .dropdown').addClass('show');
-        }
-        event.stopPropagation();
-      });
+      $('app-root div').first().removeClass('results-page');
+      if (!($('header').hasClass('home'))) {
+        $('header').addClass('home');
+      }
       $('body').click(() => {
         $('#favMenu').removeClass('show');
         $('.language-dropdown #drop_btn').removeClass('open');
@@ -189,21 +191,21 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         }
         event.stopPropagation();
       });
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.industry_drop.cstm_drop').is(event.target)) && $('.industry_drop.cstm_drop').has(event.target).length === 0) {
           $('.industry_drop.cstm_drop').removeClass('show');
         }
         event.stopPropagation();
       });
 
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.extension_drop.cstm_drop').is(event.target)) && $('.extension_drop.cstm_drop').has(event.target).length === 0) {
           $('.extension_drop.cstm_drop').removeClass('show');
         }
         event.stopPropagation();
       });
 
-      $(document).mouseup((event) => {
+      $('body').click((event) => {
         if (!($('.character_drop.cstm_drop').is(event.target)) && $('.character_drop.cstm_drop').has(event.target).length === 0) {
           $('.character_drop.cstm_drop').removeClass('show');
         }
@@ -229,19 +231,32 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
             `${this.apiService.falselink}${data.keyword}${data.tld}`;
         });
         this.genLoading = false;
-        this.location.replaceState(`generator?search=${this.keyword}`);
+        if (this.apiService.translatingVar === 'en') {
+          this.location.replaceState(`generator?search=${this.keyword}`);
+        } else {
+          this.location.replaceState(`${this.apiService.translatingVar}/generator?search=${this.keyword}`);
+        }
       });
     } else {
       this.genLoading = false;
       this.generatedDomains = [];
-      this.location.replaceState('generator');
+      if (this.apiService.translatingVar === 'en') {
+        this.location.replaceState(`generator`);
+      } else {
+        this.location.replaceState(`${this.apiService.translatingVar}/generator`);
+      }
     }
   }
 
   clearKeyword() {
+    this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
-    this.location.replaceState('generator');
+    if (this.apiService.translatingVar === 'en') {
+      this.location.replaceState(`generator`);
+    } else {
+      this.location.replaceState(`${this.apiService.translatingVar}/generator`);
+    }
   }
 
   toggleFavMenu() {

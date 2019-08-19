@@ -56,18 +56,55 @@ export interface SelectableItem<T> {
     checked: boolean;
 }
 export interface CountryCode {
-as: string;
-city: string;
-country: string;
-countryCode: string;
-isp: string;
-lat: string;
-lon: string;
-org: string;
-query: string;
-region: string;
-regionName: string;
-status: string;
-timezone: string;
-zip: string;
+    as: string;
+    city: string;
+    country: string;
+    countryCode: string;
+    isp: string;
+    lat: string;
+    lon: string;
+    org: string;
+    query: string;
+    region: string;
+    regionName: string;
+    status: string;
+    timezone: string;
+    zip: string;
+}
+
+export interface TranslationData {
+    url: string;
+    native_name: string;
+    h1: string;
+    primium_h2: string;
+    serious_about_h3: string;
+    all: string;
+    extension: string;
+    generator: string;
+    for_sale: string;
+    view_more: string;
+    see_all: string;
+    buy: string;
+    expired: string;
+    visit_site: string;
+    appraise: string;
+    google_search: string;
+    wayback_machine: string;
+    choose_your_language: string;
+    category: string;
+    min: string;
+    max: string;
+    apply: string;
+    select_filter: string;
+    popular: string;
+    featured: string;
+    select_an_industry: string;
+    industry_filter: string;
+    character: string;
+}
+
+export interface Translation {
+    lang: string;
+    code: string;
+    data: TranslationData;
 }

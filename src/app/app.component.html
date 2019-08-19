@@ -8,39 +8,14 @@
         </a>
         <div class="language-dropdown">
           <button id="drop_btn" type="button">
-            English <img src="assets/images/bottom_arrow.png" alt="" />
+            {{ getActiveLanguage() }} <img src="assets/images/bottom_arrow.png" alt="" />
           </button>
           <div class="dropdown">
             <h3>Choose your language</h3>
             <ul>
-              <li><a href="#">Afrikaans</a></li>
-              <li><a href="#">Albanian</a></li>
-              <li><a href="#">Amharic</a></li>
-              <li><a href="#">Arabic</a></li>
-              <li><a href="#">Armenian</a></li>
-              <li><a href="#">Azerbaijani</a></li>
-              <li><a href="#">Basque</a></li>
-              <li><a href="#">Dutch</a></li>
-              <li><a class="active" href="#">English</a></li>
-              <li><a href="#">Esperanto</a></li>
-              <li><a href="#">Estonian</a></li>
-              <li><a href="#">Filipino</a></li>
-              <li><a href="#">French</a></li>
-              <li><a href="#">Frisian</a></li>
-              <li><a href="#">Galician</a></li>
-              <li><a href="#">Georgian</a></li>
-              <li><a href="#">German</a></li>
-              <li><a href="#">Greek</a></li>
-              <li><a href="#">Hebrew</a></li>
-              <li><a href="#">Hindi</a></li>
-              <li><a href="#">Hmong</a></li>
-              <li><a href="#">Hungarian</a></li>
-              <li><a href="#">Icelandic</a></li>
-              <li><a href="#">Igbo</a></li>
-              <li><a href="#">Indonesian</a></li>
-              <li><a href="#">Romanian</a></li>
-              <li><a href="#">Russian</a></li>
-              <li><a href="#">Samoan</a></li>
+              <li *ngFor="let trans of apiService.translations" >
+                <a [ngClass]="{'active': apiService?.translatingVar === trans?.code}" (click)="updateTranslations(trans?.code)" routerLink="/{{trans.code}}">{{ trans?.data?.native_name }}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -53,7 +28,7 @@
       <div class="copyright">
         <span class="copy">Copyright &#169; <a href="#">Instantdomains.com. </a></span>
         <a href="#">Terms & Conditions. </a> <a href="#">Privacy Policy. </a>
-        <a href="#">Sitemap. </a><a href="#">Contact</a>
+        <a routerLink="/sitemap/.">Sitemap. </a><a herf="#">Contact</a>
       </div>
     </div>
   </footer>

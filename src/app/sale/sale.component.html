@@ -1,10 +1,10 @@
 <div
   class="search_bar home"
-  [ngClass]="{ search_bar: true, home: keyword?.length === 0 }"
+  [ngClass]="{ search_bar: true, home: saleDomains?.length === 0 }"
 >
   <div class="container">
-    <h1 *ngIf="keyword?.length < 1" class="title">
-      Instant Domain Name Search
+    <h1 *ngIf="saleDomains?.length < 1" class="title">
+        {{ apiService.currentTranslation?.data.h1 }}
     </h1>
     <!-- <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6> -->
     <form action="">
@@ -20,11 +20,11 @@
           appInputAutofocus
         />
         <span class="btns">
-          <button *ngIf="keyword?.length < 1" type="button" class="search_btn">
+          <button *ngIf="saleDomains?.length < 1" type="button" class="search_btn">
             <img src="assets/images/search-icon.png" alt="" />
           </button>
           <button
-            *ngIf="keyword?.length > 0"
+            *ngIf="saleDomains?.length > 0"
             type="button"
             class="cross"
             (click)="clearKeyword()"
@@ -33,7 +33,7 @@
           </button>
         </span>
       </div>
-      <div *ngIf="keyword?.length > 0" class="shortlisted drop">
+      <div *ngIf="saleDomains?.length > 0" class="shortlisted drop">
         <button class="shotlist">
           <i class="fa fa-star" aria-hidden="true"></i
           ><span class="count" *ngIf="favDomains.length > 0">{{
@@ -60,10 +60,9 @@
     </form>
     <div class="search_selector">
       <ul class="d-flex">
-        <li><a routerLink="/">All</a></li>
-        <li><a  routerLink="/extensions">Extensions</a></li>
-        <li><a routerLink="/generator">Generator</a></li>
-        <li><a class="active" routerLink="/sale">For Sale</a></li>
+          <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>        <li><a  routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -72,20 +71,20 @@
 
 
 
-<div class="filters sale_filter" *ngIf="keyword?.length > 0">
+<div class="filters sale_filter" *ngIf="saleDomains?.length > 0">
         <div class="container">
             <div class="inner">
                 <ul>
-                    <li class="full_wid"><button class="dropdown industry_filter">Category</button></li>
+                    <li class="full_wid"><button class="dropdown industry_filter">{{ apiService.currentTranslation?.data.category }}</button></li>
                     <li>
                         <div class="input">
-                            Min
+                            {{ apiService.currentTranslation?.data.min }}
                             <input type="text" name="" [(ngModel)]="min" >
                         </div>
                     </li>
                     <li>
                         <div class="input">
-                            Max
+                            {{ apiService.currentTranslation?.data.max }}
                             <input type="text" name="" [(ngModel)]="max" >
                         </div>
                     </li>
@@ -104,13 +103,13 @@
                     </ul>
                     <div class="btns">
                         <button class="reset" type="button" (click)="resetCategoryfilter()">Reset</button>
-                        <button class="apply" type="button" (click)="applyCategoryFilter()">Apply</button>
+                        <button class="apply" type="button" (click)="applyCategoryFilter()">{{ apiService.currentTranslation?.data.apply }}</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="domains sale" *ngIf="keyword?.length > 0">
+    <div class="domains sale" *ngIf="saleDomains?.length > 0">
         <div class="container" infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollUpDistance]="1.5"
@@ -137,15 +136,13 @@
         </div>
     </div>
 
-<div *ngIf="keyword?.length < 1" class="domains">
+<div *ngIf="saleDomains?.length < 1" class="domains">
   <div class="container">
-    <h2>Premium Names</h2>
+    <h2>{{ apiService.currentTranslation?.data.primium_h2 }}</h2>
     <p>
-      Serious about your business name? Get a premium business name from
-      Domainify <br />branding experts. Logo, domain and transfer within 24
-      hours included.
+        {{ apiService.currentTranslation?.data.serious_about_h3 }}
     </p>
-    <ul class="d-flex" *ngIf="initSaleDomains.length > 0">
+    <ul class="d-flex" *ngIf="saleDomains.length > 0">
       <li *ngFor="let domain of initSaleDomains">
         <div class="domain_detail">
           <div class="img">
@@ -165,7 +162,7 @@
       </li>
     </ul>
     <div class="more_btn">
-      <a href="#">View More</a>
+      <a href="#">{{ apiService.currentTranslation?.data.view_more }}</a>
     </div>
   </div>
 </div>

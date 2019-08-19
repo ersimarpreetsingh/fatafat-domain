@@ -4,7 +4,7 @@
 >
   <div class="container">
     <h1 *ngIf="keyword?.length < 1" class="title">
-      Instant Domain Name Search
+      {{ apiService.currentTranslation?.data.h1 }}
     </h1>
     <!-- <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6> -->
     <form action="">
@@ -56,10 +56,10 @@
     </form>
     <div class="search_selector">
       <ul class="d-flex">
-        <li><a class="active" routerLink="/">All</a></li>
-        <li><a routerLink="/extensions">Extensions</a></li>
-        <li><a routerLink="/generator">Generator</a></li>
-        <li><a routerLink="/sale">For Sale</a></li>
+        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -81,7 +81,7 @@
       class="status_btn"
       href="{{ comDomain?.link }}"
       target="_blank"
-      >Buy</a
+      >{{ apiService.currentTranslation?.data.buy }}</a
     >
     <a
       *ngIf="comDomain?.avialability"
@@ -104,7 +104,7 @@
             <a
               href="{{ 'https://' + comDomain?.keyword + comDomain?.tld }}"
               target="_blank"
-              >Visit site</a
+              >{{ apiService.currentTranslation?.data.visit_site }}</a
             >
           </li>
           <li>
@@ -115,7 +115,7 @@
                   comDomain?.tld
               }}"
               target="_blank"
-              >Appraise</a
+              >{{ apiService.currentTranslation?.data.appraise }}</a
             >
           </li>
           <li>
@@ -126,7 +126,7 @@
                   comDomain?.tld
               }}"
               target="_blank"
-              >Google Search</a
+              >{{ apiService.currentTranslation?.data.google_search }}</a
             >
           </li>
           <li>
@@ -137,7 +137,7 @@
                   comDomain?.tld
               }}"
               target="_blank"
-              >Wayback machine</a
+              >{{ apiService.currentTranslation?.data.wayback_machine }}</a
             >
           </li>
         </ul>
@@ -149,17 +149,17 @@
   <div class="container">
     <div class="tab_btns">
       <ul class="d-flex">
-        <li [ngClass]="{'active': mobileActiveExtensions}" (click)="mobileTabToggle('extensions')"><button type="button">Extensions</button></li>
-        <li [ngClass]="{'active': mobileActiveGenerator}" (click)="mobileTabToggle('generator')"><button type="button">Generator</button></li>
-        <li [ngClass]="{'active': mobileActiveForsale}" (click)="mobileTabToggle('forsale')"><button type="button">For Sale</button></li>
+        <li [ngClass]="{'active': mobileActiveExtensions}" (click)="mobileTabToggle('extensions')"><button type="button">{{ apiService.currentTranslation?.data.extension }}</button></li>
+        <li [ngClass]="{'active': mobileActiveGenerator}" (click)="mobileTabToggle('generator')"><button type="button">{{ apiService.currentTranslation?.data.generator }}</button></li>
+        <li [ngClass]="{'active': mobileActiveForsale}" (click)="mobileTabToggle('forsale')"><button type="button">{{ apiService.currentTranslation?.data.for_sale }}</button></li>
       </ul>
     </div>
     <ul class="d-flex row">
       <li class="col" id="extension_col" [ngClass]="{'mobile-inactive': !mobileActiveExtensions, 'mobile-active': mobileActiveExtensions}">
-        <a class="main-col" routerLink="/extensions">
-          <h4 class="sub-title">Extensions</h4>
+        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">
+          <h4 class="sub-title">{{ apiService.currentTranslation?.data.extension }}</h4>
           <div class="tag">
-            See All
+            {{ apiService.currentTranslation?.data.see_all}}
             <span class="arrow"
               ><i class="fa fa-angle-right" aria-hidden="true"></i
             ></span>
@@ -184,7 +184,7 @@
                   *ngIf="isAvail(tld.tld)"
                   class="tag"
                   style="visibility: hidden;"
-                  >Buy</a
+                  >{{ apiService.currentTranslation?.data.buy }}</a
                 >
                 <a
                   href="{{ getLinkForDomain(tld.tld) }}"
@@ -198,7 +198,7 @@
             </div>
           </li>
           <li class="more_btn">
-            <a routerLink="/extensions">View More</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
         <ul *ngIf="!loading">
@@ -224,22 +224,22 @@
                     tld.tld
                   }}</span>
                 </a>
-                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="isAvail(tld.tld)" class="tag">Buy</a>
+                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="isAvail(tld.tld)" class="tag">{{ apiService.currentTranslation?.data.buy }}</a>
                 <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="!isAvail(tld.tld)" class="tag">Whois</a>
                 <!-- <div class="tag">Buy $2795</div> -->
               </div>
             </div>
           </li>
           <li class="more_btn">
-            <a routerLink="/extensions">View More</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
       </li>
       <li class="col" id="generator_col" [ngClass]="{'mobile-inactive': !mobileActiveGenerator, 'mobile-active': mobileActiveGenerator}" >
-        <a class="main-col" routerLink="/generator">
-          <h4 class="sub-title">Generator</h4>
+        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">
+          <h4 class="sub-title">{{ apiService.currentTranslation?.data.generator }}</h4>
           <div class="tag">
-            See All
+            {{ apiService.currentTranslation?.data.see_all}}
             <span class="arrow"
               ><i class="fa fa-angle-right" aria-hidden="true"></i
             ></span>
@@ -276,7 +276,7 @@
                   {{ keyword }}<span class="ext">{{ genDomain.after }}</span
                   >{{ genDomain.tld }}
                 </a>
-                <a  href="{{ genDomain.link }}" target="_blank" *ngIf="!genDomain.avialability" class="tag">Buy</a>
+                <a  href="{{ genDomain.link }}" target="_blank" *ngIf="!genDomain.avialability" class="tag">{{ apiService.currentTranslation?.data.buy }}</a>
                 <a href="{{ genDomain.link }}" target="_blank" *ngIf="genDomain.avialability" class="tag">Whois</a>
               </div>
             </div>
@@ -286,15 +286,15 @@
             Loading...
           </li>
           <li *ngIf="generatedDomains.length > 0" class="more_btn">
-            <a routerLink="/generator">View More</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
       </li>
       <li class="col" id="sale_col" [ngClass]="{'mobile-inactive': !mobileActiveForsale, 'mobile-active': mobileActiveForsale}">
-        <a class="main-col" routerLink="/sale">
-          <h4 class="sub-title">For Sale</h4>
+        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">
+          <h4 class="sub-title">{{ apiService.currentTranslation?.data.for_sale }}</h4>
           <div class="tag">
-            See All
+            {{ apiService.currentTranslation?.data.see_all}}
             <span class="arrow"
               ><i class="fa fa-angle-right" aria-hidden="true"></i
             ></span>
@@ -318,7 +318,7 @@
                 <a href="{{ saleDomain.link }}" target="_blank" class="domain-name">
                   {{ saleDomain.keyword }}
                 </a>
-                <a href="{{ saleDomain.link }}" target="_blank" class="tag">Buy ${{ saleDomain.price }}</a>
+                <a href="{{ saleDomain.link }}" target="_blank" class="tag">{{ apiService.currentTranslation?.data.buy }} ${{ saleDomain.price }}</a>
               </div>
             </div>
           </li>
@@ -326,7 +326,7 @@
             Loading...
           </li>
           <li class="more_btn" *ngIf="saleDomains.length > 0">
-            <a routerLink="/sale">View More</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
       </li>
@@ -336,11 +336,9 @@
 
 <div *ngIf="keyword?.length < 1" class="domains">
   <div class="container">
-    <h2>Premium Names</h2>
+    <h2>{{ apiService.currentTranslation?.data.primium_h2 }}</h2>
     <p>
-      Serious about your business name? Get a premium business name from
-      Domainify <br />branding experts. Logo, domain and transfer within 24
-      hours included.
+        {{ apiService.currentTranslation?.data.serious_about_h3 }}
     </p>
     <ul class="d-flex" *ngIf="initSaleDomains.length > 0">
       <li *ngFor="let domain of initSaleDomains">
@@ -362,7 +360,7 @@
       </li>
     </ul>
     <div class="more_btn">
-      <a routerLink="/sale">View More</a>
+      <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.view_more}}</a>
     </div>
   </div>
 </div>
