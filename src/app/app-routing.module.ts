@@ -110,7 +110,7 @@ const routes: Routes = [
   { path: 'ur/generator', component: GeneratorComponent },
   { path: 'vi/cong-cu-san-zuat-ten-mien', component: GeneratorComponent },
   { path: 'sale', component: SaleComponent },
-  { path: 'ar/sale', component: SaleComponent },
+  { path: 'ar/sale', component: SaleComponent, pathMatch: 'full'},
   { path: 'bn/sale', component: SaleComponent },
   { path: 'hr/na-prodaju', component: SaleComponent },
   { path: 'cs/na-prodej', component: SaleComponent },
@@ -121,7 +121,7 @@ const routes: Routes = [
   { path: 'el/sale', component: SaleComponent },
   { path: 'hi/sale', component: SaleComponent },
   { path: 'hu/elado', component: SaleComponent },
-  { path: 'id/dijual', component: SaleComponent },
+  { path: 'id/dijual', component: SaleComponent, pathMatch: 'full' },
   { path: 'it/in-vendita', component: SaleComponent },
   { path: 'ja/sale', component: SaleComponent },
   { path: 'ko/sale', component: SaleComponent },
@@ -142,6 +142,7 @@ const routes: Routes = [
   { path: 'tr/satilik', component: SaleComponent },
   { path: 'ur/sale', component: SaleComponent },
   { path: 'vi/mua-ten-mien-co-san', component: SaleComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

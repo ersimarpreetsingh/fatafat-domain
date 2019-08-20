@@ -43,7 +43,7 @@
         <div *ngIf="favDomains.length > 0" id="favMenu" class="list">
           <ul>
             <li *ngFor="let favDom of favDomains">
-              <a href="{{ favDom.link }}" target="_blank" class="domain-name">
+              <a rel="nofollow" href="{{ favDom.link }}" target="_blank" class="domain-name">
                 {{ favDom.keyword }}
               </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
@@ -73,20 +73,20 @@
     'not-avail': comDomain?.avialability
   }"
 >
-  <a class="link" href="{{ comDomain?.link }}" target="_blank"></a>
+  <a class="link" rel="nofollow" href="{{ comDomain?.link }}" target="_blank"></a>
   <div class="name">{{ keyword }}{{ comDomain?.tld }}</div>
   <div class="btns">
     <a
       *ngIf="!comDomain?.avialability"
       class="status_btn"
-      href="{{ comDomain?.link }}"
+      rel="nofollow" href="{{ comDomain?.link }}"
       target="_blank"
       >{{ apiService.currentTranslation?.data.buy }}</a
     >
     <a
       *ngIf="comDomain?.avialability"
       class="status_btn"
-      href="{{ comDomain?.link }}"
+      rel="nofollow" href="{{ comDomain?.link }}"
       target="_blank"
       >Whois</a
     >
@@ -102,14 +102,14 @@
         <ul>
           <li>
             <a
-              href="{{ 'https://' + comDomain?.keyword + comDomain?.tld }}"
+              rel="nofollow" href="{{ 'https://' + comDomain?.keyword + comDomain?.tld }}"
               target="_blank"
               >{{ apiService.currentTranslation?.data.visit_site }}</a
             >
           </li>
           <li>
             <a
-              href="{{
+              rel="nofollow" href="{{
                 'http://www.anrdoezrs.net/links/9133603/type/dlg/https://godaddy.com/domain-value-appraisal/appraisal/?isc=cjc99com&checkAvail=1&tmskey=&domainToCheck=' +
                   comDomain?.keyword +
                   comDomain?.tld
@@ -120,7 +120,7 @@
           </li>
           <li>
             <a
-              href="{{
+              rel="nofollow" href="{{
                 'http://www.google.com/search?q=' +
                   comDomain?.keyword +
                   comDomain?.tld
@@ -131,7 +131,7 @@
           </li>
           <li>
             <a
-              href="{{
+              rel="nofollow" href="{{
                 'https://web.archive.org/web/*/' +
                   comDomain?.keyword +
                   comDomain?.tld
@@ -172,14 +172,14 @@
                 ><i class="fa fa-star" aria-hidden="true"></i
               ></span>
               <div class="detail">
-                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank"  class="domain-name">
+                <a rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}" target="_blank"  class="domain-name">
                   <span style="color: lightgray;">{{ keyword }}</span
                   ><span class="ext" style="text-transform: lowercase">{{
                     tld.tld
                   }}</span>
                 </a>
                 <a
-                  href="{{ getLinkForDomain(tld.tld) }}"
+                  rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}"
                   target="_blank"
                   *ngIf="isAvail(tld.tld)"
                   class="tag"
@@ -187,7 +187,7 @@
                   >{{ apiService.currentTranslation?.data.buy }}</a
                 >
                 <a
-                  href="{{ getLinkForDomain(tld.tld) }}"
+                  rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}"
                   target="_blank"
                   *ngIf="!isAvail(tld.tld)"
                   class="tag"
@@ -218,14 +218,14 @@
                 ><i class="fa fa-star" aria-hidden="true"></i
               ></span>
               <div class="detail">
-                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" class="domain-name">
+                <a rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}" target="_blank" class="domain-name">
                   {{ keyword
                   }}<span class="ext" style="text-transform: lowercase;">{{
                     tld.tld
                   }}</span>
                 </a>
-                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="isAvail(tld.tld)" class="tag">{{ apiService.currentTranslation?.data.buy }}</a>
-                <a href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="!isAvail(tld.tld)" class="tag">Whois</a>
+                <a rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="isAvail(tld.tld)" class="tag">{{ apiService.currentTranslation?.data.buy }}</a>
+                <a rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}" target="_blank" *ngIf="!isAvail(tld.tld)" class="tag">Whois</a>
                 <!-- <div class="tag">Buy $2795</div> -->
               </div>
             </div>
@@ -272,12 +272,12 @@
                 <i class="fa fa-star" aria-hidden="true"></i
               ></span>
               <div class="detail">
-                <a href="{{ genDomain.link }}" target="_blank" class="domain-name">
+                <a rel="nofollow" href="{{ genDomain.link }}" target="_blank" class="domain-name">
                   {{ keyword }}<span class="ext">{{ genDomain.after }}</span
                   >{{ genDomain.tld }}
                 </a>
-                <a  href="{{ genDomain.link }}" target="_blank" *ngIf="!genDomain.avialability" class="tag">{{ apiService.currentTranslation?.data.buy }}</a>
-                <a href="{{ genDomain.link }}" target="_blank" *ngIf="genDomain.avialability" class="tag">Whois</a>
+                <a  rel="nofollow" href="{{ genDomain.link }}" target="_blank" *ngIf="!genDomain.avialability" class="tag">{{ apiService.currentTranslation?.data.buy }}</a>
+                <a rel="nofollow" href="{{ genDomain.link }}" target="_blank" *ngIf="genDomain.avialability" class="tag">Whois</a>
               </div>
             </div>
           </li>
@@ -315,10 +315,10 @@
                 <i class="fa fa-star" aria-hidden="true"></i>
               </span>
               <div class="detail">
-                <a href="{{ saleDomain.link }}" target="_blank" class="domain-name">
+                <a rel="nofollow" href="{{ saleDomain.link }}" target="_blank" class="domain-name">
                   {{ saleDomain.keyword }}
                 </a>
-                <a href="{{ saleDomain.link }}" target="_blank" class="tag">{{ apiService.currentTranslation?.data.buy }} ${{ saleDomain.price }}</a>
+                <a rel="nofollow" href="{{ saleDomain.link }}" target="_blank" class="tag">{{ apiService.currentTranslation?.data.buy }} ${{ saleDomain.price }}</a>
               </div>
             </div>
           </li>
@@ -344,13 +344,13 @@
       <li *ngFor="let domain of initSaleDomains">
         <div class="domain_detail">
           <div class="img">
-            <a href="{{ domain.link }}" target="_blank">
-              <img src="https://instantdomains.com/{{ domain.image }}" alt="" />
+            <a rel="nofollow" href="{{ domain.link }}" target="_blank">
+              <img src="{{ domain.image }}" alt="" />
             </a>
           </div>
           <div class="detail">
             <h3>
-              <a href="{{ domain.link }}" target="_blank">{{
+              <a rel="nofollow" href="{{ domain.link }}" target="_blank">{{
                 domain.keyword
               }}</a>
             </h3>

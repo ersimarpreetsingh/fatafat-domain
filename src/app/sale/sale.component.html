@@ -47,7 +47,7 @@
         >
           <ul>
             <li *ngFor="let favDom of favDomains">
-              <a href="{{ favDom.link }}" target="_blank" class="domain-name">
+              <a rel="nofollow" href="{{ favDom.link }}" target="_blank" class="domain-name">
                 {{ favDom.keyword }}
               </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
@@ -120,12 +120,12 @@
                 <li *ngFor="let domain of saleDomains" >
                     <div class="domain_detail">
                         <div class="img">
-                            <a href="{{ domain.link }}" target="_blank">
-                                <img src="https://instantdomains.com/{{ domain.image }}" alt="">
+                            <a rel="nofollow" href="{{ domain.link }}" target="_blank">
+                                <img src="{{ domain.image }}" alt="">
                             </a>
                         </div>
                         <div class="detail">
-                            <h3><a href="{{ domain.link }}" target="_blank">{{ domain.keyword }}</a></h3>
+                            <h3><a rel="nofollow" href="{{ domain.link }}" target="_blank">{{ domain.keyword }}</a></h3>
                             <p>${{ domain.price }}</p>
                         </div>
                     </div>
@@ -147,13 +147,13 @@
       <li *ngFor="let domain of initSaleDomains">
         <div class="domain_detail">
           <div class="img">
-            <a href="{{ domain.link }}" target="_blank">
-              <img src="https://instantdomains.com/{{ domain.image }}" alt="" />
+            <a rel="nofollow" href="{{ domain.link }}" target="_blank">
+              <img src="{{ domain.image }}" alt="" />
             </a>
           </div>
           <div class="detail">
             <h3>
-              <a href="{{ domain.link }}" target="_blank">{{
+              <a rel="nofollow" href="{{ domain.link }}" target="_blank">{{
                 domain.keyword
               }}</a>
             </h3>

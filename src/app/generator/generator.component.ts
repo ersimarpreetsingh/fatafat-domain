@@ -21,7 +21,7 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   favDomains: FavDomain[] = [];
   generatedDomains: GeneratedDomain[] = [];
   initSaleDomains: SaleDomain[] = [];
-  sliderValue = [1, 20];
+  sliderValue = [2, 20];
 
   genDomainApiSubscription: Subscription;
 

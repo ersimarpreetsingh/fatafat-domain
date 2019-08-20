@@ -14,7 +14,7 @@
             <h3>Choose your language</h3>
             <ul>
               <li *ngFor="let trans of apiService.translations" >
-                <a [ngClass]="{'active': apiService?.translatingVar === trans?.code}" (click)="updateTranslations(trans?.code)" routerLink="/{{trans.code}}">{{ trans?.data?.native_name }}</a>
+                <a [ngClass]="{'active': apiService?.translatingVar === trans?.code}" (click)="updateTranslations(trans?.code)" routerLink="/{{ trans.code !== 'en' ? trans.code : '' }}">{{ trans?.data?.native_name }}</a>
               </li>
             </ul>
           </div>

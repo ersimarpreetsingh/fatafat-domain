@@ -43,7 +43,7 @@
         <div *ngIf="favDomains.length > 0" id="favMenu" class="list">
           <ul>
             <li *ngFor="let favDom of favDomains">
-              <a href="{{ favDom.link }}" target="_blank" class="domain-name">
+              <a rel="nofollow" href="{{ favDom.link }}" target="_blank" class="domain-name">
                 {{ favDom.keyword }}
               </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
@@ -189,19 +189,19 @@
                 ><i class="fa fa-star" aria-hidden="true"></i
               ></span>
               <div class="detail">
-                <a href="{{ domain.link }}" target="_blank" class="domain-name">
+                <a rel="nofollow" href="{{ domain.link }}" target="_blank" class="domain-name">
                   {{ domain.keyword }}<span class="ext">{{ domain.after }}</span
                   >{{ domain.tld }}
                 </a>
                 <a
-                  href="{{ domain.link }}"
+                  rel="nofollow" href="{{ domain.link }}"
                   target="_blank"
                   class="tag"
                   *ngIf="!domain.avialability"
                   >{{ apiService.currentTranslation?.data.buy }}</a
                 >
                 <a
-                  href="{{ domain.link }}"
+                  rel="nofollow" href="{{ domain.link }}"
                   target="_blank"
                   class="tag"
                   *ngIf="domain.avialability"
@@ -229,13 +229,13 @@
       <li *ngFor="let domain of initSaleDomains">
         <div class="domain_detail">
           <div class="img">
-            <a href="{{ domain.link }}" target="_blank">
-              <img src="https://instantdomains.com/{{ domain.image }}" alt="" />
+            <a rel="nofollow" href="{{ domain.link }}" target="_blank">
+              <img src="{{ domain.image }}" alt="" />
             </a>
           </div>
           <div class="detail">
             <h3>
-              <a href="{{ domain.link }}" target="_blank">{{
+              <a rel="nofollow" href="{{ domain.link }}" target="_blank">{{
                 domain.keyword
               }}</a>
             </h3>

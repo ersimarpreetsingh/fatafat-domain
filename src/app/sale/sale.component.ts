@@ -41,6 +41,12 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    console.log(this.activatedRoute.snapshot.url);
+    console.log(this.activatedRoute.snapshot.url[0].path);
+    this.activatedRoute.url.subscribe(url => {
+      console.log(url);
+      console.log(url[0].path);
+    });
     this.apiService.translatingVar = this.activatedRoute.snapshot.url[0] &&
     this.activatedRoute.snapshot.url[0].path && this.activatedRoute.snapshot.url[0].path.length > 0
     ? ((this.activatedRoute.snapshot.url[0].path !== 'sale'
@@ -157,7 +163,6 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     this.jqueryBinded = false;
     this.keyword = '';
     this.apiService.keyword = this.keyword;
-    this.saleDomains = [];
     this.lastId = 0;
     this.stopInfiniteScroll = false;
     if (this.apiService.translatingVar === 'en') {
