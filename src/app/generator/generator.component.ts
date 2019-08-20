@@ -232,18 +232,18 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         });
         this.genLoading = false;
         if (this.apiService.translatingVar === 'en') {
-          this.location.replaceState(`generator?search=${this.keyword}`);
+          this.location.replaceState(`${this.apiService.currentTranslation.data.generator_url}?search=${this.keyword}`);
         } else {
-          this.location.replaceState(`${this.apiService.translatingVar}/generator?search=${this.keyword}`);
+          this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.generator_url}?search=${this.keyword}`);
         }
       });
     } else {
       this.genLoading = false;
       this.generatedDomains = [];
       if (this.apiService.translatingVar === 'en') {
-        this.location.replaceState(`generator`);
+        this.location.replaceState(`${this.apiService.currentTranslation.data.generator_url}`);
       } else {
-        this.location.replaceState(`${this.apiService.translatingVar}/generator`);
+        this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.generator_url}`);
       }
     }
   }
@@ -253,9 +253,9 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     if (this.apiService.translatingVar === 'en') {
-      this.location.replaceState(`generator`);
+      this.location.replaceState(`${this.apiService.currentTranslation.data.generator_url}`);
     } else {
-      this.location.replaceState(`${this.apiService.translatingVar}/generator`);
+      this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.generator_url}`);
     }
   }
 
@@ -353,6 +353,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
         if (!this.characterFilterOpen) {
           this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
             this.generatedDomains = res;
+            this.generatedDomains.forEach(data => {
+              data.link = data.avialability ?
+                `${this.apiService.truelink}${data.keyword}${data.tld}` :
+                `${this.apiService.falselink}${data.keyword}${data.tld}`;
+            });
           });
         }
         break;
@@ -368,6 +373,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     });
     this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
       this.generatedDomains = res;
+      this.generatedDomains.forEach(data => {
+        data.link = data.avialability ?
+          `${this.apiService.truelink}${data.keyword}${data.tld}` :
+          `${this.apiService.falselink}${data.keyword}${data.tld}`;
+      });
     });
   }
 
@@ -393,6 +403,11 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     this.tldFilter = this.tldFilterOpts.find(tld => tld.checked).item;
     this.apiService.getFilteredGenerator(this.keyword, this.industryFilter, this.tldFilter, this.sliderValue[1]).subscribe(res => {
       this.generatedDomains = res;
+      this.generatedDomains.forEach(data => {
+        data.link = data.avialability ?
+          `${this.apiService.truelink}${data.keyword}${data.tld}` :
+          `${this.apiService.falselink}${data.keyword}${data.tld}`;
+      });
     });
   }
 }

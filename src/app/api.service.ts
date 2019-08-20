@@ -16,13 +16,18 @@ export class ApiService {
   tldCats: string[] = [];
   industries: Industry[] = [];
   saleCategories: SaleCategory[] = [];
-  Countrycode: CountryCode ;
+  countryCode: CountryCode = {
+    country: '',
+  };
   keyword = '';
   translations: Translation[] = [{
     lang: "English",
     code: "en",
     data: {
       url: "/en/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "English",
       h1: "Instant Domain Name Search",
       primium_h2: "Premium Names ",
@@ -57,6 +62,9 @@ export class ApiService {
     code: "ar",
     data: {
       url: "/ar/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "العربية",
       h1: " موقع للبحث الفوري عن أسماء المجالات ",
       primium_h2: "مواقع ذات فعالية عالية",
@@ -91,6 +99,9 @@ export class ApiService {
     code: "bn",
     data: {
       url: "/bn/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "বাংলা",
       h1: "তাৎক্ষনিকভাবে ডোমেইন নাম অনুসন্ধান",
       primium_h2: "প্রিমিয়াম নামসমূহ",
@@ -125,6 +136,9 @@ export class ApiService {
     code: "hr",
     data: {
       url: "/hr/",
+      extension_url: "prosirenja",
+      generator_url: "generator",
+      sale_url: "na-prodaju",
       native_name: "Hrvatski jezik",
       h1: "Trenutno pretraživanje imena domene",
       primium_h2: "Premium imena",
@@ -159,6 +173,9 @@ export class ApiService {
     code: "cs",
     data: {
       url: "/cs/",
+      extension_url: "pripony",
+      generator_url: "generator",
+      sale_url: "na-prodej",
       native_name: "Čeština",
       h1: "Okamžité vyhledávání názvů domén",
       primium_h2: "Prémiové jména",
@@ -193,6 +210,9 @@ export class ApiService {
     code: "nl",
     data: {
       url: "/nl/",
+      extension_url: "uitbreidingen",
+      generator_url: "generator",
+      sale_url: "te-koop",
       native_name: "Nederlands",
       h1: "Directe zoekopdracht naar domeinnamen",
       primium_h2: "Premiumnamen",
@@ -227,6 +247,9 @@ export class ApiService {
     code: "fi",
     data: {
       url: "/fi/",
+      extension_url: "ylatason-verkkotunnukset",
+      generator_url: "generointi",
+      sale_url: "myynnissa",
       native_name: "Suomi",
       h1: "Hae verkkotunnusta suoraan",
       primium_h2: "Korkealuokkaiset nimet",
@@ -261,6 +284,9 @@ export class ApiService {
     code: "fr",
     data: {
       url: "/fr/",
+      extension_url: "extensions",
+      generator_url: "generateur",
+      sale_url: "en-vente",
       native_name: "Français",
       h1: "Recherche instantanée de noms de domaine",
       primium_h2: "Noms Premiums",
@@ -295,6 +321,9 @@ export class ApiService {
     code: "de",
     data: {
       url: "/de/",
+      extension_url: "endungen",
+      generator_url: "generator",
+      sale_url: "zun-verkauf",
       native_name: "Deutsch",
       h1: "Sofortige Domainnamen-Suche",
       primium_h2: "Premium Namen",
@@ -329,6 +358,9 @@ export class ApiService {
     code: "el",
     data: {
       url: "/el/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "Eλληνικά",
       h1: "Αμεση αναζήτηση για όνομα domain",
       primium_h2: "Premium Ονόματα",
@@ -363,6 +395,9 @@ export class ApiService {
     code: "hi",
     data: {
       url: "/hi/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "हिन्दी",
       h1: "डोमेन नाम की त्वरित खोज",
       primium_h2: "प्रीमियम नाम",
@@ -397,6 +432,9 @@ export class ApiService {
     code: "hu",
     data: {
       url: "/hu/",
+      extension_url: "kiterjesztesek",
+      generator_url: "generator",
+      sale_url: "elado",
       native_name: "Magyar",
       h1: "Domainnév azonnali keresése ",
       primium_h2: "Prémium nevek",
@@ -431,6 +469,9 @@ export class ApiService {
     code: "id",
     data: {
       url: "/id/",
+      extension_url: "ekstensi",
+      generator_url: "generator",
+      sale_url: "dijual",
       native_name: "Bahasa",
       h1: "Pencarian Nama Domain Secara Instan",
       primium_h2: "Nama Premium",
@@ -465,6 +506,9 @@ export class ApiService {
     code: "it",
     data: {
       url: "/it/",
+      extension_url: "estensioni",
+      generator_url: "generatore",
+      sale_url: "in-vendita",
       native_name: "Italiano",
       h1: "Ricerca Instantanea di Dominio",
       primium_h2: "Nomi Premium",
@@ -499,6 +543,9 @@ export class ApiService {
     code: "ja",
     data: {
       url: "/ja/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "日本語",
       h1: "即座ドメイン名検索",
       primium_h2: "プレミアムドメイン名",
@@ -533,6 +580,9 @@ export class ApiService {
     code: "ko",
     data: {
       url: "/ko/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "한국어",
       h1: "도메인명 빠른 검색",
       primium_h2: "프리미엄 도메인명",
@@ -567,6 +617,9 @@ export class ApiService {
     code: "zh",
     data: {
       url: "/zh/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "中文",
       h1: "快速查阅域名",
       primium_h2: "白金域名 ",
@@ -601,6 +654,9 @@ export class ApiService {
     code: "mr",
     data: {
       url: "/mr/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "मराठी",
       h1: "डोमेन नावाचा जलद शोध",
       primium_h2: "प्रीमियम नाव ",
@@ -635,6 +691,9 @@ export class ApiService {
     code: "no",
     data: {
       url: "/no/",
+      extension_url: "forlengelse",
+      generator_url: "generator",
+      sale_url: "til-salgs",
       native_name: "Norsk",
       h1: "Direkte søk etter domenenavn",
       primium_h2: "Premium-navn",
@@ -669,6 +728,9 @@ export class ApiService {
     code: "pl",
     data: {
       url: "/pl/",
+      extension_url: "rozszerzenia",
+      generator_url: "wygeneruj",
+      sale_url: "na-sprzedaz",
       native_name: "Język polski",
       h1: "Natychmiastowe wyszukiwanie nazw domen",
       primium_h2: "Nazwy o najwyższej wyszukiwalności",
@@ -703,6 +765,9 @@ export class ApiService {
     code: "pt",
     data: {
       url: "/pt/",
+      extension_url: "extensoes",
+      generator_url: "gerador",
+      sale_url: "disponivel",
       native_name: "Português",
       h1: "Pesquisa de Nomes Domínio Instantâneo",
       primium_h2: "Nomes Premium ",
@@ -737,6 +802,9 @@ export class ApiService {
     code: "pa",
     data: {
       url: "/pa/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "ਪੰਜਾਬੀ",
       h1: "ਤਤਕਾਲ ਡੋਮੇਨ ਨਾਂ ਦੀ ਖੋਜ",
       primium_h2: "ਪ੍ਰੀਮੀਅਮ ਨਾਂ",
@@ -771,6 +839,9 @@ export class ApiService {
     code: "ro",
     data: {
       url: "/ro/",
+      extension_url: "extensie",
+      generator_url: "generator",
+      sale_url: "de-vanzare",
       native_name: "Română",
       h1: "Căutare instantanee nume Domeniu",
       primium_h2: "Nume premium",
@@ -805,6 +876,9 @@ export class ApiService {
     code: "ru",
     data: {
       url: "/ru/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "Pусский",
       h1: "Мгновенный Поиск Доменного Имени",
       primium_h2: "Имена премиум-класса",
@@ -839,6 +913,9 @@ export class ApiService {
     code: "sk",
     data: {
       url: "/sk/",
+      extension_url: "pripony",
+      generator_url: "generator",
+      sale_url: "na-predaj",
       native_name: "Slovenčina",
       h1: "Okamžité vyhľadávanie názvov domén",
       primium_h2: "Prémiové mená",
@@ -873,6 +950,9 @@ export class ApiService {
     code: "es",
     data: {
       url: "/es/ ",
+      extension_url: "extensiones",
+      generator_url: "generador",
+      sale_url: "a-la-venta",
       native_name: "Español",
       h1: "Búsqueda instántanea de nombres de dominio",
       primium_h2: "Nombres Premium",
@@ -907,6 +987,9 @@ export class ApiService {
     code: "sv",
     data: {
       url: "/sv/",
+      extension_url: "forlangning",
+      generator_url: "generator",
+      sale_url: "till-forsaljning",
       native_name: "Svenska",
       h1: "Snabb namnsökning efter domäner",
       primium_h2: "Premiumnamn",
@@ -941,6 +1024,9 @@ export class ApiService {
     code: "ta",
     data: {
       url: "/ta/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "தமிழ்",
       h1: "உடனடியாக தளத்தின் பெயர் தேடல்",
       primium_h2: "உயர் மதிப்புடைய பெயர்கள்",
@@ -975,6 +1061,9 @@ export class ApiService {
     code: "te",
     data: {
       url: "/te/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "తెలుగు",
       h1: "తక్షణ డొమైన్ నేమ్ శోధన",
       primium_h2: "ప్రీమియం నేమ్స్",
@@ -1009,6 +1098,9 @@ export class ApiService {
     code: "th",
     data: {
       url: "/th/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "ไทย",
       h1: "ค้นหาชื่อโดเมนได้ทันที",
       primium_h2: "ชื่อพรีเมี่ยม ",
@@ -1043,6 +1135,9 @@ export class ApiService {
     code: "tr",
     data: {
       url: "/tr/",
+      extension_url: "uzantilar",
+      generator_url: "uretec",
+      sale_url: "stilik",
       native_name: "Türkçe",
       h1: "Hızlı Alan Adı Arama",
       primium_h2: "Premium Adlar",
@@ -1077,6 +1172,9 @@ export class ApiService {
     code: "ur",
     data: {
       url: "/ur/",
+      extension_url: "extensions",
+      generator_url: "generator",
+      sale_url: "sale",
       native_name: "اردو",
       h1: "ڈومین نام کی فوری تلاش",
       primium_h2: "پریمیم نام ",
@@ -1111,6 +1209,9 @@ export class ApiService {
     code: "vi",
     data: {
       url: "/vi/",
+      extension_url: "phan-mo-rong",
+      generator_url: "cong-cu-san-zuat-ten-mien",
+      sale_url: "mua-ten-mien-co-san",
       native_name: "Tiếng Việt",
       h1: "Tìm nhanh tên miền",
       primium_h2: "Tên miền chất lượng cao",
@@ -1149,16 +1250,20 @@ export class ApiService {
   constructor(public http: HttpClient) { }
   getTldList(limited: boolean): Observable<TldInfo[]> {
     if (limited) {
-      return this.http.post<TldInfo[]>('https://instantdomains.com/api/v1/tld', {limit: 34});
+      return this.http.post<TldInfo[]>('https://instantdomains.com/api/v1/tld', {limit: 34, country: this.countryCode.country});
     }
-    return this.http.post<TldInfo[]>('https://instantdomains.com/api/v1/tld', {});
+    return this.http.post<TldInfo[]>('https://instantdomains.com/api/v1/tld', {country: this.countryCode.country});
   }
 
   getDomains(keyword: string, limited?: boolean): Observable<Domain[]> {
     if (limited) {
-      return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', { keyword, limit: 34});
+      return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', {
+        keyword,
+        limit: 34,
+        country: this.countryCode.country
+      });
     }
-    return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', { keyword });
+    return this.http.post<Domain[]>('https://instantdomains.com/api/v1/domains', { keyword, country: this.countryCode.country });
   }
 
   getGenerator(keyword: string, limited?: boolean): Observable<GeneratedDomain[]> {
@@ -1216,9 +1321,9 @@ export class ApiService {
      return this.allTldList.find(tld => tld.tld === ex).id;
   }
 
-  // getCountrycode(): Observable<CountryCode> {
-  //   return this.http.get<CountryCode>('https://ip-api.com/json');
-  // }
+  getCountrycode(): Observable<CountryCode> {
+    return this.http.get<CountryCode>('https://ipinfo.io/geo?token=75562443c5d748');
+  }
 
   // getTranslations(): Observable<Translation[]> {
   //   return this.http.get<Translation[]>('assets/translations.json');

@@ -137,18 +137,18 @@ export class SaleComponent implements OnInit, AfterViewChecked {
         this.saleDomains = res.data;
         this.saleLoading = false;
         if (this.apiService.translatingVar === 'en') {
-          this.location.replaceState(`sale?search=${this.keyword}`);
+          this.location.replaceState(`${this.apiService.currentTranslation.data.sale_url}?search=${this.keyword}`);
         } else {
-          this.location.replaceState(`${this.apiService.translatingVar}/sale?search=${this.keyword}`);
+          this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.sale_url}?search=${this.keyword}`);
         }
       });
     } else {
       this.saleLoading = false;
       this.saleDomains = [];
       if (this.apiService.translatingVar === 'en') {
-        this.location.replaceState(`sale`);
+        this.location.replaceState(`${this.apiService.currentTranslation.data.sale_url}`);
       } else {
-        this.location.replaceState(`${this.apiService.translatingVar}/sale`);
+        this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.sale_url}`);
       }
     }
   }
@@ -161,9 +161,9 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     this.lastId = 0;
     this.stopInfiniteScroll = false;
     if (this.apiService.translatingVar === 'en') {
-      this.location.replaceState(`sale`);
+      this.location.replaceState(`${this.apiService.currentTranslation.data.sale_url}`);
     } else {
-      this.location.replaceState(`${this.apiService.translatingVar}/sale`);
+      this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.sale_url}`);
     }
   }
 

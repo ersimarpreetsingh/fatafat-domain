@@ -21,7 +21,7 @@
         />
         <span class="btns">
           <button *ngIf="keyword?.length < 1" type="button" class="search_btn">
-            <img src="assets/images/search-icon.png" alt="" />
+            <img src="https://instantdomains.com/assets/images/search-icon.png" alt="" />
           </button>
           <button
             *ngIf="keyword?.length > 0"
@@ -29,7 +29,7 @@
             class="cross"
             (click)="clearKeyword()"
           >
-            <img src="assets/images/cross.png" alt="" />
+            <img src="https://instantdomains.com/assets/images/cross.png" alt="" />
           </button>
         </span>
       </div>
@@ -47,7 +47,7 @@
                 {{ favDom.keyword }}
               </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
-                <img src="assets/images/cross.png" alt="" />
+                <img src="https://instantdomains.com/assets/images/cross.png" alt="" />
               </div>
             </li>
           </ul>
@@ -57,9 +57,9 @@
     <div class="search_selector">
       <ul class="d-flex">
         <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
-        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.sale_url}}">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -189,10 +189,10 @@
                 ><i class="fa fa-star" aria-hidden="true"></i
               ></span>
               <div class="detail">
-                <div class="domain-name">
+                <a href="{{ domain.link }}" target="_blank" class="domain-name">
                   {{ domain.keyword }}<span class="ext">{{ domain.after }}</span
                   >{{ domain.tld }}
-                </div>
+                </a>
                 <a
                   href="{{ domain.link }}"
                   target="_blank"
@@ -230,7 +230,7 @@
         <div class="domain_detail">
           <div class="img">
             <a href="{{ domain.link }}" target="_blank">
-              <img src="{{ domain.image }}" alt="" />
+              <img src="https://instantdomains.com/{{ domain.image }}" alt="" />
             </a>
           </div>
           <div class="detail">

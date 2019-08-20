@@ -21,7 +21,7 @@
         />
         <span class="btns">
           <button *ngIf="keyword?.length < 1" type="button" class="search_btn" id="search-icon">
-            <img src="assets/images/search-icon.png" alt="" />
+            <img src="https://instantdomains.com/assets/images/search-icon.png" alt="" />
           </button>
           <button
             *ngIf="keyword?.length > 0"
@@ -29,7 +29,7 @@
             class="cross"
             (click)="clearKeyword()"
           >
-            <img src="assets/images/cross.png" alt="" />
+            <img src="https://instantdomains.com/assets/images/cross.png" alt="" />
           </button>
         </span>
       </div>
@@ -47,7 +47,7 @@
                 {{ favDom.keyword }}
               </a>
               <div class="un-sort" (click)="removeFromFav(favDom.keyword)">
-                <img src="assets/images/cross.png" alt="" />
+                <img src="https://instantdomains.com/assets/images/cross.png" alt="" />
               </div>
             </li>
           </ul>
@@ -57,9 +57,9 @@
     <div class="search_selector">
       <ul class="d-flex">
         <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.sale_url}}">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -156,7 +156,7 @@
     </div>
     <ul class="d-flex row">
       <li class="col" id="extension_col" [ngClass]="{'mobile-inactive': !mobileActiveExtensions, 'mobile-active': mobileActiveExtensions}">
-        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">
+        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}">
           <h4 class="sub-title">{{ apiService.currentTranslation?.data.extension }}</h4>
           <div class="tag">
             {{ apiService.currentTranslation?.data.see_all}}
@@ -198,7 +198,7 @@
             </div>
           </li>
           <li class="more_btn">
-            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.view_more}}</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{ apiService.currentTranslation.data.extension_url }}">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
         <ul *ngIf="!loading">
@@ -231,12 +231,12 @@
             </div>
           </li>
           <li class="more_btn">
-            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}extensions">{{ apiService.currentTranslation?.data.view_more}}</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{ apiService.currentTranslation.data.extension_url }}">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
       </li>
       <li class="col" id="generator_col" [ngClass]="{'mobile-inactive': !mobileActiveGenerator, 'mobile-active': mobileActiveGenerator}" >
-        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">
+        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}">
           <h4 class="sub-title">{{ apiService.currentTranslation?.data.generator }}</h4>
           <div class="tag">
             {{ apiService.currentTranslation?.data.see_all}}
@@ -286,12 +286,12 @@
             Loading...
           </li>
           <li *ngIf="generatedDomains.length > 0" class="more_btn">
-            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}generator">{{ apiService.currentTranslation?.data.view_more}}</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{ apiService.currentTranslation.data.extension_url }}">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
       </li>
       <li class="col" id="sale_col" [ngClass]="{'mobile-inactive': !mobileActiveForsale, 'mobile-active': mobileActiveForsale}">
-        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">
+        <a class="main-col" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{ apiService.currentTranslation.data.sale_url }}">
           <h4 class="sub-title">{{ apiService.currentTranslation?.data.for_sale }}</h4>
           <div class="tag">
             {{ apiService.currentTranslation?.data.see_all}}
@@ -326,7 +326,7 @@
             Loading...
           </li>
           <li class="more_btn" *ngIf="saleDomains.length > 0">
-            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.view_more}}</a>
+            <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{ apiService.currentTranslation.data.sale_url }}">{{ apiService.currentTranslation?.data.view_more}}</a>
           </li>
         </ul>
       </li>
@@ -345,7 +345,7 @@
         <div class="domain_detail">
           <div class="img">
             <a href="{{ domain.link }}" target="_blank">
-              <img src="{{ domain.image }}" alt="" />
+              <img src="https://instantdomains.com/{{ domain.image }}" alt="" />
             </a>
           </div>
           <div class="detail">
@@ -360,7 +360,7 @@
       </li>
     </ul>
     <div class="more_btn">
-      <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}sale">{{ apiService.currentTranslation?.data.view_more}}</a>
+      <a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{ apiService.currentTranslation.data.sale_url }}">{{ apiService.currentTranslation?.data.view_more}}</a>
     </div>
   </div>
 </div>

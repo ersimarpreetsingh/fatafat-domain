@@ -3,12 +3,12 @@
   <header [ngClass]="{'home': apiService.keyword?.length < 1}">
     <div class="container">
       <div class="upper_bar">
-        <a class="logo" href="index.html">
-          <img src="assets/images/logo.png" alt="" />
+        <a class="logo" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}" >
+          <img src="https://instantdomains.com/assets/images/logo.png" alt="" />
         </a>
         <div class="language-dropdown">
           <button id="drop_btn" type="button">
-            {{ getActiveLanguage() }} <img src="assets/images/bottom_arrow.png" alt="" />
+            {{ getActiveLanguage() }} <img src="https://instantdomains.com/assets/images/bottom_arrow.png" alt="" />
           </button>
           <div class="dropdown">
             <h3>Choose your language</h3>
@@ -28,7 +28,7 @@
       <div class="copyright">
         <span class="copy">Copyright &#169; <a href="#">Instantdomains.com. </a></span>
         <a href="#">Terms & Conditions. </a> <a href="#">Privacy Policy. </a>
-        <a routerLink="/sitemap/.">Sitemap. </a><a herf="#">Contact</a>
+        <a routerLink="/sitemap">Sitemap. </a><a herf="#">Contact</a>
       </div>
     </div>
   </footer>

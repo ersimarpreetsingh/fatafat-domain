@@ -15,6 +15,7 @@ import { ExtensionsComponent } from './extensions/extensions.component';
 import { GeneratorComponent } from './generator/generator.component';
 import { SaleComponent } from './sale/sale.component';
 import { SitemapComponent } from './sitemap/sitemap.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SitemapComponent } from './sitemap/sitemap.component';
     GeneratorComponent,
     SaleComponent,
     SitemapComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

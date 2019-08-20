@@ -113,18 +113,18 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
         });
         this.loading = false;
         if (this.apiService.translatingVar === 'en') {
-          this.location.replaceState(`extensions?search=${this.keyword}`);
+          this.location.replaceState(`${this.apiService.currentTranslation.data.extension_url}?search=${this.keyword}`);
         } else {
-          this.location.replaceState(`${this.apiService.translatingVar}/extensions?search=${this.keyword}`);
+          this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.extension_url}?search=${this.keyword}`);
         }
       });
     } else {
       this.domainData = [];
       this.loading = false;
       if (this.apiService.translatingVar === 'en') {
-        this.location.replaceState(`extensions`);
+        this.location.replaceState(`${this.apiService.currentTranslation.data.extension_url}`);
       } else {
-        this.location.replaceState(`${this.apiService.translatingVar}/extensions`);
+        this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.extension_url}`);
       }
     }
   }
@@ -134,9 +134,9 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
     this.keyword = '';
     this.apiService.keyword = this.keyword;
     if (this.apiService.translatingVar === 'en') {
-      this.location.replaceState(`extensions`);
+      this.location.replaceState(`${this.apiService.currentTranslation.data.extension_url}`);
     } else {
-      this.location.replaceState(`${this.apiService.translatingVar}/extensions`);
+      this.location.replaceState(`${this.apiService.translatingVar}/${this.apiService.currentTranslation.data.extension_url}`);
     }
   }
 
