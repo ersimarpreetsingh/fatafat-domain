@@ -9,18 +9,20 @@
     <!-- <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6> -->
     <form action="">
       <div class="inner">
-        <input
-          type="text"
-          id="search"
-          name="search"
-          placeholder="Just start typing..."
-          [(ngModel)]="keyword"
-          [appNocharacter]="keyword"
-          (keyup)="getDomainData()"
-          appInputAutofocus
-        />
+        <label for="search" aria-label="search bar">
+            <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="Just start typing..."
+            [(ngModel)]="keyword"
+            [appNocharacter]="keyword"
+            (keyup)="getDomainData()"
+            appInputAutofocus
+            label="search domain"/>
+        </label>
         <span class="btns">
-          <button *ngIf="saleDomains?.length < 1" type="button" class="search_btn">
+          <button *ngIf="saleDomains?.length < 1" type="button" class="search_btn" aria-label="search button">
             <img src="https://instantdomains.com/assets/images/search-icon.png" alt="" />
           </button>
           <button
@@ -28,13 +30,14 @@
             type="button"
             class="cross"
             (click)="clearKeyword()"
+            aria-label="clear input value"
           >
             <img src="https://instantdomains.com/assets/images/cross.png" alt="" />
           </button>
         </span>
       </div>
       <div *ngIf="saleDomains?.length > 0" class="shortlisted drop">
-        <button class="shotlist">
+        <button class="shotlist" aria-label="Shortlisted Domains">
           <i class="fa fa-star" aria-hidden="true"></i
           ><span class="count" *ngIf="favDomains.length > 0">{{
             favDomains.length
@@ -60,10 +63,10 @@
     </form>
     <div class="search_selector">
       <ul class="d-flex">
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}">{{ apiService.currentTranslation?.data.extension }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}">{{ apiService.currentTranslation?.data.generator }}</a></li>
-        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.sale_url}}">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}" aria-label="all domains">{{ apiService.currentTranslation?.data.all }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}" aria-label="domain extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}" aria-label="domain generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.sale_url}}" aria-label="domain for sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -80,13 +83,17 @@
                     <li>
                         <div class="input">
                             {{ apiService.currentTranslation?.data.min }}
-                            <input type="text" name="" [(ngModel)]="min" >
+                            <label for="min_value" aria-label="Minimum Price">
+                              <input id="min_value" type="text" name="" [(ngModel)]="min" >
+                            </label>
                         </div>
                     </li>
                     <li>
                         <div class="input">
                             {{ apiService.currentTranslation?.data.max }}
-                            <input type="text" name="" [(ngModel)]="max" >
+                            <label for="max_value" aria-label="Maximum Price">
+                              <input type="text" name="" [(ngModel)]="max" >
+                            </label>
                         </div>
                     </li>
                     <li class="full_wid"><button class="submit" type="button" (click)="applyCategoryFilter()">Apply</button></li>

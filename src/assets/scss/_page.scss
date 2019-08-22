@@ -263,12 +263,8 @@
             line-height: inherit;
         }
 
-        @media (min-width:992px) {
-            max-width: 100%;
-
-            br {
-                display: block;
-            }
+        @media (min-width:1025px) {
+            max-width: 60%;
         }
     }
 
@@ -663,6 +659,7 @@
 
                         @media (min-width:768px) {
                             font-size: 22px;
+                            letter-spacing: 0.3px;
                         }
                     }
 
@@ -931,16 +928,16 @@
                             }
                         }
                     }
-                }
-                &.no-result{
-                    li{
-                        flex: 0 0 100%;
-                        max-width: 100%;
-                        h4{
-                            font-size: 18px;
-                            font-family: "sofia_probold";
-                            color: #36434d;
-                            text-align: center;
+                    &.no-result{
+                        li{
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                            h4{
+                                font-size: 18px;
+                                font-family: "sofia_probold";
+                                color: #36434d;
+                                text-align: center;
+                            }
                         }
                     }
                 }

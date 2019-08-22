@@ -3,7 +3,7 @@
   <header [ngClass]="{'home': apiService.keyword?.length < 1}">
     <div class="container">
       <div class="upper_bar">
-        <a class="logo" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}" >
+        <a class="logo" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}" aria-label="InstantDomains Logo with Home Link">
           <img src="https://instantdomains.com/assets/images/logo.png" alt="" />
         </a>
         <div class="language-dropdown">

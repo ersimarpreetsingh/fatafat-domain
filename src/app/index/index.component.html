@@ -9,18 +9,21 @@
     <!-- <h6 *ngIf="keyword?.length < 1">Worlds fastest domain checker.</h6> -->
     <form action="">
       <div class="inner">
-        <input
-          type="text"
-          id="search"
-          name="search"
-          placeholder="Just start typing..."
-          [(ngModel)]="keyword"
-          [appNocharacter]="keyword"
-          appInputAutofocus
-          (keyup)="getDomainData()"
-        />
+        <label for="search" aria-label="search bar">
+          <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="Just start typing..."
+            [(ngModel)]="keyword"
+            [appNocharacter]="keyword"
+            appInputAutofocus
+            (keyup)="getDomainData()"
+            label="search domain"
+          />
+        </label>
         <span class="btns">
-          <button *ngIf="keyword?.length < 1" type="button" class="search_btn" id="search-icon">
+          <button *ngIf="keyword?.length < 1" type="button" class="search_btn" id="search-icon" aria-label="search button">
             <img src="https://instantdomains.com/assets/images/search-icon.png" alt="" />
           </button>
           <button
@@ -28,13 +31,14 @@
             type="button"
             class="cross"
             (click)="clearKeyword()"
+            aria-label="clear input value"
           >
             <img src="https://instantdomains.com/assets/images/cross.png" alt="" />
           </button>
         </span>
       </div>
       <div *ngIf="keyword?.length > 0" (onload)="registerFavJquery()" class="shortlisted drop">
-        <button class="shotlist">
+        <button class="shotlist" aria-label="Shortlisted Domains">
           <i class="fa fa-star" aria-hidden="true"></i
           ><span class="count" *ngIf="favDomains.length > 0">{{
             favDomains.length
@@ -56,10 +60,10 @@
     </form>
     <div class="search_selector">
       <ul class="d-flex">
-        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}">{{ apiService.currentTranslation?.data.all }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}">{{ apiService.currentTranslation?.data.extension }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}">{{ apiService.currentTranslation?.data.generator }}</a></li>
-        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.sale_url}}">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
+        <li><a class="active" routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code : ''}}" aria-label="all domains">{{ apiService.currentTranslation?.data.all }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.extension_url}}" aria-label="domain extensions">{{ apiService.currentTranslation?.data.extension }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.generator_url}}" aria-label="domain generator">{{ apiService.currentTranslation?.data.generator }}</a></li>
+        <li><a routerLink="/{{apiService.currentTranslation?.code !== 'en' ? apiService.currentTranslation?.code + '/' : ''}}{{apiService.currentTranslation.data.sale_url}}" aria-label="domain for sale">{{ apiService.currentTranslation?.data.for_sale }}</a></li>
         <!-- <li><a href="expired.html">Expired</a></li> -->
       </ul>
     </div>
@@ -91,7 +95,7 @@
       >Whois</a
     >
     <div class="menu_btn drop">
-      <button id="domainMenuBtn" type="button" class="btn">
+      <button id="domainMenuBtn" type="button" class="btn" aria-label="Domain Menu">
         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       </button>
       <div
