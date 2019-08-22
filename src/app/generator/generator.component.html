@@ -167,7 +167,7 @@
         <div class="main-col">
           <h4 class="sub-title">{{ apiService.currentTranslation?.data.generator }}</h4>
         </div>
-        <ul>
+        <ul *ngIf="generatedDomains?.length > 0" >
           <li
             *ngFor="let domain of generatedDomains"
             [ngClass]="{
@@ -214,6 +214,11 @@
           <!-- <li class="more_btn">
             <a href="#">View More</a>
           </li> -->
+        </ul>
+        <ul class="no-result" *ngIf="!genLoading && generatedDomains?.length < 1">
+          <li>
+            <h4>No results, please change filters.</h4>
+          </li>
         </ul>
       </li>
     </ul>

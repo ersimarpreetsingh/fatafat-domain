@@ -932,6 +932,18 @@
                         }
                     }
                 }
+                &.no-result{
+                    li{
+                        flex: 0 0 100%;
+                        max-width: 100%;
+                        h4{
+                            font-size: 18px;
+                            font-family: "sofia_probold";
+                            color: #36434d;
+                            text-align: center;
+                        }
+                    }
+                }
             }
         }
 
@@ -1293,11 +1305,15 @@
                     font-size: 14px;
                     font-family: $sofiaregular;
                     color: #818181;
+                    padding: 10px 10px 8px 15px;
 
                     @media (min-width:768px) {
                         width: 130px;
                         height: 45px;
                         font-size: 16px;
+                    }
+
+                    @media (min-width:1200px) {
                         padding: 15px 10px 15px 15px;
                     }
 
@@ -1309,10 +1325,19 @@
                         font-family: $sofiaregular;
                         color: #818181;
                         margin-left: 4px;
+                        min-height: 20px;
+                        margin-top: -5px;
+                        height: 20px;
 
                         @media (min-width:768px) {
                             font-size: 16px;
                             max-width: 65%;
+                            height: 25px;
+                        }
+
+                        @media (min-width:1200px) {
+                            margin-top: 0;
+                            height: auto;
                         }
                     }
                 }
@@ -1365,7 +1390,7 @@
             }
 
             ul {
-                column-count: 1 ;
+                column-count: 1;
 
                 @media (min-width:360px) {
                     column-count: 2;
@@ -1594,7 +1619,7 @@
                         left: 0;
                         height: 5px;
                         background: #39a2f6;
-                        width: 8%;
+                        width: 10%;
                     }
 
                     .noUi-connect {

@@ -23,6 +23,17 @@ export class AppComponent implements OnInit {
           return;
       }
       window.scrollTo(0, 0);
+      $('link[rel="canonical"]').attr('href', 'https://instantdomains.com/' + window.location.pathname);
+      let jsonld = JSON.parse($('script[type="application/ld+json"]').html());
+      if (this.apiService.translatingVar === 'en') {
+        jsonld['url'] = 'https://instantdomains.com/';
+        jsonld['potentialAction']['target'] = `https://instantdomains.com/?search={search_term_string}`;
+        $('script[type="application/ld+json"]').html(JSON.stringify(jsonld));
+      } else {
+        jsonld['url'] = `https://instantdomains.com/${this.apiService.translatingVar}`;
+        jsonld['potentialAction']['target'] = `https://instantdomains.com/${this.apiService.translatingVar}?search={search_term_string}`;
+        $('script[type="application/ld+json"]').html(JSON.stringify(jsonld));
+      }
   });
     this.apiService.getCountrycode().subscribe(res => {
       this.apiService.countryCode = res;

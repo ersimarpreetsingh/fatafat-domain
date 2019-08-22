@@ -6,21 +6,36 @@
     <base href="/" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="http://instantdomains.com/" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link
-      href="assets/css/font-awesome.min.css"
-      rel="stylesheet"
-    />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/base.css" />
   </head>
   <body>
     <app-root></app-root>
     <script src="assets/js/jquery.min.js"></script>
-    
+    <script type="text/javascript">
+      $('link[rel="canonical"]').attr(
+        "href",
+        "https://instantdomains.com/" + window.location.pathname
+      );
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://instantdomains.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://instantdomains.com/?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=UA-11630310-20"
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-11630310-20"
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
