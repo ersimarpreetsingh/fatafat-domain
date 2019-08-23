@@ -120,6 +120,8 @@
             font-size: 14px;
             color: #36434d;
             font-family: $sofialight;
+            position: relative;
+            z-index: 9;
 
             &::placeholder {
                 color: #c3c3c3;
@@ -698,9 +700,11 @@
                             z-index: 1;
                             position: relative;
 
-                            &:hover {
-                                background: #f2f5f7;
-                                z-index: 99;
+                            @media (min-width:1025px) {
+                                &:hover {
+                                    background: #f2f5f7;
+                                    z-index: 99;
+                                }
                             }
 
                             .detail {
@@ -754,7 +758,7 @@
                                     font-size: 15px;
                                     cursor: pointer;
 
-                                    @media (min-width:768px) {
+                                    @media (min-width:1025px) {
                                         &:hover {
                                             color: #f9ad2c;
                                         }
@@ -817,12 +821,19 @@
                             .inner {
                                 .tag {
                                     color: $green;
-                                }
 
-                                &:hover {
-                                    .tag {
+                                    @media (max-width:1024px) {
                                         background: $green_gradient;
                                         color: #fff;
+                                    }
+                                }
+
+                                @media (min-width:1025px) {
+                                    &:hover {
+                                        .tag {
+                                            background: $green_gradient;
+                                            color: #fff;
+                                        }
                                     }
                                 }
                             }
@@ -833,12 +844,19 @@
                                 .tag {
                                     color: $red;
                                     padding: 9px 21px;
-                                }
 
-                                &:hover {
-                                    .tag {
+                                    @media (max-width:1024px) {
                                         background: $red_gradient;
                                         color: #fff;
+                                    }
+                                }
+
+                                @media (min-width:10245px) {
+                                    &:hover {
+                                        .tag {
+                                            background: $red_gradient;
+                                            color: #fff;
+                                        }
                                     }
                                 }
                             }
@@ -849,12 +867,19 @@
                                 .tag {
                                     color: $blue;
                                     padding: 9px 20px;
-                                }
 
-                                &:hover {
-                                    .tag {
+                                    @media (max-width:1024px) {
                                         background: $blue_gradient;
                                         color: #fff;
+                                    }
+                                }
+
+                                @media (min-width:10245px) {
+                                    &:hover {
+                                        .tag {
+                                            background: $blue_gradient;
+                                            color: #fff;
+                                        }
                                     }
                                 }
                             }
@@ -928,11 +953,13 @@
                             }
                         }
                     }
-                    &.no-result{
-                        li{
+
+                    &.no-result {
+                        li {
                             flex: 0 0 100%;
                             max-width: 100%;
-                            h4{
+
+                            h4 {
                                 font-size: 18px;
                                 font-family: "sofia_probold";
                                 color: #36434d;

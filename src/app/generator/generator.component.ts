@@ -1,3 +1,4 @@
+import { MetadataServiceService } from './../metadata-service.service';
 import { SelectableItem, TldInfo } from './../modals/api-types';
 import { ApiService } from './../api.service';
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
@@ -20,7 +21,6 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
   showFavMenu = false;
   favDomains: FavDomain[] = [];
   generatedDomains: GeneratedDomain[] = [];
-  initSaleDomains: SaleDomain[] = [];
   sliderValue = [2, 20];
 
   genDomainApiSubscription: Subscription;
@@ -73,7 +73,8 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     '.tr',
     '.vn'];
 
-  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute) {
+  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute,
+              private metaService: MetadataServiceService) {
     this.keyword = apiService.keyword;
     setTimeout(() => {
     this.tldFilterOpts = this.extarray.map(tld => {
@@ -96,6 +97,9 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
     : 'en';
     window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
     this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
+    this.metaService.metaActiveData = this.metaService.metaData.find(meta => meta.code === this.apiService.translatingVar);
+    $('title').html(this.metaService.metaActiveData.data.generatorTitle);
+    $('meta[name="description"]').attr('content', this.metaService.metaActiveData.data.generatorDescription);
     $(document).ready(() => {
       $('app-root div').first().removeClass('results-page');
       if (!($('header').hasClass('home'))) {
@@ -118,9 +122,6 @@ export class GeneratorComponent implements OnInit , AfterViewChecked {
       this.keyword = this.apiService.keyword;
       this.getDomainData();
     }
-    this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res.data;
-    });
   }
 
   ngAfterViewChecked() {

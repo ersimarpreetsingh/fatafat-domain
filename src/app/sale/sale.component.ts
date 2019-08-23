@@ -1,3 +1,4 @@
+import { MetadataServiceService } from './../metadata-service.service';
 import { SelectableItem, SaleCategory } from './../modals/api-types';
 import { Location } from '@angular/common';
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
@@ -19,7 +20,6 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   showFavMenu = false;
   favDomains: FavDomain[] = [];
   saleDomainApiSubscription: Subscription;
-  initSaleDomains: SaleDomain[] = [];
   saleLoading = false;
   saleDomains: SaleDomain[] = [];
   saleCategories: SelectableItem<SaleCategory>[] = [];
@@ -28,7 +28,8 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   stopInfiniteScroll = false;
 
 
-  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute) {
+  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute,
+              private metaService: MetadataServiceService) {
     this.keyword = apiService.keyword;
     setTimeout(() => {
       this.apiService.saleCategories.forEach(saleCat => {
@@ -41,12 +42,6 @@ export class SaleComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    console.log(this.activatedRoute.snapshot.url);
-    console.log(this.activatedRoute.snapshot.url[0].path);
-    this.activatedRoute.url.subscribe(url => {
-      console.log(url);
-      console.log(url[0].path);
-    });
     this.apiService.translatingVar = this.activatedRoute.snapshot.url[0] &&
     this.activatedRoute.snapshot.url[0].path && this.activatedRoute.snapshot.url[0].path.length > 0
     ? ((this.activatedRoute.snapshot.url[0].path !== 'sale'
@@ -57,6 +52,9 @@ export class SaleComponent implements OnInit, AfterViewChecked {
     : 'en';
     window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
     this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
+    this.metaService.metaActiveData = this.metaService.metaData.find(meta => meta.code === this.apiService.translatingVar);
+    $('title').html(this.metaService.metaActiveData.data.saleTitle);
+    $('meta[name="description"]').attr('content', this.metaService.metaActiveData.data.saleDescription);
     $(document).ready(() => {
       $('header').removeClass('home');
       if (!($('app-root div').first().hasClass('results-page'))) {
@@ -89,15 +87,18 @@ export class SaleComponent implements OnInit, AfterViewChecked {
       this.keyword = this.apiService.keyword;
       this.getDomainData();
     }
-    this.apiService.getFilterForSale(this.keyword, '', this.min, this.max, this.lastId).subscribe(res => {
-      this.saleDomains = res.data;
-    });
+    if (this.apiService.initSaleDomains && this.apiService.initSaleDomains.length < 1) {
+      setTimeout(() => {
+        this.saleDomains = this.apiService.initSaleDomains;
+      }, 3000);
+    } else {
+      this.saleDomains = this.apiService.initSaleDomains;
+    }
   }
 
   ngAfterViewChecked() {
     if (!this.jqueryBinded) {
       this.jqueryBinded = true;
-      console.log('initialized');
       setTimeout(() => {
         $('.shotlist').click((event) => {
           if ($('#favMenu').hasClass('show')) {

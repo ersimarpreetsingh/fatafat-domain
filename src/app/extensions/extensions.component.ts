@@ -1,3 +1,4 @@
+import { MetadataServiceService } from './../metadata-service.service';
 import { ApiService } from './../api.service';
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
@@ -17,12 +18,12 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
   showFavMenu = false;
   favDomains: FavDomain[] = [];
   domainData: Domain[] = [];
-  initSaleDomains: SaleDomain[] = [];
 
   genDomainApiSubscription: Subscription;
 
   loading = false;
-  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute) {
+  constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute,
+              private metaService: MetadataServiceService) {
     this.keyword = apiService.keyword;
     if (this.apiService.allTldList && this.apiService.allTldList.length < 1) {
       this.apiService.getTldList(false).subscribe(res => {
@@ -45,6 +46,9 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
     : 'en';
     window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
     this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
+    this.metaService.metaActiveData = this.metaService.metaData.find(meta => meta.code === this.apiService.translatingVar);
+    $('title').html(this.metaService.metaActiveData.data.extensionsTitle);
+    $('meta[name="description"]').attr('content', this.metaService.metaActiveData.data.extensionsDescription);
     $(document).ready(() => {
       $('app-root div').first().removeClass('results-page');
       if (!($('header').hasClass('home'))) {
@@ -76,15 +80,11 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
       this.keyword = this.apiService.keyword;
       this.getDomainData();
     }
-    this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res.data;
-    });
   }
 
   ngAfterViewChecked() {
     if (!this.jqueryBinded && this.keyword.length > 0) {
       this.jqueryBinded = true;
-      console.log('initialized');
       $('.shotlist').click((event) => {
         if ($('#favMenu').hasClass('show')) {
           $('#favMenu').removeClass('show');

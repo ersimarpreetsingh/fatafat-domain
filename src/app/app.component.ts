@@ -1,6 +1,7 @@
+import { MetadataServiceService } from './metadata-service.service';
 import { ApiService } from './api.service';
 import { Component, OnInit } from '@angular/core';
-import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -12,32 +13,44 @@ declare var $: any;
 export class AppComponent implements OnInit {
   title = 'instant-domains';
   keyword = '';
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, private router: Router,
+              public metaService: MetadataServiceService) {
     this.apiService.countryCode.country = '';
-    // this.apiService.getTranslations().subscribe(res => {
-    //   this.apiService.translations = res;
-    //   console.log(this.apiService.translations);
-    // });
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-          return;
-      }
-      window.scrollTo(0, 0);
-      $('link[rel="canonical"]').attr('href', 'https://instantdomains.com/' + window.location.pathname);
-      let jsonld = JSON.parse($('script[type="application/ld+json"]').html());
-      if (this.apiService.translatingVar === 'en') {
-        jsonld['url'] = 'https://instantdomains.com/';
-        jsonld['potentialAction']['target'] = `https://instantdomains.com/?search={search_term_string}`;
+    $('link[rel="canonical"]').attr('href', 'https://instantdomains.com' + window.location.pathname);
+    setTimeout(() => {
+      const jsonld = JSON.parse($('script[type="application/ld+json"]').html());
+      if (this.apiService.translatingVar === 'en' || this.apiService.translatingVar === '') {
+        jsonld.url = 'https://instantdomains.com/';
+        jsonld.potentialAction.target = `https://instantdomains.com/?search={search_term_string}`;
         $('script[type="application/ld+json"]').html(JSON.stringify(jsonld));
       } else {
-        jsonld['url'] = `https://instantdomains.com/${this.apiService.translatingVar}`;
-        jsonld['potentialAction']['target'] = `https://instantdomains.com/${this.apiService.translatingVar}?search={search_term_string}`;
+        jsonld.url = `https://instantdomains.com/${this.apiService.translatingVar}`;
+        jsonld.potentialAction.target = `https://instantdomains.com/${this.apiService.translatingVar}?search={search_term_string}`;
         $('script[type="application/ld+json"]').html(JSON.stringify(jsonld));
       }
-  });
+    }, 3000);
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0);
+      $('link[rel="canonical"]').attr('href', 'https://instantdomains.com' + window.location.pathname);
+      const jsonld = JSON.parse($('script[type="application/ld+json"]').html());
+      if (this.apiService.translatingVar === 'en') {
+        jsonld.url = 'https://instantdomains.com/';
+        jsonld.potentialAction.target = `https://instantdomains.com/?search={search_term_string}`;
+        $('script[type="application/ld+json"]').html(JSON.stringify(jsonld));
+      } else {
+        jsonld.url = `https://instantdomains.com/${this.apiService.translatingVar}`;
+        jsonld.potentialAction.target = `https://instantdomains.com/${this.apiService.translatingVar}?search={search_term_string}`;
+        $('script[type="application/ld+json"]').html(JSON.stringify(jsonld));
+      }
+    });
     this.apiService.getCountrycode().subscribe(res => {
       this.apiService.countryCode = res;
-      console.log(this.apiService.countryCode.country);
+      this.apiService.getForSaleInit(10).subscribe(res0 => {
+        this.apiService.initSaleDomains = res0.data;
+      });
       this.apiService.getTldList(true).subscribe(res1 => {
         this.apiService.tldList = res1;
         this.apiService.tldList = this.apiService.tldList.sort((a, b) => {

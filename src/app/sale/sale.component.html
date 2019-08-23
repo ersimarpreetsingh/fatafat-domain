@@ -14,7 +14,7 @@
             type="text"
             id="search"
             name="search"
-            placeholder="Just start typing..."
+            placeholder="{{ apiService.currentTranslation.data.just_start_typing }}"
             [(ngModel)]="keyword"
             [appNocharacter]="keyword"
             (keyup)="getDomainData()"
@@ -151,7 +151,7 @@
         {{ apiService.currentTranslation?.data.serious_about_h3 }}
     </p>
     <ul class="d-flex" *ngIf="saleDomains.length > 0">
-      <li *ngFor="let domain of initSaleDomains">
+      <li *ngFor="let domain of apiService.initSaleDomains">
         <div class="domain_detail">
           <div class="img">
             <a rel="nofollow" href="{{ domain.link }}" target="_blank">

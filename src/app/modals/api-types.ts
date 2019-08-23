@@ -61,6 +61,7 @@ export interface CountryCode {
 
 export interface TranslationData {
     url: string;
+    just_start_typing: string;
     generator_url: string;
     extension_url: string;
     sale_url: string;
@@ -97,4 +98,23 @@ export interface Translation {
     lang: string;
     code: string;
     data: TranslationData;
+}
+
+export interface MetaData {
+    url: string;
+    nativeName: string;
+    title: string;
+    description: string;
+    extensionsTitle: string;
+    extensionsDescription: string;
+    generatorTitle: string;
+    generatorDescription: string;
+    saleTitle: string;
+    saleDescription: string;
+}
+
+export interface MetaServiceData {
+    language: string;
+    code: string;
+    data: MetaData;
 }

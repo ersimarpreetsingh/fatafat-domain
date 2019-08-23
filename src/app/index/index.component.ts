@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Domain, GeneratedDomain, SaleDomain } from '../modals/api-types';
 import { ApiService } from '../api.service';
 import { Location } from '@angular/common';
+import { MetadataServiceService } from '../metadata-service.service';
 
 declare var $: any;
 @Component({
@@ -40,7 +41,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   constructor(
     private activatedRoute: ActivatedRoute,
     public apiService: ApiService,
-    private location: Location
+    private location: Location,
+    private metaService: MetadataServiceService
   ) {
     this.keyword = apiService.keyword;
   }
@@ -52,6 +54,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     : 'en';
     window.sessionStorage.setItem('transCode', this.apiService.translatingVar);
     this.apiService.currentTranslation = this.apiService.translations.find(trans => trans.code === this.apiService.translatingVar);
+    this.metaService.metaActiveData = this.metaService.metaData.find(meta => meta.code === this.apiService.translatingVar);
+    $('title').html(this.metaService.metaActiveData.data.title);
+    $('meta[name="description"]').attr('content', this.metaService.metaActiveData.data.description);
     $(document).ready(() => {
       $('app-root div').first().removeClass('results-page');
       if (!($('header').hasClass('home'))) {
@@ -76,15 +81,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       this.keyword = this.apiService.keyword;
       this.getDomainData();
     }
-    this.apiService.getForSaleInit(10).subscribe(res => {
-      this.initSaleDomains = res.data;
-    });
   }
 
   ngAfterViewChecked() {
     if (!this.jqueryBinded && this.keyword.length > 0) {
       this.jqueryBinded = true;
-      console.log('initialized');
       $('.shotlist').click((event) => {
         if ($('#favMenu').hasClass('show')) {
           $('#favMenu').removeClass('show');
