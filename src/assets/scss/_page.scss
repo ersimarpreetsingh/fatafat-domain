@@ -142,6 +142,7 @@
             position: absolute;
             top: 0;
             right: 0;
+            z-index: 9;
 
             button {
                 background: none;
@@ -719,6 +720,7 @@
                                 font-family: $sofialight;
                                 color: #818181;
                                 max-width: 180px;
+                                width: 100%;
                                 text-overflow: ellipsis;
                                 display: inline-block;
                                 white-space: nowrap;
@@ -807,12 +809,14 @@
                         }
 
                         &:hover {
-                            .inner {
-                                display: inline-flex;
+                            @media (min-width:1025px) {
+                                .inner {
+                                    display: inline-flex;
 
-                                .domain-name {
-                                    overflow: visible;
-                                    max-width: inherit;
+                                    .domain-name {
+                                        overflow: visible;
+                                        max-width: inherit;
+                                    }
                                 }
                             }
                         }
@@ -851,7 +855,7 @@
                                     }
                                 }
 
-                                @media (min-width:10245px) {
+                                @media (min-width:1025px) {
                                     &:hover {
                                         .tag {
                                             background: $red_gradient;
@@ -864,9 +868,13 @@
 
                         &.offer {
                             .inner {
+                                min-height: 50px;
+
                                 .tag {
                                     color: $blue;
                                     padding: 9px 20px;
+                                    position: absolute;
+                                    right: 0;
 
                                     @media (max-width:1024px) {
                                         background: $blue_gradient;
@@ -874,7 +882,7 @@
                                     }
                                 }
 
-                                @media (min-width:10245px) {
+                                @media (min-width:1025px) {
                                     &:hover {
                                         .tag {
                                             background: $blue_gradient;
@@ -1344,7 +1352,6 @@
                     input {
                         border: 0;
                         border-bottom: 1px solid #d6d6d6;
-                        max-width: calc(100% - 35px);
                         font-size: 14px;
                         font-family: $sofiaregular;
                         color: #818181;
@@ -1352,10 +1359,10 @@
                         min-height: 20px;
                         margin-top: -5px;
                         height: 20px;
+                        width: 100%;
 
                         @media (min-width:768px) {
                             font-size: 16px;
-                            max-width: 65%;
                             height: 25px;
                         }
 
@@ -1364,6 +1371,10 @@
                             height: auto;
                         }
                     }
+                }
+
+                label {
+                    max-width: calc(100% - 35px);
                 }
             }
         }
@@ -1862,6 +1873,25 @@
                         display: inline-flex;
                         z-index: 99;
                         position: relative;
+                    }
+
+                    .domain-name {
+                        max-width: 75%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        @media (min-width:1025px) {
+                            max-width: 90px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
+                    &:hover {
+                        .domain-name {
+                            overflow: visible;
+                            max-width: inherit;
+                        }
                     }
                 }
 

@@ -1,9 +1,14 @@
 export interface Domain {
-    keyword: string;
-    tld: string;
+    keyword?: string;
+    tld?: string;
     avialability: boolean;
     rank?: number;
-    link: string;
+    link?: string;
+}
+
+export interface ExtensionCategory {
+    name: string;
+    data: Domain[];
 }
 
 export interface TldInfo {

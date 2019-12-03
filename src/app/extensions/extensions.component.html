@@ -70,16 +70,20 @@
   </div>
 </div>
 
-<div class="ext-result" *ngIf="keyword?.length > 0 && domainData?.length > 0" >
+<div class="ext-result" *ngIf="keyword?.length > 0 && extensionCategories?.length > 0" >
         <div class="container">
             <div class="main">
-                <div *ngFor="let cat of apiService.tldCats"  class="inner">
-                    <div class="ext-type">{{ cat }}</div>
+                <div *ngFor="let cat of extensionCategories"  class="inner" infiniteScroll
+                [infiniteScrollDistance]="2"
+                [infiniteScrollUpDistance]="1.5"
+                [infiniteScrollThrottle]="50"
+                (scrolled)="onScrollDown()">
+                    <div class="ext-type">{{ cat.name }}</div>
                     <ul class="d-flex">
-                        <li [ngClass]="{'avail': isAvail(tld.tld), 'not-avail': !isAvail(tld.tld)}" *ngFor="let tld of filterTldList(cat)" >
-                          <a rel="nofollow" href="{{ getLinkForDomain(tld.tld) }}" target="_blank">{{ tld.tld }}
-                            <span *ngIf="isAvail(tld.tld)" class="tag">{{ apiService.currentTranslation?.data.buy }}</span>
-                            <span *ngIf="!isAvail(tld.tld)" class="tag">WHOIS</span>
+                        <li [ngClass]="{'avail': !tld.avialability, 'not-avail': tld.avialability}" *ngFor="let tld of cat.data" >
+                          <a rel="nofollow" href="{{ tld.link }}" target="_blank">{{ keyword + tld.tld.toLowerCase() }}
+                            <span *ngIf="!tld.avialability" class="tag">{{ apiService.currentTranslation?.data.buy }}</span>
+                            <span *ngIf="tld.avialability" class="tag">WHOIS</span>
                           </a>
                         </li>
                     </ul>

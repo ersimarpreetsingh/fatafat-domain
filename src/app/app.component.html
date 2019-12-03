@@ -22,7 +22,8 @@
       </div>
     </div>
   </header>
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="isKeywordAvailable && apiService.countryCode?.country"></router-outlet>
+  <router-outlet *ngIf="!isKeywordAvailable"></router-outlet> 
   <footer>
     <div class="container">
       <div class="copyright">

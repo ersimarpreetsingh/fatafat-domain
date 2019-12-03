@@ -16,6 +16,8 @@ import { GeneratorComponent } from './generator/generator.component';
 import { SaleComponent } from './sale/sale.component';
 import { SitemapComponent } from './sitemap/sitemap.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     FormsModule,
     NouisliderModule,
     InfiniteScrollModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [Location],
   bootstrap: [AppComponent]

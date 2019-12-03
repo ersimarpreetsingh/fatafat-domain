@@ -158,8 +158,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           this.generatedDomains = res;
           this.generatedDomains.forEach(data => {
             data.link = data.avialability
-              ? `${this.apiService.truelink}${data.keyword}${data.tld}`
-              : `${this.apiService.falselink}${data.keyword}${data.tld}`;
+              ? `${this.apiService.truelink}${data.keyword}${data.after}${data.tld}`
+              : `${this.apiService.falselink}${data.keyword}${data.after}${data.tld}`;
           });
           this.genLoading = false;
         });

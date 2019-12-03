@@ -12,9 +12,10 @@ declare var $: any;
 })
 export class AppComponent implements OnInit {
   title = 'instant-domains';
-  keyword = '';
+  isKeywordAvailable = false;
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, private router: Router,
               public metaService: MetadataServiceService) {
+    this.isKeywordAvailable = window.location.href.split('=').length > 1;
     this.apiService.countryCode.country = '';
     $('link[rel="canonical"]').attr('href', 'https://instantdomains.com' + window.location.pathname);
     setTimeout(() => {

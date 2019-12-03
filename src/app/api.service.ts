@@ -1,4 +1,4 @@
-import { Domain, TldInfo, GeneratedDomain, Industry, SaleDomainResult, SaleCategory, CountryCode, Translation, SaleDomain } from './modals/api-types';
+import { Domain, TldInfo, GeneratedDomain, Industry, SaleDomainResult, SaleCategory, CountryCode, Translation, SaleDomain, ExtensionCategory } from './modals/api-types';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -380,7 +380,7 @@ export class ApiService {
       extension: 'Επεκτάσεις',
       generator: 'Δημιουργία',
       for_sale: 'Προς πώληση',
-      view_more: 'Προς πώληση',
+      view_more: 'Δείτε περισσότερα',
       see_all: 'Όλα',
       buy: 'Αγοράστε',
       expired: 'Έληξε',
@@ -713,7 +713,7 @@ export class ApiService {
       just_start_typing: 'Bare begynn å skrive ...',
       extension_url: 'forlengelse',
       generator_url: 'generator',
-      sale_url: 'til-salgs',
+      sale_url: 'salgs',
       native_name: 'Norsk',
       h1: 'Direkte søk etter domenenavn',
       primium_h2: 'Premium-navn',
@@ -869,7 +869,7 @@ export class ApiService {
       native_name: 'Română',
       h1: 'Căutare instantanee nume Domeniu',
       primium_h2: 'Nume premium',
-      serious_about_h3: 'Nume premium',
+      serious_about_h3: 'Ești serios în legătură cu numele afacerii tale? Obține un nume premium de afacere de la experții în branding Domainify. Logo, domeniu și transfer, sunt incluse toate în 24 de ore.',
       all: 'Tot',
       extension: 'Extensie ',
       generator: 'Generator',
@@ -1169,7 +1169,7 @@ export class ApiService {
       just_start_typing: 'Sadece yazmaya başlayın... ',
       extension_url: 'uzantilar',
       generator_url: 'uretec',
-      sale_url: 'stilik',
+      sale_url: 'satilik',
       native_name: 'Türkçe',
       h1: 'Hızlı Alan Adı Arama',
       primium_h2: 'Premium Adlar',
@@ -1222,7 +1222,7 @@ export class ApiService {
       expired: 'ایکسپائرڈ',
       visit_site: 'سائٹ پر جائیں',
       appraise: 'تخمینہ لگائیں',
-      google_search: 'تخمینہ لگائیں',
+      google_search: 'گوگل تلاش',
       wayback_machine: 'WayBack مشین',
       choose_your_language: 'اپنی زبان منتخب کریں ',
       category: 'زمرہ',
@@ -1359,6 +1359,10 @@ export class ApiService {
 
   getCountrycode(): Observable<CountryCode> {
     return this.http.get<CountryCode>('https://ipinfo.io/geo?token=75562443c5d748');
+  }
+
+  getExtensionCategories(keyword: string, lastId: number, limit: number = 3): Observable<ExtensionCategory[]> {
+    return this.http.post<ExtensionCategory[]>('https://instantdomains.com/api/v1/extensions', {keyword, last_id: lastId, limit});
   }
 
   // getTranslations(): Observable<Translation[]> {

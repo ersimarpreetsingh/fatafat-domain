@@ -1,7 +1,7 @@
 import { MetadataServiceService } from './../metadata-service.service';
 import { ApiService } from './../api.service';
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import { FavDomain, Domain, SaleDomain } from '../modals/api-types';
+import { FavDomain, Domain, SaleDomain, ExtensionCategory } from '../modals/api-types';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -17,22 +17,14 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
   public keyword = '';
   showFavMenu = false;
   favDomains: FavDomain[] = [];
-  domainData: Domain[] = [];
-
+  extensionCategories: ExtensionCategory[] = [];
+  lastId = 0;
   genDomainApiSubscription: Subscription;
 
   loading = false;
   constructor(public apiService: ApiService, private location: Location, private activatedRoute: ActivatedRoute,
               private metaService: MetadataServiceService) {
     this.keyword = apiService.keyword;
-    if (this.apiService.allTldList && this.apiService.allTldList.length < 1) {
-      this.apiService.getTldList(false).subscribe(res => {
-        this.apiService.allTldList = res;
-        this.apiService.getTldCats().subscribe(resp => {
-          this.apiService.tldCats = resp;
-        });
-      });
-    }
   }
 
   ngOnInit() {
@@ -98,18 +90,21 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
   }
 
   getDomainData() {
+    this.lastId = 0;
     this.apiService.keyword = this.keyword;
     if (this.genDomainApiSubscription) {
       this.genDomainApiSubscription.unsubscribe();
-      this.domainData = [];
+      this.extensionCategories = [];
     }
     if (this.keyword && this.keyword.length > 0) {
-      this.genDomainApiSubscription = this.apiService.getDomains(this.keyword, false).subscribe(res => {
-        this.domainData = res;
-        this.domainData.forEach(data => {
-          data.link = data.avialability ?
-            `${this.apiService.truelink}${data.keyword}${data.tld}` :
-            `${this.apiService.falselink}${data.keyword}${data.tld}`;
+      this.genDomainApiSubscription = this.apiService.getExtensionCategories(this.keyword, this.lastId).subscribe(res => {
+        this.extensionCategories = res;
+        this.extensionCategories.forEach(data => {
+          data.data.forEach(data2 => {
+            data2.link = data2.avialability ?
+              `${this.apiService.truelink}${this.keyword}${data2.tld.toLowerCase()}` :
+              `${this.apiService.falselink}${this.keyword}${data2.tld.toLowerCase()}`;
+          });
         });
         this.loading = false;
         if (this.apiService.translatingVar === 'en') {
@@ -119,7 +114,7 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
         }
       });
     } else {
-      this.domainData = [];
+      this.extensionCategories = [];
       this.loading = false;
       if (this.apiService.translatingVar === 'en') {
         this.location.replaceState(`${this.apiService.currentTranslation.data.extension_url}`);
@@ -132,6 +127,7 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
   clearKeyword() {
     this.jqueryBinded = false;
     this.keyword = '';
+    this.lastId = 0;
     this.apiService.keyword = this.keyword;
     if (this.apiService.translatingVar === 'en') {
       this.location.replaceState(`${this.apiService.currentTranslation.data.extension_url}`);
@@ -144,26 +140,35 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
     this.showFavMenu = !this.showFavMenu;
   }
 
-  isAvail(tld: string): boolean {
-    let currentDomain: Domain;
-    if (this.domainData && this.domainData.length) {
-      currentDomain = (this.domainData && this.domainData.length > 0) ?
-        this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()) :
-        null;
-    }
-    return currentDomain ? !currentDomain.avialability : !false;
-  }
+  // isAvail(tld: string): boolean {
+  //   let currentDomain: Domain;
+  //   if (this.e && this.domainData.length) {
+  //     currentDomain = (this.domainData && this.domainData.length > 0) ?
+  //       this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()) :
+  //       null;
+  //   }
+  //   return currentDomain ? !currentDomain.avialability : !false;
+  // }
   addDomToFav(tld: string) {
-    if (this.domainData && this.domainData.length) {
-      const currentDomain: Domain = this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
-      if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (currentDomain.keyword + currentDomain.tld).toLowerCase()) < 0) {
-        this.favDomains.push({
-          keyword: `${currentDomain.keyword}${currentDomain.tld}`,
-          link: currentDomain.link
-        });
+    if (this.extensionCategories && this.extensionCategories.length) {
+      for (let i = 0; i < this.extensionCategories.length; i++ ) {
+        if (this.extensionCategories[i].data && this.extensionCategories[i].data.length > 0) {
+          if (this.extensionCategories[i].data.findIndex(domain => domain.tld.toLowerCase() === tld.toLowerCase()) < 0) {
+            continue;
+          } else {
+            const currentDomain: Domain = this.extensionCategories[i].data.find(domain => domain.tld.toLowerCase() === tld.toLowerCase());
+            if (this.favDomains.findIndex(dom => dom.keyword.toLowerCase() === (this.keyword + currentDomain.tld).toLowerCase()) < 0) {
+              this.favDomains.push({
+                keyword: `${this.keyword}${currentDomain.tld.toLowerCase()}`,
+                link: currentDomain.link
+              });
+            }
+            window.localStorage.clear();
+            window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
+            break;
+          }
+        }
       }
-      window.localStorage.clear();
-      window.localStorage.setItem('favDom', JSON.stringify(this.favDomains));
     }
   }
   addGenToFav(keyword: string, link: string) {
@@ -195,13 +200,19 @@ export class ExtensionsComponent implements OnInit, AfterViewChecked {
     return this.apiService.allTldList.filter(tld => tld.category.toLowerCase() === cat.toLowerCase());
   }
 
-  getLinkForDomain(tld: string): string {
-    if (this.domainData && this.domainData.length) {
-      if (this.domainData.findIndex(domain => domain.tld.toLowerCase() === tld.toLowerCase()) > -1) {
-        return this.domainData.find(domain => domain.tld.toLowerCase() === tld.toLowerCase()).link;
-      }
-      return '';
-    }
-    return '';
+  onScrollDown() {
+    this.lastId++;
+    this.apiService.getExtensionCategories(this.keyword, this.lastId).subscribe(res => {
+      const extensionCategories = res;
+      extensionCategories.forEach(data => {
+        data.data.forEach(data2 => {
+          data2.link = data2.avialability ?
+            `${this.apiService.truelink}${this.keyword}${data2.tld.toLowerCase()}` :
+            `${this.apiService.falselink}${this.keyword}${data2.tld.toLowerCase()}`;
+        });
+      });
+      this.extensionCategories = [...this.extensionCategories, ...extensionCategories];
+      this.loading = false;
+    });
   }
 }
